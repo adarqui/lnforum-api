@@ -1,0 +1,63 @@
+# orgs
+https://leuro.adarq.org/api/orgs
+https://leuro.adarq.org/api/orgs?user_id=1
+https://leuro.adarq.org/api/orgs/3
+https://leuro.adarq.org/api/orgs/legacy
+
+# forums
+https://leuro.adarq.org/api/forums
+https://leuro.adarq.org/api/forums?org_id=3
+https://leuro.adarq.org/api/forums?org_name=legacy
+https://leuro.adarq.org/api/forums?user_id=1
+https://leuro.adarq.org/api/forums?user_name=adarqui
+
+# boards
+https://leuro.adarq.org/api/boards
+https://leuro.adarq.org/api/boards?org_id=3
+https://leuro.adarq.org/api/boards?org_name=legacy
+
+# threads
+https://leuro.adarq.org/api/threads?user_id=1
+
+# threads stats
+https://leuro.adarq.org/api/threads_stats/2275
+
+# counts
+https://leuro.adarq.org/api/counts/users
+
+# boards stats
+https://leuro.adarq.org/api/boards_stats/1394
+
+# boards packs
+https://leuro.adarq.org/api/boards_packs/1
+https://leuro.adarq.org/api/boards_packs?forum_id=1
+
+# thread stats
+https://leuro.adarq.org/api/threads_stats/1
+
+# thread packs
+https://leuro.adarq.org/api/threads_packs/1
+
+# user stats
+https://leuro.adarq.org/api/users_stats/1
+
+# user profile
+https://leuro.adarq.org/api/users_profiles/5
+
+# user packs
+https://leuro.adarq.org/api/users_packs/1
+https://leuro.adarq.org/api/users_packs?user_ids=[1,1]
+
+# me
+https://leuro.adarq.org/api/me
+
+# me pack
+https://leuro.adarq.org/api/me_pack
+
+# thread posts
+https://leuro.adarq.org/api/thread_posts
+https://leuro.adarq.org/api/thread_posts/1
+
+# thread post stats
+https://leuro.adarq.org/api/thread_posts_stats
+https://leuro.adarq.org/api/thread_posts_stats/1
