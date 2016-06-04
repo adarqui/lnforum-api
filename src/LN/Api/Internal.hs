@@ -95,11 +95,17 @@ getBoards_ByForumId params _ByForumId = handleError <$> getAt (map qp params ++ 
 getBoards_ByForumId' :: Int64 -> ApiEff (Either ApiError BoardResponses)
 getBoards_ByForumId' _ByForumId = handleError <$> getAt [ByForumId _ByForumId] ["boards"]
 
-postBoard :: forall qp. QueryParam qp => [qp] -> BoardRequest -> ApiEff (Either ApiError BoardResponse)
-postBoard params board_request = handleError <$> postAt params ["board"] board_request
+postBoard_ByForumId :: forall qp. QueryParam qp => [qp] -> Int64 -> BoardRequest -> ApiEff (Either ApiError BoardResponse)
+postBoard_ByForumId params _ByForumId board_request = handleError <$> postAt (map qp params ++ map qp [ByForumId _ByForumId]) ["board"] board_request
 
-postBoard' :: BoardRequest -> ApiEff (Either ApiError BoardResponse)
-postBoard' board_request = handleError <$> postAt ([] :: [(String, String)]) ["board"] board_request
+postBoard_ByForumId' :: Int64 -> BoardRequest -> ApiEff (Either ApiError BoardResponse)
+postBoard_ByForumId' _ByForumId board_request = handleError <$> postAt [ByForumId _ByForumId] ["board"] board_request
+
+postBoard_ByBoardId :: forall qp. QueryParam qp => [qp] -> Int64 -> BoardRequest -> ApiEff (Either ApiError BoardResponse)
+postBoard_ByBoardId params _ByBoardId board_request = handleError <$> postAt (map qp params ++ map qp [ByBoardId _ByBoardId]) ["board"] board_request
+
+postBoard_ByBoardId' :: Int64 -> BoardRequest -> ApiEff (Either ApiError BoardResponse)
+postBoard_ByBoardId' _ByBoardId board_request = handleError <$> postAt [ByBoardId _ByBoardId] ["board"] board_request
 
 getBoard :: forall qp. QueryParam qp => [qp] -> Int64 -> ApiEff (Either ApiError BoardResponse)
 getBoard params board_id = handleError <$> getAt params ["board", show board_id]
@@ -221,11 +227,11 @@ getForums_ByOrganizationId params _ByOrganizationId = handleError <$> getAt (map
 getForums_ByOrganizationId' :: Int64 -> ApiEff (Either ApiError ForumResponses)
 getForums_ByOrganizationId' _ByOrganizationId = handleError <$> getAt [ByOrganizationId _ByOrganizationId] ["forums"]
 
-postForum :: forall qp. QueryParam qp => [qp] -> ForumRequest -> ApiEff (Either ApiError ForumResponse)
-postForum params forum_request = handleError <$> postAt params ["forum"] forum_request
+postForum_ByOrganizationId :: forall qp. QueryParam qp => [qp] -> Int64 -> ForumRequest -> ApiEff (Either ApiError ForumResponse)
+postForum_ByOrganizationId params _ByOrganizationId forum_request = handleError <$> postAt (map qp params ++ map qp [ByOrganizationId _ByOrganizationId]) ["forum"] forum_request
 
-postForum' :: ForumRequest -> ApiEff (Either ApiError ForumResponse)
-postForum' forum_request = handleError <$> postAt ([] :: [(String, String)]) ["forum"] forum_request
+postForum_ByOrganizationId' :: Int64 -> ForumRequest -> ApiEff (Either ApiError ForumResponse)
+postForum_ByOrganizationId' _ByOrganizationId forum_request = handleError <$> postAt [ByOrganizationId _ByOrganizationId] ["forum"] forum_request
 
 getForum :: forall qp. QueryParam qp => [qp] -> Int64 -> ApiEff (Either ApiError ForumResponse)
 getForum params forum_id = handleError <$> getAt params ["forum", show forum_id]
@@ -581,11 +587,17 @@ getPms params = handleError <$> getAt params ["pms"]
 getPms' :: ApiEff (Either ApiError PmResponses)
 getPms'  = handleError <$> getAt ([] :: [(String, String)]) ["pms"]
 
-postPm :: forall qp. QueryParam qp => [qp] -> PmRequest -> ApiEff (Either ApiError PmResponse)
-postPm params pm_request = handleError <$> postAt params ["pm"] pm_request
+postPm_ByUsersIds :: forall qp. QueryParam qp => [qp] -> [Int64] -> PmRequest -> ApiEff (Either ApiError PmResponse)
+postPm_ByUsersIds params _ByUsersIds pm_request = handleError <$> postAt (map qp params ++ map qp [ByUsersIds _ByUsersIds]) ["pm"] pm_request
 
-postPm' :: PmRequest -> ApiEff (Either ApiError PmResponse)
-postPm' pm_request = handleError <$> postAt ([] :: [(String, String)]) ["pm"] pm_request
+postPm_ByUsersIds' :: [Int64] -> PmRequest -> ApiEff (Either ApiError PmResponse)
+postPm_ByUsersIds' _ByUsersIds pm_request = handleError <$> postAt [ByUsersIds _ByUsersIds] ["pm"] pm_request
+
+postPm_ByUserId :: forall qp. QueryParam qp => [qp] -> Int64 -> PmRequest -> ApiEff (Either ApiError PmResponse)
+postPm_ByUserId params _ByUserId pm_request = handleError <$> postAt (map qp params ++ map qp [ByUserId _ByUserId]) ["pm"] pm_request
+
+postPm_ByUserId' :: Int64 -> PmRequest -> ApiEff (Either ApiError PmResponse)
+postPm_ByUserId' _ByUserId pm_request = handleError <$> postAt [ByUserId _ByUserId] ["pm"] pm_request
 
 getPm :: forall qp. QueryParam qp => [qp] -> Int64 -> ApiEff (Either ApiError PmResponse)
 getPm params pm_id = handleError <$> getAt params ["pm", show pm_id]

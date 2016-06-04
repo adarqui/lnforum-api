@@ -5,4 +5,3 @@ module LN.Api (
 
 
 import           LN.Api.Internal as A
-import           LN.Api.Web      as A
