@@ -35,17 +35,53 @@ getOrganizationPack params organization_name = handleError <$> getAt params ["or
 getOrganizationPack' :: [Char] -> ApiEff (Either ApiError OrganizationPackResponse)
 getOrganizationPack' organization_name = handleError <$> getAt ([] :: [(String, String)]) ["organization_pack", show organization_name]
 
-getForum_ByOrganizationName :: forall qp. QueryParam qp => [qp] -> [Char] -> [Char] -> ApiEff (Either ApiError ForumResponse)
-getForum_ByOrganizationName params forum_name _ByOrganizationName = handleError <$> getAt (map qp params ++ map qp [ByOrganizationName _ByOrganizationName]) ["forum", show forum_name]
+getTeam_ByOrganizationId :: forall qp. QueryParam qp => [qp] -> [Char] -> Int64 -> ApiEff (Either ApiError TeamResponse)
+getTeam_ByOrganizationId params team_name _ByOrganizationId = handleError <$> getAt (map qp params ++ map qp [ByOrganizationId _ByOrganizationId]) ["team", show team_name]
 
-getForum_ByOrganizationName' :: [Char] -> [Char] -> ApiEff (Either ApiError ForumResponse)
-getForum_ByOrganizationName' forum_name _ByOrganizationName = handleError <$> getAt [ByOrganizationName _ByOrganizationName] ["forum", show forum_name]
+getTeam_ByOrganizationId' :: [Char] -> Int64 -> ApiEff (Either ApiError TeamResponse)
+getTeam_ByOrganizationId' team_name _ByOrganizationId = handleError <$> getAt [ByOrganizationId _ByOrganizationId] ["team", show team_name]
 
-getForumPack_ByOrganizationName :: forall qp. QueryParam qp => [qp] -> [Char] -> [Char] -> ApiEff (Either ApiError ForumPackResponse)
-getForumPack_ByOrganizationName params forum_name _ByOrganizationName = handleError <$> getAt (map qp params ++ map qp [ByOrganizationName _ByOrganizationName]) ["forum_pack", show forum_name]
+getTeamPack_ByOrganizationId :: forall qp. QueryParam qp => [qp] -> [Char] -> Int64 -> ApiEff (Either ApiError TeamPackResponse)
+getTeamPack_ByOrganizationId params team_name _ByOrganizationId = handleError <$> getAt (map qp params ++ map qp [ByOrganizationId _ByOrganizationId]) ["team_pack", show team_name]
 
-getForumPack_ByOrganizationName' :: [Char] -> [Char] -> ApiEff (Either ApiError ForumPackResponse)
-getForumPack_ByOrganizationName' forum_name _ByOrganizationName = handleError <$> getAt [ByOrganizationName _ByOrganizationName] ["forum_pack", show forum_name]
+getTeamPack_ByOrganizationId' :: [Char] -> Int64 -> ApiEff (Either ApiError TeamPackResponse)
+getTeamPack_ByOrganizationId' team_name _ByOrganizationId = handleError <$> getAt [ByOrganizationId _ByOrganizationId] ["team_pack", show team_name]
+
+getGlobalGroup_ByOrganizationId :: forall qp. QueryParam qp => [qp] -> [Char] -> Int64 -> ApiEff (Either ApiError GlobalGroupResponse)
+getGlobalGroup_ByOrganizationId params global_group_name _ByOrganizationId = handleError <$> getAt (map qp params ++ map qp [ByOrganizationId _ByOrganizationId]) ["global_group", show global_group_name]
+
+getGlobalGroup_ByOrganizationId' :: [Char] -> Int64 -> ApiEff (Either ApiError GlobalGroupResponse)
+getGlobalGroup_ByOrganizationId' global_group_name _ByOrganizationId = handleError <$> getAt [ByOrganizationId _ByOrganizationId] ["global_group", show global_group_name]
+
+getGlobalGroupPack_ByOrganizationId :: forall qp. QueryParam qp => [qp] -> [Char] -> Int64 -> ApiEff (Either ApiError GlobalGroupPackResponse)
+getGlobalGroupPack_ByOrganizationId params global_group_name _ByOrganizationId = handleError <$> getAt (map qp params ++ map qp [ByOrganizationId _ByOrganizationId]) ["global_group_pack", show global_group_name]
+
+getGlobalGroupPack_ByOrganizationId' :: [Char] -> Int64 -> ApiEff (Either ApiError GlobalGroupPackResponse)
+getGlobalGroupPack_ByOrganizationId' global_group_name _ByOrganizationId = handleError <$> getAt [ByOrganizationId _ByOrganizationId] ["global_group_pack", show global_group_name]
+
+getGroup_ByOrganizationId :: forall qp. QueryParam qp => [qp] -> [Char] -> Int64 -> ApiEff (Either ApiError GroupResponse)
+getGroup_ByOrganizationId params group_name _ByOrganizationId = handleError <$> getAt (map qp params ++ map qp [ByOrganizationId _ByOrganizationId]) ["group", show group_name]
+
+getGroup_ByOrganizationId' :: [Char] -> Int64 -> ApiEff (Either ApiError GroupResponse)
+getGroup_ByOrganizationId' group_name _ByOrganizationId = handleError <$> getAt [ByOrganizationId _ByOrganizationId] ["group", show group_name]
+
+getGroupPack_ByOrganizationId :: forall qp. QueryParam qp => [qp] -> [Char] -> Int64 -> ApiEff (Either ApiError GroupPackResponse)
+getGroupPack_ByOrganizationId params group_name _ByOrganizationId = handleError <$> getAt (map qp params ++ map qp [ByOrganizationId _ByOrganizationId]) ["group_pack", show group_name]
+
+getGroupPack_ByOrganizationId' :: [Char] -> Int64 -> ApiEff (Either ApiError GroupPackResponse)
+getGroupPack_ByOrganizationId' group_name _ByOrganizationId = handleError <$> getAt [ByOrganizationId _ByOrganizationId] ["group_pack", show group_name]
+
+getForum_ByOrganizationId :: forall qp. QueryParam qp => [qp] -> [Char] -> Int64 -> ApiEff (Either ApiError ForumResponse)
+getForum_ByOrganizationId params forum_name _ByOrganizationId = handleError <$> getAt (map qp params ++ map qp [ByOrganizationId _ByOrganizationId]) ["forum", show forum_name]
+
+getForum_ByOrganizationId' :: [Char] -> Int64 -> ApiEff (Either ApiError ForumResponse)
+getForum_ByOrganizationId' forum_name _ByOrganizationId = handleError <$> getAt [ByOrganizationId _ByOrganizationId] ["forum", show forum_name]
+
+getForumPack_ByOrganizationId :: forall qp. QueryParam qp => [qp] -> [Char] -> Int64 -> ApiEff (Either ApiError ForumPackResponse)
+getForumPack_ByOrganizationId params forum_name _ByOrganizationId = handleError <$> getAt (map qp params ++ map qp [ByOrganizationId _ByOrganizationId]) ["forum_pack", show forum_name]
+
+getForumPack_ByOrganizationId' :: [Char] -> Int64 -> ApiEff (Either ApiError ForumPackResponse)
+getForumPack_ByOrganizationId' forum_name _ByOrganizationId = handleError <$> getAt [ByOrganizationId _ByOrganizationId] ["forum_pack", show forum_name]
 
 getBoard_ByForumId :: forall qp. QueryParam qp => [qp] -> [Char] -> Int64 -> ApiEff (Either ApiError BoardResponse)
 getBoard_ByForumId params board_name _ByForumId = handleError <$> getAt (map qp params ++ map qp [ByForumId _ByForumId]) ["board", show board_name]
