@@ -22,11 +22,10 @@ library
                      , haskell-api-helpers
                      , aeson
                      , bytestring
-                     , connection >= 0.2.5
-                     , GenericPretty >= 1.2.1
+                     , connection
                      , http-client
-                     , http-client-tls >= 0.2
-                     , http-conduit >= 2.1.8
+                     , http-client-tls
+                     , http-conduit
                      , lens
                      , lens-aeson
                      , mtl
