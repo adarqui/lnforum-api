@@ -1,13 +1,13 @@
 name:                ln-api
 version:             0.1.0.3
-synopsis:            Initial project template from stack
+synopsis:            Auto-generated API routines via ln-interop.
 description:         Please see README.md
-homepage:            http://github.com/githubuser/ln-api#readme
+homepage:            http://github.com/adarqui/ln-api#readme
 license:             BSD3
 license-file:        LICENSE
-author:              Example Author Name
-maintainer:          example@example.com
-copyright:           2010 Author Here
+author:              Andrew Darqui
+maintainer:          andrew.darqui@gmail.com
+copyright:           2016 Andrew Darqui
 category:            Web
 build-type:          Simple
 -- extra-source-files:
@@ -17,7 +17,7 @@ library
   hs-source-dirs:      src
   exposed-modules:     LN.Api
   exposed-modules:     LN.Api.Internal
-  build-depends:       base >= 4.7 && < 5
+  build-depends:       base
                      , ln-types
                      , haskell-api-helpers
                      , aeson
@@ -47,4 +47,4 @@ test-suite ln-api-test
 
 source-repository head
   type:     git
-  location: https://github.com/githubuser/ln-api
+  location: https://github.com/adarqui/ln-api
