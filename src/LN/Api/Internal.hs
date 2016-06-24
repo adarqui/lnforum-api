@@ -17,36 +17,6 @@ import LN.T hiding (Param(..), QueryParam, SortOrderBy(..), OrderBy(..), ParamTa
 import LN.T.Param.String
 
 
-getEmptys :: forall qp. QueryParam qp => [qp] -> ApiEff (Either ApiError EmptyResponses)
-getEmptys params = handleError <$> getAt params ["emptys"]
-
-getEmptys' :: ApiEff (Either ApiError EmptyResponses)
-getEmptys'  = handleError <$> getAt ([] :: [(String, String)]) ["emptys"]
-
-postEmpty :: forall qp. QueryParam qp => [qp] -> EmptyRequest -> ApiEff (Either ApiError EmptyResponse)
-postEmpty params empty_request = handleError <$> postAt params ["empty"] empty_request
-
-postEmpty' :: EmptyRequest -> ApiEff (Either ApiError EmptyResponse)
-postEmpty' empty_request = handleError <$> postAt ([] :: [(String, String)]) ["empty"] empty_request
-
-getEmpty :: forall qp. QueryParam qp => [qp] -> Int64 -> ApiEff (Either ApiError EmptyResponse)
-getEmpty params empty_id = handleError <$> getAt params ["empty", show empty_id]
-
-getEmpty' :: Int64 -> ApiEff (Either ApiError EmptyResponse)
-getEmpty' empty_id = handleError <$> getAt ([] :: [(String, String)]) ["empty", show empty_id]
-
-putEmpty :: forall qp. QueryParam qp => [qp] -> Int64 -> EmptyRequest -> ApiEff (Either ApiError EmptyResponse)
-putEmpty params empty_id empty_request = handleError <$> putAt params ["empty", show empty_id] empty_request
-
-putEmpty' :: Int64 -> EmptyRequest -> ApiEff (Either ApiError EmptyResponse)
-putEmpty' empty_id empty_request = handleError <$> putAt ([] :: [(String, String)]) ["empty", show empty_id] empty_request
-
-deleteEmpty :: forall qp. QueryParam qp => [qp] -> Int64 -> ApiEff (Either ApiError ())
-deleteEmpty params empty_id = handleError <$> deleteAt params ["empty", show empty_id]
-
-deleteEmpty' :: Int64 -> ApiEff (Either ApiError ())
-deleteEmpty' empty_id = handleError <$> deleteAt ([] :: [(String, String)]) ["empty", show empty_id]
-
 getApis :: forall qp. QueryParam qp => [qp] -> ApiEff (Either ApiError ApiResponses)
 getApis params = handleError <$> getAt params ["apis"]
 
@@ -965,23 +935,29 @@ postTeamMember_ByTeamId params _ByTeamId team_member_request = handleError <$> p
 postTeamMember_ByTeamId' :: Int64 -> TeamMemberRequest -> ApiEff (Either ApiError TeamMemberResponse)
 postTeamMember_ByTeamId' _ByTeamId team_member_request = handleError <$> postAt [ByTeamId _ByTeamId] ["team_member"] team_member_request
 
+postTeamMember_ByOrganizationId :: forall qp. QueryParam qp => [qp] -> Int64 -> TeamMemberRequest -> ApiEff (Either ApiError TeamMemberResponse)
+postTeamMember_ByOrganizationId params _ByOrganizationId team_member_request = handleError <$> postAt (map qp params ++ map qp [ByOrganizationId _ByOrganizationId]) ["team_member"] team_member_request
+
+postTeamMember_ByOrganizationId' :: Int64 -> TeamMemberRequest -> ApiEff (Either ApiError TeamMemberResponse)
+postTeamMember_ByOrganizationId' _ByOrganizationId team_member_request = handleError <$> postAt [ByOrganizationId _ByOrganizationId] ["team_member"] team_member_request
+
 getTeamMember :: forall qp. QueryParam qp => [qp] -> Int64 -> ApiEff (Either ApiError TeamMemberResponse)
-getTeamMember params team_id = handleError <$> getAt params ["team_member", show team_id]
+getTeamMember params team_member_id = handleError <$> getAt params ["team_member", show team_member_id]
 
 getTeamMember' :: Int64 -> ApiEff (Either ApiError TeamMemberResponse)
-getTeamMember' team_id = handleError <$> getAt ([] :: [(String, String)]) ["team_member", show team_id]
+getTeamMember' team_member_id = handleError <$> getAt ([] :: [(String, String)]) ["team_member", show team_member_id]
 
 putTeamMember :: forall qp. QueryParam qp => [qp] -> Int64 -> TeamMemberRequest -> ApiEff (Either ApiError TeamMemberResponse)
-putTeamMember params team_id team_member_request = handleError <$> putAt params ["team_member", show team_id] team_member_request
+putTeamMember params team_member_id team_member_request = handleError <$> putAt params ["team_member", show team_member_id] team_member_request
 
 putTeamMember' :: Int64 -> TeamMemberRequest -> ApiEff (Either ApiError TeamMemberResponse)
-putTeamMember' team_id team_member_request = handleError <$> putAt ([] :: [(String, String)]) ["team_member", show team_id] team_member_request
+putTeamMember' team_member_id team_member_request = handleError <$> putAt ([] :: [(String, String)]) ["team_member", show team_member_id] team_member_request
 
 deleteTeamMember :: forall qp. QueryParam qp => [qp] -> Int64 -> ApiEff (Either ApiError ())
-deleteTeamMember params team_id = handleError <$> deleteAt params ["team_member", show team_id]
+deleteTeamMember params team_member_id = handleError <$> deleteAt params ["team_member", show team_member_id]
 
 deleteTeamMember' :: Int64 -> ApiEff (Either ApiError ())
-deleteTeamMember' team_id = handleError <$> deleteAt ([] :: [(String, String)]) ["team_member", show team_id]
+deleteTeamMember' team_member_id = handleError <$> deleteAt ([] :: [(String, String)]) ["team_member", show team_member_id]
 
 getThreads :: forall qp. QueryParam qp => [qp] -> ApiEff (Either ApiError ThreadResponses)
 getThreads params = handleError <$> getAt params ["threads"]
@@ -1234,6 +1210,12 @@ getTeamMemberPacks_ByOrganizationId params _ByOrganizationId = handleError <$> g
 
 getTeamMemberPacks_ByOrganizationId' :: Int64 -> ApiEff (Either ApiError TeamMemberPackResponses)
 getTeamMemberPacks_ByOrganizationId' _ByOrganizationId = handleError <$> getAt [ByOrganizationId _ByOrganizationId] ["team_member_packs"]
+
+getTeamMemberPacks_ByTeamId :: forall qp. QueryParam qp => [qp] -> Int64 -> ApiEff (Either ApiError TeamMemberPackResponses)
+getTeamMemberPacks_ByTeamId params _ByTeamId = handleError <$> getAt (map qp params ++ map qp [ByTeamId _ByTeamId]) ["team_member_packs"]
+
+getTeamMemberPacks_ByTeamId' :: Int64 -> ApiEff (Either ApiError TeamMemberPackResponses)
+getTeamMemberPacks_ByTeamId' _ByTeamId = handleError <$> getAt [ByTeamId _ByTeamId] ["team_member_packs"]
 
 getTeamMemberPack :: forall qp. QueryParam qp => [qp] -> Int64 -> ApiEff (Either ApiError TeamMemberPackResponse)
 getTeamMemberPack params team_member_id = handleError <$> getAt params ["team_member_pack", show team_member_id]
