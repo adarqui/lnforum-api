@@ -1403,6 +1403,12 @@ getThreadPacks_ByThreadsIds params _ByThreadsIds = handleError <$> getAt (map qp
 getThreadPacks_ByThreadsIds' :: [Int64] -> ApiEff (Either ApiError ThreadPackResponses)
 getThreadPacks_ByThreadsIds' _ByThreadsIds = handleError <$> getAt [ByThreadsIds _ByThreadsIds] ["thread_packs"]
 
+getThreadPacks_ByForumId :: forall qp. QueryParam qp => [qp] -> Int64 -> ApiEff (Either ApiError ThreadPackResponses)
+getThreadPacks_ByForumId params _ByForumId = handleError <$> getAt (map qp params ++ map qp [ByForumId _ByForumId]) ["thread_packs"]
+
+getThreadPacks_ByForumId' :: Int64 -> ApiEff (Either ApiError ThreadPackResponses)
+getThreadPacks_ByForumId' _ByForumId = handleError <$> getAt [ByForumId _ByForumId] ["thread_packs"]
+
 getThreadPacks_ByBoardId :: forall qp. QueryParam qp => [qp] -> Int64 -> ApiEff (Either ApiError ThreadPackResponses)
 getThreadPacks_ByBoardId params _ByBoardId = handleError <$> getAt (map qp params ++ map qp [ByBoardId _ByBoardId]) ["thread_packs"]
 
@@ -1432,6 +1438,18 @@ getThreadPostPacks_ByThreadId params _ByThreadId = handleError <$> getAt (map qp
 
 getThreadPostPacks_ByThreadId' :: Int64 -> ApiEff (Either ApiError ThreadPostPackResponses)
 getThreadPostPacks_ByThreadId' _ByThreadId = handleError <$> getAt [ByThreadId _ByThreadId] ["thread_post_packs"]
+
+getThreadPostPacks_ByForumId :: forall qp. QueryParam qp => [qp] -> Int64 -> ApiEff (Either ApiError ThreadPostPackResponses)
+getThreadPostPacks_ByForumId params _ByForumId = handleError <$> getAt (map qp params ++ map qp [ByForumId _ByForumId]) ["thread_post_packs"]
+
+getThreadPostPacks_ByForumId' :: Int64 -> ApiEff (Either ApiError ThreadPostPackResponses)
+getThreadPostPacks_ByForumId' _ByForumId = handleError <$> getAt [ByForumId _ByForumId] ["thread_post_packs"]
+
+getThreadPostPacks_ByBoardId :: forall qp. QueryParam qp => [qp] -> Int64 -> ApiEff (Either ApiError ThreadPostPackResponses)
+getThreadPostPacks_ByBoardId params _ByBoardId = handleError <$> getAt (map qp params ++ map qp [ByBoardId _ByBoardId]) ["thread_post_packs"]
+
+getThreadPostPacks_ByBoardId' :: Int64 -> ApiEff (Either ApiError ThreadPostPackResponses)
+getThreadPostPacks_ByBoardId' _ByBoardId = handleError <$> getAt [ByBoardId _ByBoardId] ["thread_post_packs"]
 
 getThreadPostPack :: forall qp. QueryParam qp => [qp] -> Int64 -> ApiEff (Either ApiError ThreadPostPackResponse)
 getThreadPostPack params thread_post_id = handleError <$> getAt params ["thread_post_pack", show thread_post_id]
