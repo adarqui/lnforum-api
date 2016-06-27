@@ -10,48 +10,48 @@ module LN.Api.Internal where
 
 
 import Haskell.Api.Helpers
+import Data.Text (Text)
+import qualified Data.Text as T
 import Data.Int
 
-import Data.Int
-import LN.T hiding (Param(..), QueryParam, SortOrderBy(..), OrderBy(..), ParamTag(..))
-import LN.T.Param.String
 
+import LN.T
 
 getApis :: forall qp. QueryParam qp => [qp] -> ApiEff (Either ApiError ApiResponses)
 getApis params = handleError <$> getAt params ["apis"]
 
 getApis' :: ApiEff (Either ApiError ApiResponses)
-getApis'  = handleError <$> getAt ([] :: [(String, String)]) ["apis"]
+getApis'  = handleError <$> getAt ([] :: [(Text, Text)]) ["apis"]
 
 postApi :: forall qp. QueryParam qp => [qp] -> ApiRequest -> ApiEff (Either ApiError ApiResponse)
 postApi params api_request = handleError <$> postAt params ["api"] api_request
 
 postApi' :: ApiRequest -> ApiEff (Either ApiError ApiResponse)
-postApi' api_request = handleError <$> postAt ([] :: [(String, String)]) ["api"] api_request
+postApi' api_request = handleError <$> postAt ([] :: [(Text, Text)]) ["api"] api_request
 
 getApi :: forall qp. QueryParam qp => [qp] -> Int64 -> ApiEff (Either ApiError ApiResponse)
-getApi params api_id = handleError <$> getAt params ["api", show api_id]
+getApi params api_id = handleError <$> getAt params ["api", T.pack $ show api_id]
 
 getApi' :: Int64 -> ApiEff (Either ApiError ApiResponse)
-getApi' api_id = handleError <$> getAt ([] :: [(String, String)]) ["api", show api_id]
+getApi' api_id = handleError <$> getAt ([] :: [(Text, Text)]) ["api", T.pack $ show api_id]
 
 putApi :: forall qp. QueryParam qp => [qp] -> Int64 -> ApiRequest -> ApiEff (Either ApiError ApiResponse)
-putApi params api_id api_request = handleError <$> putAt params ["api", show api_id] api_request
+putApi params api_id api_request = handleError <$> putAt params ["api", T.pack $ show api_id] api_request
 
 putApi' :: Int64 -> ApiRequest -> ApiEff (Either ApiError ApiResponse)
-putApi' api_id api_request = handleError <$> putAt ([] :: [(String, String)]) ["api", show api_id] api_request
+putApi' api_id api_request = handleError <$> putAt ([] :: [(Text, Text)]) ["api", T.pack $ show api_id] api_request
 
 deleteApi :: forall qp. QueryParam qp => [qp] -> Int64 -> ApiEff (Either ApiError ())
-deleteApi params api_id = handleError <$> deleteAt params ["api", show api_id]
+deleteApi params api_id = handleError <$> deleteAt params ["api", T.pack $ show api_id]
 
 deleteApi' :: Int64 -> ApiEff (Either ApiError ())
-deleteApi' api_id = handleError <$> deleteAt ([] :: [(String, String)]) ["api", show api_id]
+deleteApi' api_id = handleError <$> deleteAt ([] :: [(Text, Text)]) ["api", T.pack $ show api_id]
 
 getBoards :: forall qp. QueryParam qp => [qp] -> ApiEff (Either ApiError BoardResponses)
 getBoards params = handleError <$> getAt params ["boards"]
 
 getBoards' :: ApiEff (Either ApiError BoardResponses)
-getBoards'  = handleError <$> getAt ([] :: [(String, String)]) ["boards"]
+getBoards'  = handleError <$> getAt ([] :: [(Text, Text)]) ["boards"]
 
 getBoards_ByBoardsIds :: forall qp. QueryParam qp => [qp] -> [Int64] -> ApiEff (Either ApiError BoardResponses)
 getBoards_ByBoardsIds params _ByBoardsIds = handleError <$> getAt (map qp params ++ map qp [ByBoardsIds _ByBoardsIds]) ["boards"]
@@ -78,52 +78,52 @@ postBoard_ByBoardId' :: Int64 -> BoardRequest -> ApiEff (Either ApiError BoardRe
 postBoard_ByBoardId' _ByBoardId board_request = handleError <$> postAt [ByBoardId _ByBoardId] ["board"] board_request
 
 getBoard :: forall qp. QueryParam qp => [qp] -> Int64 -> ApiEff (Either ApiError BoardResponse)
-getBoard params board_id = handleError <$> getAt params ["board", show board_id]
+getBoard params board_id = handleError <$> getAt params ["board", T.pack $ show board_id]
 
 getBoard' :: Int64 -> ApiEff (Either ApiError BoardResponse)
-getBoard' board_id = handleError <$> getAt ([] :: [(String, String)]) ["board", show board_id]
+getBoard' board_id = handleError <$> getAt ([] :: [(Text, Text)]) ["board", T.pack $ show board_id]
 
 putBoard :: forall qp. QueryParam qp => [qp] -> Int64 -> BoardRequest -> ApiEff (Either ApiError BoardResponse)
-putBoard params board_id board_request = handleError <$> putAt params ["board", show board_id] board_request
+putBoard params board_id board_request = handleError <$> putAt params ["board", T.pack $ show board_id] board_request
 
 putBoard' :: Int64 -> BoardRequest -> ApiEff (Either ApiError BoardResponse)
-putBoard' board_id board_request = handleError <$> putAt ([] :: [(String, String)]) ["board", show board_id] board_request
+putBoard' board_id board_request = handleError <$> putAt ([] :: [(Text, Text)]) ["board", T.pack $ show board_id] board_request
 
 deleteBoard :: forall qp. QueryParam qp => [qp] -> Int64 -> ApiEff (Either ApiError ())
-deleteBoard params board_id = handleError <$> deleteAt params ["board", show board_id]
+deleteBoard params board_id = handleError <$> deleteAt params ["board", T.pack $ show board_id]
 
 deleteBoard' :: Int64 -> ApiEff (Either ApiError ())
-deleteBoard' board_id = handleError <$> deleteAt ([] :: [(String, String)]) ["board", show board_id]
+deleteBoard' board_id = handleError <$> deleteAt ([] :: [(Text, Text)]) ["board", T.pack $ show board_id]
 
 getBoardStats :: forall qp. QueryParam qp => [qp] -> ApiEff (Either ApiError BoardStatResponses)
 getBoardStats params = handleError <$> getAt params ["board_stats"]
 
 getBoardStats' :: ApiEff (Either ApiError BoardStatResponses)
-getBoardStats'  = handleError <$> getAt ([] :: [(String, String)]) ["board_stats"]
+getBoardStats'  = handleError <$> getAt ([] :: [(Text, Text)]) ["board_stats"]
 
 getBoardStat :: forall qp. QueryParam qp => [qp] -> Int64 -> ApiEff (Either ApiError BoardStatResponse)
-getBoardStat params board_id = handleError <$> getAt params ["board_stat", show board_id]
+getBoardStat params board_id = handleError <$> getAt params ["board_stat", T.pack $ show board_id]
 
 getBoardStat' :: Int64 -> ApiEff (Either ApiError BoardStatResponse)
-getBoardStat' board_id = handleError <$> getAt ([] :: [(String, String)]) ["board_stat", show board_id]
+getBoardStat' board_id = handleError <$> getAt ([] :: [(Text, Text)]) ["board_stat", T.pack $ show board_id]
 
 getUsersCount :: forall qp. QueryParam qp => [qp] -> ApiEff (Either ApiError CountResponses)
 getUsersCount params = handleError <$> getAt params ["users_count"]
 
 getUsersCount' :: ApiEff (Either ApiError CountResponses)
-getUsersCount'  = handleError <$> getAt ([] :: [(String, String)]) ["users_count"]
+getUsersCount'  = handleError <$> getAt ([] :: [(Text, Text)]) ["users_count"]
 
 getOrganizationsCount :: forall qp. QueryParam qp => [qp] -> ApiEff (Either ApiError CountResponses)
 getOrganizationsCount params = handleError <$> getAt params ["organizations_count"]
 
 getOrganizationsCount' :: ApiEff (Either ApiError CountResponses)
-getOrganizationsCount'  = handleError <$> getAt ([] :: [(String, String)]) ["organizations_count"]
+getOrganizationsCount'  = handleError <$> getAt ([] :: [(Text, Text)]) ["organizations_count"]
 
 getTeamsCount :: forall qp. QueryParam qp => [qp] -> ApiEff (Either ApiError CountResponses)
 getTeamsCount params = handleError <$> getAt params ["teams_count"]
 
 getTeamsCount' :: ApiEff (Either ApiError CountResponses)
-getTeamsCount'  = handleError <$> getAt ([] :: [(String, String)]) ["teams_count"]
+getTeamsCount'  = handleError <$> getAt ([] :: [(Text, Text)]) ["teams_count"]
 
 getTeamsCount_ByOrganizationId :: forall qp. QueryParam qp => [qp] -> Int64 -> ApiEff (Either ApiError CountResponses)
 getTeamsCount_ByOrganizationId params _ByOrganizationId = handleError <$> getAt (map qp params ++ map qp [ByOrganizationId _ByOrganizationId]) ["teams_count"]
@@ -135,7 +135,7 @@ getTeamMembersCount :: forall qp. QueryParam qp => [qp] -> ApiEff (Either ApiErr
 getTeamMembersCount params = handleError <$> getAt params ["team_members_count"]
 
 getTeamMembersCount' :: ApiEff (Either ApiError CountResponses)
-getTeamMembersCount'  = handleError <$> getAt ([] :: [(String, String)]) ["team_members_count"]
+getTeamMembersCount'  = handleError <$> getAt ([] :: [(Text, Text)]) ["team_members_count"]
 
 getTeamMembersCount_ByOrganizationId :: forall qp. QueryParam qp => [qp] -> Int64 -> ApiEff (Either ApiError CountResponses)
 getTeamMembersCount_ByOrganizationId params _ByOrganizationId = handleError <$> getAt (map qp params ++ map qp [ByOrganizationId _ByOrganizationId]) ["team_members_count"]
@@ -153,7 +153,7 @@ getGlobalGroupsCount :: forall qp. QueryParam qp => [qp] -> ApiEff (Either ApiEr
 getGlobalGroupsCount params = handleError <$> getAt params ["global_groups_count"]
 
 getGlobalGroupsCount' :: ApiEff (Either ApiError CountResponses)
-getGlobalGroupsCount'  = handleError <$> getAt ([] :: [(String, String)]) ["global_groups_count"]
+getGlobalGroupsCount'  = handleError <$> getAt ([] :: [(Text, Text)]) ["global_groups_count"]
 
 getGlobalGroupsCount_ByUserId :: forall qp. QueryParam qp => [qp] -> Int64 -> ApiEff (Either ApiError CountResponses)
 getGlobalGroupsCount_ByUserId params _ByUserId = handleError <$> getAt (map qp params ++ map qp [ByUserId _ByUserId]) ["global_groups_count"]
@@ -165,7 +165,7 @@ getGroupsCount :: forall qp. QueryParam qp => [qp] -> ApiEff (Either ApiError Co
 getGroupsCount params = handleError <$> getAt params ["groups_count"]
 
 getGroupsCount' :: ApiEff (Either ApiError CountResponses)
-getGroupsCount'  = handleError <$> getAt ([] :: [(String, String)]) ["groups_count"]
+getGroupsCount'  = handleError <$> getAt ([] :: [(Text, Text)]) ["groups_count"]
 
 getGroupsCount_ByOrganizationId :: forall qp. QueryParam qp => [qp] -> Int64 -> ApiEff (Either ApiError CountResponses)
 getGroupsCount_ByOrganizationId params _ByOrganizationId = handleError <$> getAt (map qp params ++ map qp [ByOrganizationId _ByOrganizationId]) ["groups_count"]
@@ -177,7 +177,7 @@ getGroupMembersCount :: forall qp. QueryParam qp => [qp] -> ApiEff (Either ApiEr
 getGroupMembersCount params = handleError <$> getAt params ["group_members_count"]
 
 getGroupMembersCount' :: ApiEff (Either ApiError CountResponses)
-getGroupMembersCount'  = handleError <$> getAt ([] :: [(String, String)]) ["group_members_count"]
+getGroupMembersCount'  = handleError <$> getAt ([] :: [(Text, Text)]) ["group_members_count"]
 
 getGroupMembersCount_ByOrganizationId :: forall qp. QueryParam qp => [qp] -> Int64 -> ApiEff (Either ApiError CountResponses)
 getGroupMembersCount_ByOrganizationId params _ByOrganizationId = handleError <$> getAt (map qp params ++ map qp [ByOrganizationId _ByOrganizationId]) ["group_members_count"]
@@ -195,19 +195,19 @@ getForumsCount :: forall qp. QueryParam qp => [qp] -> ApiEff (Either ApiError Co
 getForumsCount params = handleError <$> getAt params ["forums_count"]
 
 getForumsCount' :: ApiEff (Either ApiError CountResponses)
-getForumsCount'  = handleError <$> getAt ([] :: [(String, String)]) ["forums_count"]
+getForumsCount'  = handleError <$> getAt ([] :: [(Text, Text)]) ["forums_count"]
 
 getBoardsCount :: forall qp. QueryParam qp => [qp] -> ApiEff (Either ApiError CountResponses)
 getBoardsCount params = handleError <$> getAt params ["boards_count"]
 
 getBoardsCount' :: ApiEff (Either ApiError CountResponses)
-getBoardsCount'  = handleError <$> getAt ([] :: [(String, String)]) ["boards_count"]
+getBoardsCount'  = handleError <$> getAt ([] :: [(Text, Text)]) ["boards_count"]
 
 getThreadsCount :: forall qp. QueryParam qp => [qp] -> ApiEff (Either ApiError CountResponses)
 getThreadsCount params = handleError <$> getAt params ["threads_count"]
 
 getThreadsCount' :: ApiEff (Either ApiError CountResponses)
-getThreadsCount'  = handleError <$> getAt ([] :: [(String, String)]) ["threads_count"]
+getThreadsCount'  = handleError <$> getAt ([] :: [(Text, Text)]) ["threads_count"]
 
 getThreadsCount_ByBoardId :: forall qp. QueryParam qp => [qp] -> Int64 -> ApiEff (Either ApiError CountResponses)
 getThreadsCount_ByBoardId params _ByBoardId = handleError <$> getAt (map qp params ++ map qp [ByBoardId _ByBoardId]) ["threads_count"]
@@ -219,7 +219,7 @@ getThreadPostsCount :: forall qp. QueryParam qp => [qp] -> ApiEff (Either ApiErr
 getThreadPostsCount params = handleError <$> getAt params ["thread_posts_count"]
 
 getThreadPostsCount' :: ApiEff (Either ApiError CountResponses)
-getThreadPostsCount'  = handleError <$> getAt ([] :: [(String, String)]) ["thread_posts_count"]
+getThreadPostsCount'  = handleError <$> getAt ([] :: [(Text, Text)]) ["thread_posts_count"]
 
 getThreadPostsCount_ByThreadId :: forall qp. QueryParam qp => [qp] -> Int64 -> ApiEff (Either ApiError CountResponses)
 getThreadPostsCount_ByThreadId params _ByThreadId = handleError <$> getAt (map qp params ++ map qp [ByThreadId _ByThreadId]) ["thread_posts_count"]
@@ -231,24 +231,24 @@ getResourcesCount :: forall qp. QueryParam qp => [qp] -> ApiEff (Either ApiError
 getResourcesCount params = handleError <$> getAt params ["resources_count"]
 
 getResourcesCount' :: ApiEff (Either ApiError CountResponses)
-getResourcesCount'  = handleError <$> getAt ([] :: [(String, String)]) ["resources_count"]
+getResourcesCount'  = handleError <$> getAt ([] :: [(Text, Text)]) ["resources_count"]
 
 getLeuronsCount :: forall qp. QueryParam qp => [qp] -> ApiEff (Either ApiError CountResponses)
 getLeuronsCount params = handleError <$> getAt params ["leurons_count"]
 
 getLeuronsCount' :: ApiEff (Either ApiError CountResponses)
-getLeuronsCount'  = handleError <$> getAt ([] :: [(String, String)]) ["leurons_count"]
+getLeuronsCount'  = handleError <$> getAt ([] :: [(Text, Text)]) ["leurons_count"]
 
 getForums :: forall qp. QueryParam qp => [qp] -> ApiEff (Either ApiError ForumResponses)
 getForums params = handleError <$> getAt params ["forums"]
 
 getForums' :: ApiEff (Either ApiError ForumResponses)
-getForums'  = handleError <$> getAt ([] :: [(String, String)]) ["forums"]
+getForums'  = handleError <$> getAt ([] :: [(Text, Text)]) ["forums"]
 
-getForums_ByOrganizationName :: forall qp. QueryParam qp => [qp] -> [Char] -> ApiEff (Either ApiError ForumResponses)
+getForums_ByOrganizationName :: forall qp. QueryParam qp => [qp] -> Text -> ApiEff (Either ApiError ForumResponses)
 getForums_ByOrganizationName params _ByOrganizationName = handleError <$> getAt (map qp params ++ map qp [ByOrganizationName _ByOrganizationName]) ["forums"]
 
-getForums_ByOrganizationName' :: [Char] -> ApiEff (Either ApiError ForumResponses)
+getForums_ByOrganizationName' :: Text -> ApiEff (Either ApiError ForumResponses)
 getForums_ByOrganizationName' _ByOrganizationName = handleError <$> getAt [ByOrganizationName _ByOrganizationName] ["forums"]
 
 getForums_ByForumsIds :: forall qp. QueryParam qp => [qp] -> [Int64] -> ApiEff (Either ApiError ForumResponses)
@@ -270,40 +270,40 @@ postForum_ByOrganizationId' :: Int64 -> ForumRequest -> ApiEff (Either ApiError 
 postForum_ByOrganizationId' _ByOrganizationId forum_request = handleError <$> postAt [ByOrganizationId _ByOrganizationId] ["forum"] forum_request
 
 getForum :: forall qp. QueryParam qp => [qp] -> Int64 -> ApiEff (Either ApiError ForumResponse)
-getForum params forum_id = handleError <$> getAt params ["forum", show forum_id]
+getForum params forum_id = handleError <$> getAt params ["forum", T.pack $ show forum_id]
 
 getForum' :: Int64 -> ApiEff (Either ApiError ForumResponse)
-getForum' forum_id = handleError <$> getAt ([] :: [(String, String)]) ["forum", show forum_id]
+getForum' forum_id = handleError <$> getAt ([] :: [(Text, Text)]) ["forum", T.pack $ show forum_id]
 
 putForum :: forall qp. QueryParam qp => [qp] -> Int64 -> ForumRequest -> ApiEff (Either ApiError ForumResponse)
-putForum params forum_id forum_request = handleError <$> putAt params ["forum", show forum_id] forum_request
+putForum params forum_id forum_request = handleError <$> putAt params ["forum", T.pack $ show forum_id] forum_request
 
 putForum' :: Int64 -> ForumRequest -> ApiEff (Either ApiError ForumResponse)
-putForum' forum_id forum_request = handleError <$> putAt ([] :: [(String, String)]) ["forum", show forum_id] forum_request
+putForum' forum_id forum_request = handleError <$> putAt ([] :: [(Text, Text)]) ["forum", T.pack $ show forum_id] forum_request
 
 deleteForum :: forall qp. QueryParam qp => [qp] -> Int64 -> ApiEff (Either ApiError ())
-deleteForum params forum_id = handleError <$> deleteAt params ["forum", show forum_id]
+deleteForum params forum_id = handleError <$> deleteAt params ["forum", T.pack $ show forum_id]
 
 deleteForum' :: Int64 -> ApiEff (Either ApiError ())
-deleteForum' forum_id = handleError <$> deleteAt ([] :: [(String, String)]) ["forum", show forum_id]
+deleteForum' forum_id = handleError <$> deleteAt ([] :: [(Text, Text)]) ["forum", T.pack $ show forum_id]
 
 getForumStats :: forall qp. QueryParam qp => [qp] -> ApiEff (Either ApiError ForumStatResponses)
 getForumStats params = handleError <$> getAt params ["forum_stats"]
 
 getForumStats' :: ApiEff (Either ApiError ForumStatResponses)
-getForumStats'  = handleError <$> getAt ([] :: [(String, String)]) ["forum_stats"]
+getForumStats'  = handleError <$> getAt ([] :: [(Text, Text)]) ["forum_stats"]
 
 getForumStat :: forall qp. QueryParam qp => [qp] -> Int64 -> ApiEff (Either ApiError ForumStatResponse)
-getForumStat params forum_id = handleError <$> getAt params ["forum_stat", show forum_id]
+getForumStat params forum_id = handleError <$> getAt params ["forum_stat", T.pack $ show forum_id]
 
 getForumStat' :: Int64 -> ApiEff (Either ApiError ForumStatResponse)
-getForumStat' forum_id = handleError <$> getAt ([] :: [(String, String)]) ["forum_stat", show forum_id]
+getForumStat' forum_id = handleError <$> getAt ([] :: [(Text, Text)]) ["forum_stat", T.pack $ show forum_id]
 
 getGlobalGroups :: forall qp. QueryParam qp => [qp] -> ApiEff (Either ApiError GlobalGroupResponses)
 getGlobalGroups params = handleError <$> getAt params ["global_groups"]
 
 getGlobalGroups' :: ApiEff (Either ApiError GlobalGroupResponses)
-getGlobalGroups'  = handleError <$> getAt ([] :: [(String, String)]) ["global_groups"]
+getGlobalGroups'  = handleError <$> getAt ([] :: [(Text, Text)]) ["global_groups"]
 
 getGlobalGroups_ByOrganizationId :: forall qp. QueryParam qp => [qp] -> Int64 -> ApiEff (Either ApiError GlobalGroupResponses)
 getGlobalGroups_ByOrganizationId params _ByOrganizationId = handleError <$> getAt (map qp params ++ map qp [ByOrganizationId _ByOrganizationId]) ["global_groups"]
@@ -315,31 +315,31 @@ postGlobalGroup :: forall qp. QueryParam qp => [qp] -> GlobalGroupRequest -> Api
 postGlobalGroup params global_group_request = handleError <$> postAt params ["global_group"] global_group_request
 
 postGlobalGroup' :: GlobalGroupRequest -> ApiEff (Either ApiError GlobalGroupResponse)
-postGlobalGroup' global_group_request = handleError <$> postAt ([] :: [(String, String)]) ["global_group"] global_group_request
+postGlobalGroup' global_group_request = handleError <$> postAt ([] :: [(Text, Text)]) ["global_group"] global_group_request
 
 getGlobalGroup :: forall qp. QueryParam qp => [qp] -> Int64 -> ApiEff (Either ApiError GlobalGroupResponse)
-getGlobalGroup params global_group_id = handleError <$> getAt params ["global_group", show global_group_id]
+getGlobalGroup params global_group_id = handleError <$> getAt params ["global_group", T.pack $ show global_group_id]
 
 getGlobalGroup' :: Int64 -> ApiEff (Either ApiError GlobalGroupResponse)
-getGlobalGroup' global_group_id = handleError <$> getAt ([] :: [(String, String)]) ["global_group", show global_group_id]
+getGlobalGroup' global_group_id = handleError <$> getAt ([] :: [(Text, Text)]) ["global_group", T.pack $ show global_group_id]
 
 putGlobalGroup :: forall qp. QueryParam qp => [qp] -> Int64 -> GlobalGroupRequest -> ApiEff (Either ApiError GlobalGroupResponse)
-putGlobalGroup params global_group_id global_group_request = handleError <$> putAt params ["global_group", show global_group_id] global_group_request
+putGlobalGroup params global_group_id global_group_request = handleError <$> putAt params ["global_group", T.pack $ show global_group_id] global_group_request
 
 putGlobalGroup' :: Int64 -> GlobalGroupRequest -> ApiEff (Either ApiError GlobalGroupResponse)
-putGlobalGroup' global_group_id global_group_request = handleError <$> putAt ([] :: [(String, String)]) ["global_group", show global_group_id] global_group_request
+putGlobalGroup' global_group_id global_group_request = handleError <$> putAt ([] :: [(Text, Text)]) ["global_group", T.pack $ show global_group_id] global_group_request
 
 deleteGlobalGroup :: forall qp. QueryParam qp => [qp] -> Int64 -> ApiEff (Either ApiError ())
-deleteGlobalGroup params global_group_id = handleError <$> deleteAt params ["global_group", show global_group_id]
+deleteGlobalGroup params global_group_id = handleError <$> deleteAt params ["global_group", T.pack $ show global_group_id]
 
 deleteGlobalGroup' :: Int64 -> ApiEff (Either ApiError ())
-deleteGlobalGroup' global_group_id = handleError <$> deleteAt ([] :: [(String, String)]) ["global_group", show global_group_id]
+deleteGlobalGroup' global_group_id = handleError <$> deleteAt ([] :: [(Text, Text)]) ["global_group", T.pack $ show global_group_id]
 
 getGroups :: forall qp. QueryParam qp => [qp] -> ApiEff (Either ApiError GroupResponses)
 getGroups params = handleError <$> getAt params ["groups"]
 
 getGroups' :: ApiEff (Either ApiError GroupResponses)
-getGroups'  = handleError <$> getAt ([] :: [(String, String)]) ["groups"]
+getGroups'  = handleError <$> getAt ([] :: [(Text, Text)]) ["groups"]
 
 getGroups_ByOrganizationId :: forall qp. QueryParam qp => [qp] -> Int64 -> ApiEff (Either ApiError GroupResponses)
 getGroups_ByOrganizationId params _ByOrganizationId = handleError <$> getAt (map qp params ++ map qp [ByOrganizationId _ByOrganizationId]) ["groups"]
@@ -354,28 +354,28 @@ postGroup_ByOrganizationId' :: Int64 -> GroupRequest -> ApiEff (Either ApiError 
 postGroup_ByOrganizationId' _ByOrganizationId group_request = handleError <$> postAt [ByOrganizationId _ByOrganizationId] ["group"] group_request
 
 getGroup :: forall qp. QueryParam qp => [qp] -> Int64 -> ApiEff (Either ApiError GroupResponse)
-getGroup params group_id = handleError <$> getAt params ["group", show group_id]
+getGroup params group_id = handleError <$> getAt params ["group", T.pack $ show group_id]
 
 getGroup' :: Int64 -> ApiEff (Either ApiError GroupResponse)
-getGroup' group_id = handleError <$> getAt ([] :: [(String, String)]) ["group", show group_id]
+getGroup' group_id = handleError <$> getAt ([] :: [(Text, Text)]) ["group", T.pack $ show group_id]
 
 putGroup :: forall qp. QueryParam qp => [qp] -> Int64 -> GroupRequest -> ApiEff (Either ApiError GroupResponse)
-putGroup params group_id group_request = handleError <$> putAt params ["group", show group_id] group_request
+putGroup params group_id group_request = handleError <$> putAt params ["group", T.pack $ show group_id] group_request
 
 putGroup' :: Int64 -> GroupRequest -> ApiEff (Either ApiError GroupResponse)
-putGroup' group_id group_request = handleError <$> putAt ([] :: [(String, String)]) ["group", show group_id] group_request
+putGroup' group_id group_request = handleError <$> putAt ([] :: [(Text, Text)]) ["group", T.pack $ show group_id] group_request
 
 deleteGroup :: forall qp. QueryParam qp => [qp] -> Int64 -> ApiEff (Either ApiError ())
-deleteGroup params group_id = handleError <$> deleteAt params ["group", show group_id]
+deleteGroup params group_id = handleError <$> deleteAt params ["group", T.pack $ show group_id]
 
 deleteGroup' :: Int64 -> ApiEff (Either ApiError ())
-deleteGroup' group_id = handleError <$> deleteAt ([] :: [(String, String)]) ["group", show group_id]
+deleteGroup' group_id = handleError <$> deleteAt ([] :: [(Text, Text)]) ["group", T.pack $ show group_id]
 
 getGroupMembers :: forall qp. QueryParam qp => [qp] -> ApiEff (Either ApiError GroupMemberResponses)
 getGroupMembers params = handleError <$> getAt params ["group_members"]
 
 getGroupMembers' :: ApiEff (Either ApiError GroupMemberResponses)
-getGroupMembers'  = handleError <$> getAt ([] :: [(String, String)]) ["group_members"]
+getGroupMembers'  = handleError <$> getAt ([] :: [(Text, Text)]) ["group_members"]
 
 getGroupMembers_ByOrganizationId :: forall qp. QueryParam qp => [qp] -> Int64 -> ApiEff (Either ApiError GroupMemberResponses)
 getGroupMembers_ByOrganizationId params _ByOrganizationId = handleError <$> getAt (map qp params ++ map qp [ByOrganizationId _ByOrganizationId]) ["group_members"]
@@ -402,28 +402,28 @@ postGroupMember_ByGlobalGroupId' :: Int64 -> GroupMemberRequest -> ApiEff (Eithe
 postGroupMember_ByGlobalGroupId' _ByGlobalGroupId group_member_request = handleError <$> postAt [ByGlobalGroupId _ByGlobalGroupId] ["group_member"] group_member_request
 
 getGroupMember :: forall qp. QueryParam qp => [qp] -> Int64 -> ApiEff (Either ApiError GroupMemberResponse)
-getGroupMember params group_member_id = handleError <$> getAt params ["group_member", show group_member_id]
+getGroupMember params group_member_id = handleError <$> getAt params ["group_member", T.pack $ show group_member_id]
 
 getGroupMember' :: Int64 -> ApiEff (Either ApiError GroupMemberResponse)
-getGroupMember' group_member_id = handleError <$> getAt ([] :: [(String, String)]) ["group_member", show group_member_id]
+getGroupMember' group_member_id = handleError <$> getAt ([] :: [(Text, Text)]) ["group_member", T.pack $ show group_member_id]
 
 putGroupMember :: forall qp. QueryParam qp => [qp] -> Int64 -> GroupMemberRequest -> ApiEff (Either ApiError GroupMemberResponse)
-putGroupMember params group_member_id group_member_request = handleError <$> putAt params ["group_member", show group_member_id] group_member_request
+putGroupMember params group_member_id group_member_request = handleError <$> putAt params ["group_member", T.pack $ show group_member_id] group_member_request
 
 putGroupMember' :: Int64 -> GroupMemberRequest -> ApiEff (Either ApiError GroupMemberResponse)
-putGroupMember' group_member_id group_member_request = handleError <$> putAt ([] :: [(String, String)]) ["group_member", show group_member_id] group_member_request
+putGroupMember' group_member_id group_member_request = handleError <$> putAt ([] :: [(Text, Text)]) ["group_member", T.pack $ show group_member_id] group_member_request
 
 deleteGroupMember :: forall qp. QueryParam qp => [qp] -> Int64 -> ApiEff (Either ApiError ())
-deleteGroupMember params group_member_id = handleError <$> deleteAt params ["group_member", show group_member_id]
+deleteGroupMember params group_member_id = handleError <$> deleteAt params ["group_member", T.pack $ show group_member_id]
 
 deleteGroupMember' :: Int64 -> ApiEff (Either ApiError ())
-deleteGroupMember' group_member_id = handleError <$> deleteAt ([] :: [(String, String)]) ["group_member", show group_member_id]
+deleteGroupMember' group_member_id = handleError <$> deleteAt ([] :: [(Text, Text)]) ["group_member", T.pack $ show group_member_id]
 
 getLeurons :: forall qp. QueryParam qp => [qp] -> ApiEff (Either ApiError LeuronResponses)
 getLeurons params = handleError <$> getAt params ["leurons"]
 
 getLeurons' :: ApiEff (Either ApiError LeuronResponses)
-getLeurons'  = handleError <$> getAt ([] :: [(String, String)]) ["leurons"]
+getLeurons'  = handleError <$> getAt ([] :: [(Text, Text)]) ["leurons"]
 
 postLeuron_ByResourceId :: forall qp. QueryParam qp => [qp] -> Int64 -> LeuronRequest -> ApiEff (Either ApiError LeuronResponse)
 postLeuron_ByResourceId params _ByResourceId leuron_request = handleError <$> postAt (map qp params ++ map qp [ByResourceId _ByResourceId]) ["leuron"] leuron_request
@@ -432,28 +432,28 @@ postLeuron_ByResourceId' :: Int64 -> LeuronRequest -> ApiEff (Either ApiError Le
 postLeuron_ByResourceId' _ByResourceId leuron_request = handleError <$> postAt [ByResourceId _ByResourceId] ["leuron"] leuron_request
 
 getLeuron :: forall qp. QueryParam qp => [qp] -> Int64 -> ApiEff (Either ApiError LeuronResponse)
-getLeuron params leuron_id = handleError <$> getAt params ["leuron", show leuron_id]
+getLeuron params leuron_id = handleError <$> getAt params ["leuron", T.pack $ show leuron_id]
 
 getLeuron' :: Int64 -> ApiEff (Either ApiError LeuronResponse)
-getLeuron' leuron_id = handleError <$> getAt ([] :: [(String, String)]) ["leuron", show leuron_id]
+getLeuron' leuron_id = handleError <$> getAt ([] :: [(Text, Text)]) ["leuron", T.pack $ show leuron_id]
 
 putLeuron :: forall qp. QueryParam qp => [qp] -> Int64 -> LeuronRequest -> ApiEff (Either ApiError LeuronResponse)
-putLeuron params leuron_id leuron_request = handleError <$> putAt params ["leuron", show leuron_id] leuron_request
+putLeuron params leuron_id leuron_request = handleError <$> putAt params ["leuron", T.pack $ show leuron_id] leuron_request
 
 putLeuron' :: Int64 -> LeuronRequest -> ApiEff (Either ApiError LeuronResponse)
-putLeuron' leuron_id leuron_request = handleError <$> putAt ([] :: [(String, String)]) ["leuron", show leuron_id] leuron_request
+putLeuron' leuron_id leuron_request = handleError <$> putAt ([] :: [(Text, Text)]) ["leuron", T.pack $ show leuron_id] leuron_request
 
 deleteLeuron :: forall qp. QueryParam qp => [qp] -> Int64 -> ApiEff (Either ApiError ())
-deleteLeuron params leuron_id = handleError <$> deleteAt params ["leuron", show leuron_id]
+deleteLeuron params leuron_id = handleError <$> deleteAt params ["leuron", T.pack $ show leuron_id]
 
 deleteLeuron' :: Int64 -> ApiEff (Either ApiError ())
-deleteLeuron' leuron_id = handleError <$> deleteAt ([] :: [(String, String)]) ["leuron", show leuron_id]
+deleteLeuron' leuron_id = handleError <$> deleteAt ([] :: [(Text, Text)]) ["leuron", T.pack $ show leuron_id]
 
 getLikes :: forall qp. QueryParam qp => [qp] -> ApiEff (Either ApiError LikeResponses)
 getLikes params = handleError <$> getAt params ["likes"]
 
 getLikes' :: ApiEff (Either ApiError LikeResponses)
-getLikes'  = handleError <$> getAt ([] :: [(String, String)]) ["likes"]
+getLikes'  = handleError <$> getAt ([] :: [(Text, Text)]) ["likes"]
 
 getLikes_ByThreadPostsIds :: forall qp. QueryParam qp => [qp] -> [Int64] -> ApiEff (Either ApiError LikeResponses)
 getLikes_ByThreadPostsIds params _ByThreadPostsIds = handleError <$> getAt (map qp params ++ map qp [ByThreadPostsIds _ByThreadPostsIds]) ["likes"]
@@ -486,22 +486,22 @@ postLike_ByLeuronId' :: Int64 -> LikeRequest -> ApiEff (Either ApiError LikeResp
 postLike_ByLeuronId' _ByLeuronId like_request = handleError <$> postAt [ByLeuronId _ByLeuronId] ["like"] like_request
 
 getLike :: forall qp. QueryParam qp => [qp] -> Int64 -> ApiEff (Either ApiError LikeResponse)
-getLike params like_id = handleError <$> getAt params ["like", show like_id]
+getLike params like_id = handleError <$> getAt params ["like", T.pack $ show like_id]
 
 getLike' :: Int64 -> ApiEff (Either ApiError LikeResponse)
-getLike' like_id = handleError <$> getAt ([] :: [(String, String)]) ["like", show like_id]
+getLike' like_id = handleError <$> getAt ([] :: [(Text, Text)]) ["like", T.pack $ show like_id]
 
 putLike :: forall qp. QueryParam qp => [qp] -> Int64 -> LikeRequest -> ApiEff (Either ApiError LikeResponse)
-putLike params like_id like_request = handleError <$> putAt params ["like", show like_id] like_request
+putLike params like_id like_request = handleError <$> putAt params ["like", T.pack $ show like_id] like_request
 
 putLike' :: Int64 -> LikeRequest -> ApiEff (Either ApiError LikeResponse)
-putLike' like_id like_request = handleError <$> putAt ([] :: [(String, String)]) ["like", show like_id] like_request
+putLike' like_id like_request = handleError <$> putAt ([] :: [(Text, Text)]) ["like", T.pack $ show like_id] like_request
 
 deleteLike :: forall qp. QueryParam qp => [qp] -> Int64 -> ApiEff (Either ApiError ())
-deleteLike params like_id = handleError <$> deleteAt params ["like", show like_id]
+deleteLike params like_id = handleError <$> deleteAt params ["like", T.pack $ show like_id]
 
 deleteLike' :: Int64 -> ApiEff (Either ApiError ())
-deleteLike' like_id = handleError <$> deleteAt ([] :: [(String, String)]) ["like", show like_id]
+deleteLike' like_id = handleError <$> deleteAt ([] :: [(Text, Text)]) ["like", T.pack $ show like_id]
 
 getLikeStats_ByThreadPostsIds :: forall qp. QueryParam qp => [qp] -> [Int64] -> ApiEff (Either ApiError LikeStatResponses)
 getLikeStats_ByThreadPostsIds params _ByThreadPostsIds = handleError <$> getAt (map qp params ++ map qp [ByThreadPostsIds _ByThreadPostsIds]) ["like_stats"]
@@ -510,16 +510,16 @@ getLikeStats_ByThreadPostsIds' :: [Int64] -> ApiEff (Either ApiError LikeStatRes
 getLikeStats_ByThreadPostsIds' _ByThreadPostsIds = handleError <$> getAt [ByThreadPostsIds _ByThreadPostsIds] ["like_stats"]
 
 getLikeStat :: forall qp. QueryParam qp => [qp] -> Int64 -> ApiEff (Either ApiError LikeStatResponse)
-getLikeStat params like_id = handleError <$> getAt params ["like_stat", show like_id]
+getLikeStat params like_id = handleError <$> getAt params ["like_stat", T.pack $ show like_id]
 
 getLikeStat' :: Int64 -> ApiEff (Either ApiError LikeStatResponse)
-getLikeStat' like_id = handleError <$> getAt ([] :: [(String, String)]) ["like_stat", show like_id]
+getLikeStat' like_id = handleError <$> getAt ([] :: [(Text, Text)]) ["like_stat", T.pack $ show like_id]
 
 getStars :: forall qp. QueryParam qp => [qp] -> ApiEff (Either ApiError StarResponses)
 getStars params = handleError <$> getAt params ["stars"]
 
 getStars' :: ApiEff (Either ApiError StarResponses)
-getStars'  = handleError <$> getAt ([] :: [(String, String)]) ["stars"]
+getStars'  = handleError <$> getAt ([] :: [(Text, Text)]) ["stars"]
 
 getStars_ByOrganizationId :: forall qp. QueryParam qp => [qp] -> Int64 -> ApiEff (Either ApiError StarResponses)
 getStars_ByOrganizationId params _ByOrganizationId = handleError <$> getAt (map qp params ++ map qp [ByOrganizationId _ByOrganizationId]) ["stars"]
@@ -612,22 +612,22 @@ postStar_ByLeuronId' :: Int64 -> StarRequest -> ApiEff (Either ApiError StarResp
 postStar_ByLeuronId' _ByLeuronId star_request = handleError <$> postAt [ByLeuronId _ByLeuronId] ["star"] star_request
 
 getStar :: forall qp. QueryParam qp => [qp] -> Int64 -> ApiEff (Either ApiError StarResponse)
-getStar params star_id = handleError <$> getAt params ["star", show star_id]
+getStar params star_id = handleError <$> getAt params ["star", T.pack $ show star_id]
 
 getStar' :: Int64 -> ApiEff (Either ApiError StarResponse)
-getStar' star_id = handleError <$> getAt ([] :: [(String, String)]) ["star", show star_id]
+getStar' star_id = handleError <$> getAt ([] :: [(Text, Text)]) ["star", T.pack $ show star_id]
 
 putStar :: forall qp. QueryParam qp => [qp] -> Int64 -> StarRequest -> ApiEff (Either ApiError StarResponse)
-putStar params star_id star_request = handleError <$> putAt params ["star", show star_id] star_request
+putStar params star_id star_request = handleError <$> putAt params ["star", T.pack $ show star_id] star_request
 
 putStar' :: Int64 -> StarRequest -> ApiEff (Either ApiError StarResponse)
-putStar' star_id star_request = handleError <$> putAt ([] :: [(String, String)]) ["star", show star_id] star_request
+putStar' star_id star_request = handleError <$> putAt ([] :: [(Text, Text)]) ["star", T.pack $ show star_id] star_request
 
 deleteStar :: forall qp. QueryParam qp => [qp] -> Int64 -> ApiEff (Either ApiError ())
-deleteStar params star_id = handleError <$> deleteAt params ["star", show star_id]
+deleteStar params star_id = handleError <$> deleteAt params ["star", T.pack $ show star_id]
 
 deleteStar' :: Int64 -> ApiEff (Either ApiError ())
-deleteStar' star_id = handleError <$> deleteAt ([] :: [(String, String)]) ["star", show star_id]
+deleteStar' star_id = handleError <$> deleteAt ([] :: [(Text, Text)]) ["star", T.pack $ show star_id]
 
 getStarStats_ByOrganizationId :: forall qp. QueryParam qp => [qp] -> Int64 -> ApiEff (Either ApiError StarStatResponses)
 getStarStats_ByOrganizationId params _ByOrganizationId = handleError <$> getAt (map qp params ++ map qp [ByOrganizationId _ByOrganizationId]) ["star_stats"]
@@ -678,70 +678,70 @@ getStarStats_ByLeuronId' :: Int64 -> ApiEff (Either ApiError StarStatResponses)
 getStarStats_ByLeuronId' _ByLeuronId = handleError <$> getAt [ByLeuronId _ByLeuronId] ["star_stats"]
 
 getStarStat :: forall qp. QueryParam qp => [qp] -> Int64 -> ApiEff (Either ApiError StarStatResponse)
-getStarStat params star_id = handleError <$> getAt params ["star_stat", show star_id]
+getStarStat params star_id = handleError <$> getAt params ["star_stat", T.pack $ show star_id]
 
 getStarStat' :: Int64 -> ApiEff (Either ApiError StarStatResponse)
-getStarStat' star_id = handleError <$> getAt ([] :: [(String, String)]) ["star_stat", show star_id]
+getStarStat' star_id = handleError <$> getAt ([] :: [(Text, Text)]) ["star_stat", T.pack $ show star_id]
 
 getMe :: forall qp. QueryParam qp => [qp] -> ApiEff (Either ApiError UserResponse)
 getMe params = handleError <$> getAt params ["me"]
 
 getMe' :: ApiEff (Either ApiError UserResponse)
-getMe'  = handleError <$> getAt ([] :: [(String, String)]) ["me"]
+getMe'  = handleError <$> getAt ([] :: [(Text, Text)]) ["me"]
 
 getMePack :: forall qp. QueryParam qp => [qp] -> ApiEff (Either ApiError UserPackResponse)
 getMePack params = handleError <$> getAt params ["me_pack"]
 
 getMePack' :: ApiEff (Either ApiError UserPackResponse)
-getMePack'  = handleError <$> getAt ([] :: [(String, String)]) ["me_pack"]
+getMePack'  = handleError <$> getAt ([] :: [(Text, Text)]) ["me_pack"]
 
 getOrganizations :: forall qp. QueryParam qp => [qp] -> ApiEff (Either ApiError OrganizationResponses)
 getOrganizations params = handleError <$> getAt params ["organizations"]
 
 getOrganizations' :: ApiEff (Either ApiError OrganizationResponses)
-getOrganizations'  = handleError <$> getAt ([] :: [(String, String)]) ["organizations"]
+getOrganizations'  = handleError <$> getAt ([] :: [(Text, Text)]) ["organizations"]
 
 postOrganization :: forall qp. QueryParam qp => [qp] -> OrganizationRequest -> ApiEff (Either ApiError OrganizationResponse)
 postOrganization params organization_request = handleError <$> postAt params ["organization"] organization_request
 
 postOrganization' :: OrganizationRequest -> ApiEff (Either ApiError OrganizationResponse)
-postOrganization' organization_request = handleError <$> postAt ([] :: [(String, String)]) ["organization"] organization_request
+postOrganization' organization_request = handleError <$> postAt ([] :: [(Text, Text)]) ["organization"] organization_request
 
 getOrganization :: forall qp. QueryParam qp => [qp] -> Int64 -> ApiEff (Either ApiError OrganizationResponse)
-getOrganization params organization_id = handleError <$> getAt params ["organization", show organization_id]
+getOrganization params organization_id = handleError <$> getAt params ["organization", T.pack $ show organization_id]
 
 getOrganization' :: Int64 -> ApiEff (Either ApiError OrganizationResponse)
-getOrganization' organization_id = handleError <$> getAt ([] :: [(String, String)]) ["organization", show organization_id]
+getOrganization' organization_id = handleError <$> getAt ([] :: [(Text, Text)]) ["organization", T.pack $ show organization_id]
 
 putOrganization :: forall qp. QueryParam qp => [qp] -> Int64 -> OrganizationRequest -> ApiEff (Either ApiError OrganizationResponse)
-putOrganization params organization_id organization_request = handleError <$> putAt params ["organization", show organization_id] organization_request
+putOrganization params organization_id organization_request = handleError <$> putAt params ["organization", T.pack $ show organization_id] organization_request
 
 putOrganization' :: Int64 -> OrganizationRequest -> ApiEff (Either ApiError OrganizationResponse)
-putOrganization' organization_id organization_request = handleError <$> putAt ([] :: [(String, String)]) ["organization", show organization_id] organization_request
+putOrganization' organization_id organization_request = handleError <$> putAt ([] :: [(Text, Text)]) ["organization", T.pack $ show organization_id] organization_request
 
 deleteOrganization :: forall qp. QueryParam qp => [qp] -> Int64 -> ApiEff (Either ApiError ())
-deleteOrganization params organization_id = handleError <$> deleteAt params ["organization", show organization_id]
+deleteOrganization params organization_id = handleError <$> deleteAt params ["organization", T.pack $ show organization_id]
 
 deleteOrganization' :: Int64 -> ApiEff (Either ApiError ())
-deleteOrganization' organization_id = handleError <$> deleteAt ([] :: [(String, String)]) ["organization", show organization_id]
+deleteOrganization' organization_id = handleError <$> deleteAt ([] :: [(Text, Text)]) ["organization", T.pack $ show organization_id]
 
 getOrganizationStats :: forall qp. QueryParam qp => [qp] -> ApiEff (Either ApiError OrganizationStatResponses)
 getOrganizationStats params = handleError <$> getAt params ["organization_stats"]
 
 getOrganizationStats' :: ApiEff (Either ApiError OrganizationStatResponses)
-getOrganizationStats'  = handleError <$> getAt ([] :: [(String, String)]) ["organization_stats"]
+getOrganizationStats'  = handleError <$> getAt ([] :: [(Text, Text)]) ["organization_stats"]
 
 getOrganizationStat :: forall qp. QueryParam qp => [qp] -> Int64 -> ApiEff (Either ApiError OrganizationStatResponse)
-getOrganizationStat params organization_id = handleError <$> getAt params ["organization_stat", show organization_id]
+getOrganizationStat params organization_id = handleError <$> getAt params ["organization_stat", T.pack $ show organization_id]
 
 getOrganizationStat' :: Int64 -> ApiEff (Either ApiError OrganizationStatResponse)
-getOrganizationStat' organization_id = handleError <$> getAt ([] :: [(String, String)]) ["organization_stat", show organization_id]
+getOrganizationStat' organization_id = handleError <$> getAt ([] :: [(Text, Text)]) ["organization_stat", T.pack $ show organization_id]
 
 getPms :: forall qp. QueryParam qp => [qp] -> ApiEff (Either ApiError PmResponses)
 getPms params = handleError <$> getAt params ["pms"]
 
 getPms' :: ApiEff (Either ApiError PmResponses)
-getPms'  = handleError <$> getAt ([] :: [(String, String)]) ["pms"]
+getPms'  = handleError <$> getAt ([] :: [(Text, Text)]) ["pms"]
 
 postPm_ByUsersIds :: forall qp. QueryParam qp => [qp] -> [Int64] -> PmRequest -> ApiEff (Either ApiError PmResponse)
 postPm_ByUsersIds params _ByUsersIds pm_request = handleError <$> postAt (map qp params ++ map qp [ByUsersIds _ByUsersIds]) ["pm"] pm_request
@@ -756,28 +756,28 @@ postPm_ByUserId' :: Int64 -> PmRequest -> ApiEff (Either ApiError PmResponse)
 postPm_ByUserId' _ByUserId pm_request = handleError <$> postAt [ByUserId _ByUserId] ["pm"] pm_request
 
 getPm :: forall qp. QueryParam qp => [qp] -> Int64 -> ApiEff (Either ApiError PmResponse)
-getPm params pm_id = handleError <$> getAt params ["pm", show pm_id]
+getPm params pm_id = handleError <$> getAt params ["pm", T.pack $ show pm_id]
 
 getPm' :: Int64 -> ApiEff (Either ApiError PmResponse)
-getPm' pm_id = handleError <$> getAt ([] :: [(String, String)]) ["pm", show pm_id]
+getPm' pm_id = handleError <$> getAt ([] :: [(Text, Text)]) ["pm", T.pack $ show pm_id]
 
 putPm :: forall qp. QueryParam qp => [qp] -> Int64 -> PmRequest -> ApiEff (Either ApiError PmResponse)
-putPm params pm_id pm_request = handleError <$> putAt params ["pm", show pm_id] pm_request
+putPm params pm_id pm_request = handleError <$> putAt params ["pm", T.pack $ show pm_id] pm_request
 
 putPm' :: Int64 -> PmRequest -> ApiEff (Either ApiError PmResponse)
-putPm' pm_id pm_request = handleError <$> putAt ([] :: [(String, String)]) ["pm", show pm_id] pm_request
+putPm' pm_id pm_request = handleError <$> putAt ([] :: [(Text, Text)]) ["pm", T.pack $ show pm_id] pm_request
 
 deletePm :: forall qp. QueryParam qp => [qp] -> Int64 -> ApiEff (Either ApiError ())
-deletePm params pm_id = handleError <$> deleteAt params ["pm", show pm_id]
+deletePm params pm_id = handleError <$> deleteAt params ["pm", T.pack $ show pm_id]
 
 deletePm' :: Int64 -> ApiEff (Either ApiError ())
-deletePm' pm_id = handleError <$> deleteAt ([] :: [(String, String)]) ["pm", show pm_id]
+deletePm' pm_id = handleError <$> deleteAt ([] :: [(Text, Text)]) ["pm", T.pack $ show pm_id]
 
 getPmIns :: forall qp. QueryParam qp => [qp] -> ApiEff (Either ApiError PmInResponses)
 getPmIns params = handleError <$> getAt params ["pm_ins"]
 
 getPmIns' :: ApiEff (Either ApiError PmInResponses)
-getPmIns'  = handleError <$> getAt ([] :: [(String, String)]) ["pm_ins"]
+getPmIns'  = handleError <$> getAt ([] :: [(Text, Text)]) ["pm_ins"]
 
 getPmIns_ByUserId :: forall qp. QueryParam qp => [qp] -> Int64 -> ApiEff (Either ApiError PmInResponses)
 getPmIns_ByUserId params _ByUserId = handleError <$> getAt (map qp params ++ map qp [ByUserId _ByUserId]) ["pm_ins"]
@@ -786,28 +786,28 @@ getPmIns_ByUserId' :: Int64 -> ApiEff (Either ApiError PmInResponses)
 getPmIns_ByUserId' _ByUserId = handleError <$> getAt [ByUserId _ByUserId] ["pm_ins"]
 
 getPmIn :: forall qp. QueryParam qp => [qp] -> Int64 -> ApiEff (Either ApiError PmInResponse)
-getPmIn params pm_in_id = handleError <$> getAt params ["pm_in", show pm_in_id]
+getPmIn params pm_in_id = handleError <$> getAt params ["pm_in", T.pack $ show pm_in_id]
 
 getPmIn' :: Int64 -> ApiEff (Either ApiError PmInResponse)
-getPmIn' pm_in_id = handleError <$> getAt ([] :: [(String, String)]) ["pm_in", show pm_in_id]
+getPmIn' pm_in_id = handleError <$> getAt ([] :: [(Text, Text)]) ["pm_in", T.pack $ show pm_in_id]
 
 putPmIn :: forall qp. QueryParam qp => [qp] -> Int64 -> PmInRequest -> ApiEff (Either ApiError PmInResponse)
-putPmIn params pm_in_id pm_in_request = handleError <$> putAt params ["pm_in", show pm_in_id] pm_in_request
+putPmIn params pm_in_id pm_in_request = handleError <$> putAt params ["pm_in", T.pack $ show pm_in_id] pm_in_request
 
 putPmIn' :: Int64 -> PmInRequest -> ApiEff (Either ApiError PmInResponse)
-putPmIn' pm_in_id pm_in_request = handleError <$> putAt ([] :: [(String, String)]) ["pm_in", show pm_in_id] pm_in_request
+putPmIn' pm_in_id pm_in_request = handleError <$> putAt ([] :: [(Text, Text)]) ["pm_in", T.pack $ show pm_in_id] pm_in_request
 
 deletePmIn :: forall qp. QueryParam qp => [qp] -> Int64 -> ApiEff (Either ApiError ())
-deletePmIn params pm_in_id = handleError <$> deleteAt params ["pm_in", show pm_in_id]
+deletePmIn params pm_in_id = handleError <$> deleteAt params ["pm_in", T.pack $ show pm_in_id]
 
 deletePmIn' :: Int64 -> ApiEff (Either ApiError ())
-deletePmIn' pm_in_id = handleError <$> deleteAt ([] :: [(String, String)]) ["pm_in", show pm_in_id]
+deletePmIn' pm_in_id = handleError <$> deleteAt ([] :: [(Text, Text)]) ["pm_in", T.pack $ show pm_in_id]
 
 getPmOuts :: forall qp. QueryParam qp => [qp] -> ApiEff (Either ApiError PmOutResponses)
 getPmOuts params = handleError <$> getAt params ["pm_outs"]
 
 getPmOuts' :: ApiEff (Either ApiError PmOutResponses)
-getPmOuts'  = handleError <$> getAt ([] :: [(String, String)]) ["pm_outs"]
+getPmOuts'  = handleError <$> getAt ([] :: [(Text, Text)]) ["pm_outs"]
 
 getPmOuts_ByUserId :: forall qp. QueryParam qp => [qp] -> Int64 -> ApiEff (Either ApiError PmOutResponses)
 getPmOuts_ByUserId params _ByUserId = handleError <$> getAt (map qp params ++ map qp [ByUserId _ByUserId]) ["pm_outs"]
@@ -816,52 +816,52 @@ getPmOuts_ByUserId' :: Int64 -> ApiEff (Either ApiError PmOutResponses)
 getPmOuts_ByUserId' _ByUserId = handleError <$> getAt [ByUserId _ByUserId] ["pm_outs"]
 
 getPmOut :: forall qp. QueryParam qp => [qp] -> Int64 -> ApiEff (Either ApiError PmOutResponse)
-getPmOut params pm_out_id = handleError <$> getAt params ["pm_out", show pm_out_id]
+getPmOut params pm_out_id = handleError <$> getAt params ["pm_out", T.pack $ show pm_out_id]
 
 getPmOut' :: Int64 -> ApiEff (Either ApiError PmOutResponse)
-getPmOut' pm_out_id = handleError <$> getAt ([] :: [(String, String)]) ["pm_out", show pm_out_id]
+getPmOut' pm_out_id = handleError <$> getAt ([] :: [(Text, Text)]) ["pm_out", T.pack $ show pm_out_id]
 
 putPmOut :: forall qp. QueryParam qp => [qp] -> Int64 -> PmOutRequest -> ApiEff (Either ApiError PmOutResponse)
-putPmOut params pm_out_id pm_out_request = handleError <$> putAt params ["pm_out", show pm_out_id] pm_out_request
+putPmOut params pm_out_id pm_out_request = handleError <$> putAt params ["pm_out", T.pack $ show pm_out_id] pm_out_request
 
 putPmOut' :: Int64 -> PmOutRequest -> ApiEff (Either ApiError PmOutResponse)
-putPmOut' pm_out_id pm_out_request = handleError <$> putAt ([] :: [(String, String)]) ["pm_out", show pm_out_id] pm_out_request
+putPmOut' pm_out_id pm_out_request = handleError <$> putAt ([] :: [(Text, Text)]) ["pm_out", T.pack $ show pm_out_id] pm_out_request
 
 deletePmOut :: forall qp. QueryParam qp => [qp] -> Int64 -> ApiEff (Either ApiError ())
-deletePmOut params pm_out_id = handleError <$> deleteAt params ["pm_out", show pm_out_id]
+deletePmOut params pm_out_id = handleError <$> deleteAt params ["pm_out", T.pack $ show pm_out_id]
 
 deletePmOut' :: Int64 -> ApiEff (Either ApiError ())
-deletePmOut' pm_out_id = handleError <$> deleteAt ([] :: [(String, String)]) ["pm_out", show pm_out_id]
+deletePmOut' pm_out_id = handleError <$> deleteAt ([] :: [(Text, Text)]) ["pm_out", T.pack $ show pm_out_id]
 
 getResources :: forall qp. QueryParam qp => [qp] -> ApiEff (Either ApiError ResourceResponses)
 getResources params = handleError <$> getAt params ["resources"]
 
 getResources' :: ApiEff (Either ApiError ResourceResponses)
-getResources'  = handleError <$> getAt ([] :: [(String, String)]) ["resources"]
+getResources'  = handleError <$> getAt ([] :: [(Text, Text)]) ["resources"]
 
 postResource :: forall qp. QueryParam qp => [qp] -> ResourceRequest -> ApiEff (Either ApiError ResourceResponse)
 postResource params resource_request = handleError <$> postAt params ["resource"] resource_request
 
 postResource' :: ResourceRequest -> ApiEff (Either ApiError ResourceResponse)
-postResource' resource_request = handleError <$> postAt ([] :: [(String, String)]) ["resource"] resource_request
+postResource' resource_request = handleError <$> postAt ([] :: [(Text, Text)]) ["resource"] resource_request
 
 getResource :: forall qp. QueryParam qp => [qp] -> Int64 -> ApiEff (Either ApiError ResourceResponse)
-getResource params resource_id = handleError <$> getAt params ["resource", show resource_id]
+getResource params resource_id = handleError <$> getAt params ["resource", T.pack $ show resource_id]
 
 getResource' :: Int64 -> ApiEff (Either ApiError ResourceResponse)
-getResource' resource_id = handleError <$> getAt ([] :: [(String, String)]) ["resource", show resource_id]
+getResource' resource_id = handleError <$> getAt ([] :: [(Text, Text)]) ["resource", T.pack $ show resource_id]
 
 putResource :: forall qp. QueryParam qp => [qp] -> Int64 -> ResourceRequest -> ApiEff (Either ApiError ResourceResponse)
-putResource params resource_id resource_request = handleError <$> putAt params ["resource", show resource_id] resource_request
+putResource params resource_id resource_request = handleError <$> putAt params ["resource", T.pack $ show resource_id] resource_request
 
 putResource' :: Int64 -> ResourceRequest -> ApiEff (Either ApiError ResourceResponse)
-putResource' resource_id resource_request = handleError <$> putAt ([] :: [(String, String)]) ["resource", show resource_id] resource_request
+putResource' resource_id resource_request = handleError <$> putAt ([] :: [(Text, Text)]) ["resource", T.pack $ show resource_id] resource_request
 
 deleteResource :: forall qp. QueryParam qp => [qp] -> Int64 -> ApiEff (Either ApiError ())
-deleteResource params resource_id = handleError <$> deleteAt params ["resource", show resource_id]
+deleteResource params resource_id = handleError <$> deleteAt params ["resource", T.pack $ show resource_id]
 
 deleteResource' :: Int64 -> ApiEff (Either ApiError ())
-deleteResource' resource_id = handleError <$> deleteAt ([] :: [(String, String)]) ["resource", show resource_id]
+deleteResource' resource_id = handleError <$> deleteAt ([] :: [(Text, Text)]) ["resource", T.pack $ show resource_id]
 
 getResourceStats_ByResourcesIds :: forall qp. QueryParam qp => [qp] -> [Int64] -> ApiEff (Either ApiError ResourceStatResponses)
 getResourceStats_ByResourcesIds params _ByResourcesIds = handleError <$> getAt (map qp params ++ map qp [ByResourcesIds _ByResourcesIds]) ["resource_stats"]
@@ -870,16 +870,16 @@ getResourceStats_ByResourcesIds' :: [Int64] -> ApiEff (Either ApiError ResourceS
 getResourceStats_ByResourcesIds' _ByResourcesIds = handleError <$> getAt [ByResourcesIds _ByResourcesIds] ["resource_stats"]
 
 getResourceStat :: forall qp. QueryParam qp => [qp] -> Int64 -> ApiEff (Either ApiError ResourceStatResponse)
-getResourceStat params resource_id = handleError <$> getAt params ["resource_stat", show resource_id]
+getResourceStat params resource_id = handleError <$> getAt params ["resource_stat", T.pack $ show resource_id]
 
 getResourceStat' :: Int64 -> ApiEff (Either ApiError ResourceStatResponse)
-getResourceStat' resource_id = handleError <$> getAt ([] :: [(String, String)]) ["resource_stat", show resource_id]
+getResourceStat' resource_id = handleError <$> getAt ([] :: [(Text, Text)]) ["resource_stat", T.pack $ show resource_id]
 
 getTeams :: forall qp. QueryParam qp => [qp] -> ApiEff (Either ApiError TeamResponses)
 getTeams params = handleError <$> getAt params ["teams"]
 
 getTeams' :: ApiEff (Either ApiError TeamResponses)
-getTeams'  = handleError <$> getAt ([] :: [(String, String)]) ["teams"]
+getTeams'  = handleError <$> getAt ([] :: [(Text, Text)]) ["teams"]
 
 getTeams_ByOrganizationId :: forall qp. QueryParam qp => [qp] -> Int64 -> ApiEff (Either ApiError TeamResponses)
 getTeams_ByOrganizationId params _ByOrganizationId = handleError <$> getAt (map qp params ++ map qp [ByOrganizationId _ByOrganizationId]) ["teams"]
@@ -894,28 +894,28 @@ postTeam_ByOrganizationId' :: Int64 -> TeamRequest -> ApiEff (Either ApiError Te
 postTeam_ByOrganizationId' _ByOrganizationId team_request = handleError <$> postAt [ByOrganizationId _ByOrganizationId] ["team"] team_request
 
 getTeam :: forall qp. QueryParam qp => [qp] -> Int64 -> ApiEff (Either ApiError TeamResponse)
-getTeam params team_id = handleError <$> getAt params ["team", show team_id]
+getTeam params team_id = handleError <$> getAt params ["team", T.pack $ show team_id]
 
 getTeam' :: Int64 -> ApiEff (Either ApiError TeamResponse)
-getTeam' team_id = handleError <$> getAt ([] :: [(String, String)]) ["team", show team_id]
+getTeam' team_id = handleError <$> getAt ([] :: [(Text, Text)]) ["team", T.pack $ show team_id]
 
 putTeam :: forall qp. QueryParam qp => [qp] -> Int64 -> TeamRequest -> ApiEff (Either ApiError TeamResponse)
-putTeam params team_id team_request = handleError <$> putAt params ["team", show team_id] team_request
+putTeam params team_id team_request = handleError <$> putAt params ["team", T.pack $ show team_id] team_request
 
 putTeam' :: Int64 -> TeamRequest -> ApiEff (Either ApiError TeamResponse)
-putTeam' team_id team_request = handleError <$> putAt ([] :: [(String, String)]) ["team", show team_id] team_request
+putTeam' team_id team_request = handleError <$> putAt ([] :: [(Text, Text)]) ["team", T.pack $ show team_id] team_request
 
 deleteTeam :: forall qp. QueryParam qp => [qp] -> Int64 -> ApiEff (Either ApiError ())
-deleteTeam params team_id = handleError <$> deleteAt params ["team", show team_id]
+deleteTeam params team_id = handleError <$> deleteAt params ["team", T.pack $ show team_id]
 
 deleteTeam' :: Int64 -> ApiEff (Either ApiError ())
-deleteTeam' team_id = handleError <$> deleteAt ([] :: [(String, String)]) ["team", show team_id]
+deleteTeam' team_id = handleError <$> deleteAt ([] :: [(Text, Text)]) ["team", T.pack $ show team_id]
 
 getTeamMembers :: forall qp. QueryParam qp => [qp] -> ApiEff (Either ApiError TeamMemberResponses)
 getTeamMembers params = handleError <$> getAt params ["team_members"]
 
 getTeamMembers' :: ApiEff (Either ApiError TeamMemberResponses)
-getTeamMembers'  = handleError <$> getAt ([] :: [(String, String)]) ["team_members"]
+getTeamMembers'  = handleError <$> getAt ([] :: [(Text, Text)]) ["team_members"]
 
 getTeamMembers_ByOrganizationId :: forall qp. QueryParam qp => [qp] -> Int64 -> ApiEff (Either ApiError TeamMemberResponses)
 getTeamMembers_ByOrganizationId params _ByOrganizationId = handleError <$> getAt (map qp params ++ map qp [ByOrganizationId _ByOrganizationId]) ["team_members"]
@@ -942,28 +942,28 @@ postTeamMember_ByOrganizationId' :: Int64 -> TeamMemberRequest -> ApiEff (Either
 postTeamMember_ByOrganizationId' _ByOrganizationId team_member_request = handleError <$> postAt [ByOrganizationId _ByOrganizationId] ["team_member"] team_member_request
 
 getTeamMember :: forall qp. QueryParam qp => [qp] -> Int64 -> ApiEff (Either ApiError TeamMemberResponse)
-getTeamMember params team_member_id = handleError <$> getAt params ["team_member", show team_member_id]
+getTeamMember params team_member_id = handleError <$> getAt params ["team_member", T.pack $ show team_member_id]
 
 getTeamMember' :: Int64 -> ApiEff (Either ApiError TeamMemberResponse)
-getTeamMember' team_member_id = handleError <$> getAt ([] :: [(String, String)]) ["team_member", show team_member_id]
+getTeamMember' team_member_id = handleError <$> getAt ([] :: [(Text, Text)]) ["team_member", T.pack $ show team_member_id]
 
 putTeamMember :: forall qp. QueryParam qp => [qp] -> Int64 -> TeamMemberRequest -> ApiEff (Either ApiError TeamMemberResponse)
-putTeamMember params team_member_id team_member_request = handleError <$> putAt params ["team_member", show team_member_id] team_member_request
+putTeamMember params team_member_id team_member_request = handleError <$> putAt params ["team_member", T.pack $ show team_member_id] team_member_request
 
 putTeamMember' :: Int64 -> TeamMemberRequest -> ApiEff (Either ApiError TeamMemberResponse)
-putTeamMember' team_member_id team_member_request = handleError <$> putAt ([] :: [(String, String)]) ["team_member", show team_member_id] team_member_request
+putTeamMember' team_member_id team_member_request = handleError <$> putAt ([] :: [(Text, Text)]) ["team_member", T.pack $ show team_member_id] team_member_request
 
 deleteTeamMember :: forall qp. QueryParam qp => [qp] -> Int64 -> ApiEff (Either ApiError ())
-deleteTeamMember params team_member_id = handleError <$> deleteAt params ["team_member", show team_member_id]
+deleteTeamMember params team_member_id = handleError <$> deleteAt params ["team_member", T.pack $ show team_member_id]
 
 deleteTeamMember' :: Int64 -> ApiEff (Either ApiError ())
-deleteTeamMember' team_member_id = handleError <$> deleteAt ([] :: [(String, String)]) ["team_member", show team_member_id]
+deleteTeamMember' team_member_id = handleError <$> deleteAt ([] :: [(Text, Text)]) ["team_member", T.pack $ show team_member_id]
 
 getThreads :: forall qp. QueryParam qp => [qp] -> ApiEff (Either ApiError ThreadResponses)
 getThreads params = handleError <$> getAt params ["threads"]
 
 getThreads' :: ApiEff (Either ApiError ThreadResponses)
-getThreads'  = handleError <$> getAt ([] :: [(String, String)]) ["threads"]
+getThreads'  = handleError <$> getAt ([] :: [(Text, Text)]) ["threads"]
 
 postThread_ByBoardId :: forall qp. QueryParam qp => [qp] -> Int64 -> ThreadRequest -> ApiEff (Either ApiError ThreadResponse)
 postThread_ByBoardId params _ByBoardId thread_request = handleError <$> postAt (map qp params ++ map qp [ByBoardId _ByBoardId]) ["thread"] thread_request
@@ -972,40 +972,40 @@ postThread_ByBoardId' :: Int64 -> ThreadRequest -> ApiEff (Either ApiError Threa
 postThread_ByBoardId' _ByBoardId thread_request = handleError <$> postAt [ByBoardId _ByBoardId] ["thread"] thread_request
 
 getThread :: forall qp. QueryParam qp => [qp] -> Int64 -> ApiEff (Either ApiError ThreadResponse)
-getThread params thread_id = handleError <$> getAt params ["thread", show thread_id]
+getThread params thread_id = handleError <$> getAt params ["thread", T.pack $ show thread_id]
 
 getThread' :: Int64 -> ApiEff (Either ApiError ThreadResponse)
-getThread' thread_id = handleError <$> getAt ([] :: [(String, String)]) ["thread", show thread_id]
+getThread' thread_id = handleError <$> getAt ([] :: [(Text, Text)]) ["thread", T.pack $ show thread_id]
 
 putThread :: forall qp. QueryParam qp => [qp] -> Int64 -> ThreadRequest -> ApiEff (Either ApiError ThreadResponse)
-putThread params thread_id thread_request = handleError <$> putAt params ["thread", show thread_id] thread_request
+putThread params thread_id thread_request = handleError <$> putAt params ["thread", T.pack $ show thread_id] thread_request
 
 putThread' :: Int64 -> ThreadRequest -> ApiEff (Either ApiError ThreadResponse)
-putThread' thread_id thread_request = handleError <$> putAt ([] :: [(String, String)]) ["thread", show thread_id] thread_request
+putThread' thread_id thread_request = handleError <$> putAt ([] :: [(Text, Text)]) ["thread", T.pack $ show thread_id] thread_request
 
 deleteThread :: forall qp. QueryParam qp => [qp] -> Int64 -> ApiEff (Either ApiError ())
-deleteThread params thread_id = handleError <$> deleteAt params ["thread", show thread_id]
+deleteThread params thread_id = handleError <$> deleteAt params ["thread", T.pack $ show thread_id]
 
 deleteThread' :: Int64 -> ApiEff (Either ApiError ())
-deleteThread' thread_id = handleError <$> deleteAt ([] :: [(String, String)]) ["thread", show thread_id]
+deleteThread' thread_id = handleError <$> deleteAt ([] :: [(Text, Text)]) ["thread", T.pack $ show thread_id]
 
 getThreadStats :: forall qp. QueryParam qp => [qp] -> ApiEff (Either ApiError ThreadStatResponses)
 getThreadStats params = handleError <$> getAt params ["thread_stats"]
 
 getThreadStats' :: ApiEff (Either ApiError ThreadStatResponses)
-getThreadStats'  = handleError <$> getAt ([] :: [(String, String)]) ["thread_stats"]
+getThreadStats'  = handleError <$> getAt ([] :: [(Text, Text)]) ["thread_stats"]
 
 getThreadStat :: forall qp. QueryParam qp => [qp] -> Int64 -> ApiEff (Either ApiError ThreadStatResponse)
-getThreadStat params thread_id = handleError <$> getAt params ["thread_stat", show thread_id]
+getThreadStat params thread_id = handleError <$> getAt params ["thread_stat", T.pack $ show thread_id]
 
 getThreadStat' :: Int64 -> ApiEff (Either ApiError ThreadStatResponse)
-getThreadStat' thread_id = handleError <$> getAt ([] :: [(String, String)]) ["thread_stat", show thread_id]
+getThreadStat' thread_id = handleError <$> getAt ([] :: [(Text, Text)]) ["thread_stat", T.pack $ show thread_id]
 
 getThreadPosts :: forall qp. QueryParam qp => [qp] -> ApiEff (Either ApiError ThreadPostResponses)
 getThreadPosts params = handleError <$> getAt params ["thread_posts"]
 
 getThreadPosts' :: ApiEff (Either ApiError ThreadPostResponses)
-getThreadPosts'  = handleError <$> getAt ([] :: [(String, String)]) ["thread_posts"]
+getThreadPosts'  = handleError <$> getAt ([] :: [(Text, Text)]) ["thread_posts"]
 
 getThreadPosts_ByThreadId :: forall qp. QueryParam qp => [qp] -> Int64 -> ApiEff (Either ApiError ThreadPostResponses)
 getThreadPosts_ByThreadId params _ByThreadId = handleError <$> getAt (map qp params ++ map qp [ByThreadId _ByThreadId]) ["thread_posts"]
@@ -1020,22 +1020,22 @@ postThreadPost_ByThreadId' :: Int64 -> ThreadPostRequest -> ApiEff (Either ApiEr
 postThreadPost_ByThreadId' _ByThreadId thread_post_request = handleError <$> postAt [ByThreadId _ByThreadId] ["thread_post"] thread_post_request
 
 getThreadPost :: forall qp. QueryParam qp => [qp] -> Int64 -> ApiEff (Either ApiError ThreadPostResponse)
-getThreadPost params thread_post_id = handleError <$> getAt params ["thread_post", show thread_post_id]
+getThreadPost params thread_post_id = handleError <$> getAt params ["thread_post", T.pack $ show thread_post_id]
 
 getThreadPost' :: Int64 -> ApiEff (Either ApiError ThreadPostResponse)
-getThreadPost' thread_post_id = handleError <$> getAt ([] :: [(String, String)]) ["thread_post", show thread_post_id]
+getThreadPost' thread_post_id = handleError <$> getAt ([] :: [(Text, Text)]) ["thread_post", T.pack $ show thread_post_id]
 
 putThreadPost :: forall qp. QueryParam qp => [qp] -> Int64 -> ThreadPostRequest -> ApiEff (Either ApiError ThreadPostResponse)
-putThreadPost params thread_post_id thread_post_request = handleError <$> putAt params ["thread_post", show thread_post_id] thread_post_request
+putThreadPost params thread_post_id thread_post_request = handleError <$> putAt params ["thread_post", T.pack $ show thread_post_id] thread_post_request
 
 putThreadPost' :: Int64 -> ThreadPostRequest -> ApiEff (Either ApiError ThreadPostResponse)
-putThreadPost' thread_post_id thread_post_request = handleError <$> putAt ([] :: [(String, String)]) ["thread_post", show thread_post_id] thread_post_request
+putThreadPost' thread_post_id thread_post_request = handleError <$> putAt ([] :: [(Text, Text)]) ["thread_post", T.pack $ show thread_post_id] thread_post_request
 
 deleteThreadPost :: forall qp. QueryParam qp => [qp] -> Int64 -> ApiEff (Either ApiError ())
-deleteThreadPost params thread_post_id = handleError <$> deleteAt params ["thread_post", show thread_post_id]
+deleteThreadPost params thread_post_id = handleError <$> deleteAt params ["thread_post", T.pack $ show thread_post_id]
 
 deleteThreadPost' :: Int64 -> ApiEff (Either ApiError ())
-deleteThreadPost' thread_post_id = handleError <$> deleteAt ([] :: [(String, String)]) ["thread_post", show thread_post_id]
+deleteThreadPost' thread_post_id = handleError <$> deleteAt ([] :: [(Text, Text)]) ["thread_post", T.pack $ show thread_post_id]
 
 getThreadPostStats_ByThreadPostsIds :: forall qp. QueryParam qp => [qp] -> [Int64] -> ApiEff (Either ApiError ThreadPostStatResponses)
 getThreadPostStats_ByThreadPostsIds params _ByThreadPostsIds = handleError <$> getAt (map qp params ++ map qp [ByThreadPostsIds _ByThreadPostsIds]) ["thread_post_stats"]
@@ -1044,16 +1044,16 @@ getThreadPostStats_ByThreadPostsIds' :: [Int64] -> ApiEff (Either ApiError Threa
 getThreadPostStats_ByThreadPostsIds' _ByThreadPostsIds = handleError <$> getAt [ByThreadPostsIds _ByThreadPostsIds] ["thread_post_stats"]
 
 getThreadPostStat :: forall qp. QueryParam qp => [qp] -> Int64 -> ApiEff (Either ApiError ThreadPostStatResponse)
-getThreadPostStat params thread_post_id = handleError <$> getAt params ["thread_post_stat", show thread_post_id]
+getThreadPostStat params thread_post_id = handleError <$> getAt params ["thread_post_stat", T.pack $ show thread_post_id]
 
 getThreadPostStat' :: Int64 -> ApiEff (Either ApiError ThreadPostStatResponse)
-getThreadPostStat' thread_post_id = handleError <$> getAt ([] :: [(String, String)]) ["thread_post_stat", show thread_post_id]
+getThreadPostStat' thread_post_id = handleError <$> getAt ([] :: [(Text, Text)]) ["thread_post_stat", T.pack $ show thread_post_id]
 
 getUsers :: forall qp. QueryParam qp => [qp] -> ApiEff (Either ApiError UserResponses)
 getUsers params = handleError <$> getAt params ["users"]
 
 getUsers' :: ApiEff (Either ApiError UserResponses)
-getUsers'  = handleError <$> getAt ([] :: [(String, String)]) ["users"]
+getUsers'  = handleError <$> getAt ([] :: [(Text, Text)]) ["users"]
 
 getUsers_ByUsersIds :: forall qp. QueryParam qp => [qp] -> [Int64] -> ApiEff (Either ApiError UserResponses)
 getUsers_ByUsersIds params _ByUsersIds = handleError <$> getAt (map qp params ++ map qp [ByUsersIds _ByUsersIds]) ["users"]
@@ -1061,41 +1061,41 @@ getUsers_ByUsersIds params _ByUsersIds = handleError <$> getAt (map qp params ++
 getUsers_ByUsersIds' :: [Int64] -> ApiEff (Either ApiError UserResponses)
 getUsers_ByUsersIds' _ByUsersIds = handleError <$> getAt [ByUsersIds _ByUsersIds] ["users"]
 
-getUsers_ByUsersNicks :: forall qp. QueryParam qp => [qp] -> [String] -> ApiEff (Either ApiError UserResponses)
+getUsers_ByUsersNicks :: forall qp. QueryParam qp => [qp] -> [Text] -> ApiEff (Either ApiError UserResponses)
 getUsers_ByUsersNicks params _ByUsersNicks = handleError <$> getAt (map qp params ++ map qp [ByUsersNicks _ByUsersNicks]) ["users"]
 
-getUsers_ByUsersNicks' :: [String] -> ApiEff (Either ApiError UserResponses)
+getUsers_ByUsersNicks' :: [Text] -> ApiEff (Either ApiError UserResponses)
 getUsers_ByUsersNicks' _ByUsersNicks = handleError <$> getAt [ByUsersNicks _ByUsersNicks] ["users"]
 
 postUser :: forall qp. QueryParam qp => [qp] -> UserRequest -> ApiEff (Either ApiError UserResponse)
 postUser params user_request = handleError <$> postAt params ["user"] user_request
 
 postUser' :: UserRequest -> ApiEff (Either ApiError UserResponse)
-postUser' user_request = handleError <$> postAt ([] :: [(String, String)]) ["user"] user_request
+postUser' user_request = handleError <$> postAt ([] :: [(Text, Text)]) ["user"] user_request
 
 getUser :: forall qp. QueryParam qp => [qp] -> Int64 -> ApiEff (Either ApiError UserResponse)
-getUser params user_id = handleError <$> getAt params ["user", show user_id]
+getUser params user_id = handleError <$> getAt params ["user", T.pack $ show user_id]
 
 getUser' :: Int64 -> ApiEff (Either ApiError UserResponse)
-getUser' user_id = handleError <$> getAt ([] :: [(String, String)]) ["user", show user_id]
+getUser' user_id = handleError <$> getAt ([] :: [(Text, Text)]) ["user", T.pack $ show user_id]
 
 putUser :: forall qp. QueryParam qp => [qp] -> Int64 -> UserRequest -> ApiEff (Either ApiError UserResponse)
-putUser params user_id user_request = handleError <$> putAt params ["user", show user_id] user_request
+putUser params user_id user_request = handleError <$> putAt params ["user", T.pack $ show user_id] user_request
 
 putUser' :: Int64 -> UserRequest -> ApiEff (Either ApiError UserResponse)
-putUser' user_id user_request = handleError <$> putAt ([] :: [(String, String)]) ["user", show user_id] user_request
+putUser' user_id user_request = handleError <$> putAt ([] :: [(Text, Text)]) ["user", T.pack $ show user_id] user_request
 
 deleteUser :: forall qp. QueryParam qp => [qp] -> Int64 -> ApiEff (Either ApiError ())
-deleteUser params user_id = handleError <$> deleteAt params ["user", show user_id]
+deleteUser params user_id = handleError <$> deleteAt params ["user", T.pack $ show user_id]
 
 deleteUser' :: Int64 -> ApiEff (Either ApiError ())
-deleteUser' user_id = handleError <$> deleteAt ([] :: [(String, String)]) ["user", show user_id]
+deleteUser' user_id = handleError <$> deleteAt ([] :: [(Text, Text)]) ["user", T.pack $ show user_id]
 
 getUserProfiles :: forall qp. QueryParam qp => [qp] -> ApiEff (Either ApiError ProfileResponses)
 getUserProfiles params = handleError <$> getAt params ["user_profiles"]
 
 getUserProfiles' :: ApiEff (Either ApiError ProfileResponses)
-getUserProfiles'  = handleError <$> getAt ([] :: [(String, String)]) ["user_profiles"]
+getUserProfiles'  = handleError <$> getAt ([] :: [(Text, Text)]) ["user_profiles"]
 
 getUserProfiles_ByUsersIds :: forall qp. QueryParam qp => [qp] -> [Int64] -> ApiEff (Either ApiError ProfileResponses)
 getUserProfiles_ByUsersIds params _ByUsersIds = handleError <$> getAt (map qp params ++ map qp [ByUsersIds _ByUsersIds]) ["user_profiles"]
@@ -1104,28 +1104,28 @@ getUserProfiles_ByUsersIds' :: [Int64] -> ApiEff (Either ApiError ProfileRespons
 getUserProfiles_ByUsersIds' _ByUsersIds = handleError <$> getAt [ByUsersIds _ByUsersIds] ["user_profiles"]
 
 getUserProfile :: forall qp. QueryParam qp => [qp] -> Int64 -> ApiEff (Either ApiError ProfileResponse)
-getUserProfile params profile_id = handleError <$> getAt params ["user_profile", show profile_id]
+getUserProfile params profile_id = handleError <$> getAt params ["user_profile", T.pack $ show profile_id]
 
 getUserProfile' :: Int64 -> ApiEff (Either ApiError ProfileResponse)
-getUserProfile' profile_id = handleError <$> getAt ([] :: [(String, String)]) ["user_profile", show profile_id]
+getUserProfile' profile_id = handleError <$> getAt ([] :: [(Text, Text)]) ["user_profile", T.pack $ show profile_id]
 
 putUserProfile :: forall qp. QueryParam qp => [qp] -> Int64 -> ProfileRequest -> ApiEff (Either ApiError ProfileResponse)
-putUserProfile params profile_id profile_request = handleError <$> putAt params ["user_profile", show profile_id] profile_request
+putUserProfile params profile_id profile_request = handleError <$> putAt params ["user_profile", T.pack $ show profile_id] profile_request
 
 putUserProfile' :: Int64 -> ProfileRequest -> ApiEff (Either ApiError ProfileResponse)
-putUserProfile' profile_id profile_request = handleError <$> putAt ([] :: [(String, String)]) ["user_profile", show profile_id] profile_request
+putUserProfile' profile_id profile_request = handleError <$> putAt ([] :: [(Text, Text)]) ["user_profile", T.pack $ show profile_id] profile_request
 
 deleteUserProfile :: forall qp. QueryParam qp => [qp] -> Int64 -> ApiEff (Either ApiError ())
-deleteUserProfile params profile_id = handleError <$> deleteAt params ["user_profile", show profile_id]
+deleteUserProfile params profile_id = handleError <$> deleteAt params ["user_profile", T.pack $ show profile_id]
 
 deleteUserProfile' :: Int64 -> ApiEff (Either ApiError ())
-deleteUserProfile' profile_id = handleError <$> deleteAt ([] :: [(String, String)]) ["user_profile", show profile_id]
+deleteUserProfile' profile_id = handleError <$> deleteAt ([] :: [(Text, Text)]) ["user_profile", T.pack $ show profile_id]
 
 getUsersSanitized :: forall qp. QueryParam qp => [qp] -> ApiEff (Either ApiError UserSanitizedResponses)
 getUsersSanitized params = handleError <$> getAt params ["users_sanitized"]
 
 getUsersSanitized' :: ApiEff (Either ApiError UserSanitizedResponses)
-getUsersSanitized'  = handleError <$> getAt ([] :: [(String, String)]) ["users_sanitized"]
+getUsersSanitized'  = handleError <$> getAt ([] :: [(Text, Text)]) ["users_sanitized"]
 
 getUsersSanitized_ByUsersIds :: forall qp. QueryParam qp => [qp] -> [Int64] -> ApiEff (Either ApiError UserSanitizedResponses)
 getUsersSanitized_ByUsersIds params _ByUsersIds = handleError <$> getAt (map qp params ++ map qp [ByUsersIds _ByUsersIds]) ["users_sanitized"]
@@ -1133,23 +1133,23 @@ getUsersSanitized_ByUsersIds params _ByUsersIds = handleError <$> getAt (map qp 
 getUsersSanitized_ByUsersIds' :: [Int64] -> ApiEff (Either ApiError UserSanitizedResponses)
 getUsersSanitized_ByUsersIds' _ByUsersIds = handleError <$> getAt [ByUsersIds _ByUsersIds] ["users_sanitized"]
 
-getUsersSanitized_ByUsersNicks :: forall qp. QueryParam qp => [qp] -> [String] -> ApiEff (Either ApiError UserSanitizedResponses)
+getUsersSanitized_ByUsersNicks :: forall qp. QueryParam qp => [qp] -> [Text] -> ApiEff (Either ApiError UserSanitizedResponses)
 getUsersSanitized_ByUsersNicks params _ByUsersNicks = handleError <$> getAt (map qp params ++ map qp [ByUsersNicks _ByUsersNicks]) ["users_sanitized"]
 
-getUsersSanitized_ByUsersNicks' :: [String] -> ApiEff (Either ApiError UserSanitizedResponses)
+getUsersSanitized_ByUsersNicks' :: [Text] -> ApiEff (Either ApiError UserSanitizedResponses)
 getUsersSanitized_ByUsersNicks' _ByUsersNicks = handleError <$> getAt [ByUsersNicks _ByUsersNicks] ["users_sanitized"]
 
 getUserSanitized :: forall qp. QueryParam qp => [qp] -> Int64 -> ApiEff (Either ApiError UserSanitizedResponse)
-getUserSanitized params user_id = handleError <$> getAt params ["user_sanitized", show user_id]
+getUserSanitized params user_id = handleError <$> getAt params ["user_sanitized", T.pack $ show user_id]
 
 getUserSanitized' :: Int64 -> ApiEff (Either ApiError UserSanitizedResponse)
-getUserSanitized' user_id = handleError <$> getAt ([] :: [(String, String)]) ["user_sanitized", show user_id]
+getUserSanitized' user_id = handleError <$> getAt ([] :: [(Text, Text)]) ["user_sanitized", T.pack $ show user_id]
 
 getUserSanitizedStats :: forall qp. QueryParam qp => [qp] -> ApiEff (Either ApiError UserSanitizedStatResponse)
 getUserSanitizedStats params = handleError <$> getAt params ["user_sanitized_stats"]
 
 getUserSanitizedStats' :: ApiEff (Either ApiError UserSanitizedStatResponse)
-getUserSanitizedStats'  = handleError <$> getAt ([] :: [(String, String)]) ["user_sanitized_stats"]
+getUserSanitizedStats'  = handleError <$> getAt ([] :: [(Text, Text)]) ["user_sanitized_stats"]
 
 getUserSanitizedStats_ByUsersIds :: forall qp. QueryParam qp => [qp] -> [Int64] -> ApiEff (Either ApiError UserSanitizedStatResponse)
 getUserSanitizedStats_ByUsersIds params _ByUsersIds = handleError <$> getAt (map qp params ++ map qp [ByUsersIds _ByUsersIds]) ["user_sanitized_stats"]
@@ -1158,16 +1158,16 @@ getUserSanitizedStats_ByUsersIds' :: [Int64] -> ApiEff (Either ApiError UserSani
 getUserSanitizedStats_ByUsersIds' _ByUsersIds = handleError <$> getAt [ByUsersIds _ByUsersIds] ["user_sanitized_stats"]
 
 getUserSanitizedStat :: forall qp. QueryParam qp => [qp] -> Int64 -> ApiEff (Either ApiError UserSanitizedStatResponse)
-getUserSanitizedStat params user_id = handleError <$> getAt params ["user_sanitized_stat", show user_id]
+getUserSanitizedStat params user_id = handleError <$> getAt params ["user_sanitized_stat", T.pack $ show user_id]
 
 getUserSanitizedStat' :: Int64 -> ApiEff (Either ApiError UserSanitizedStatResponse)
-getUserSanitizedStat' user_id = handleError <$> getAt ([] :: [(String, String)]) ["user_sanitized_stat", show user_id]
+getUserSanitizedStat' user_id = handleError <$> getAt ([] :: [(Text, Text)]) ["user_sanitized_stat", T.pack $ show user_id]
 
 getOrganizationPacks :: forall qp. QueryParam qp => [qp] -> ApiEff (Either ApiError OrganizationPackResponses)
 getOrganizationPacks params = handleError <$> getAt params ["organization_packs"]
 
 getOrganizationPacks' :: ApiEff (Either ApiError OrganizationPackResponses)
-getOrganizationPacks'  = handleError <$> getAt ([] :: [(String, String)]) ["organization_packs"]
+getOrganizationPacks'  = handleError <$> getAt ([] :: [(Text, Text)]) ["organization_packs"]
 
 getOrganizationPacks_ByOrganizationsIds :: forall qp. QueryParam qp => [qp] -> [Int64] -> ApiEff (Either ApiError OrganizationPackResponses)
 getOrganizationPacks_ByOrganizationsIds params _ByOrganizationsIds = handleError <$> getAt (map qp params ++ map qp [ByOrganizationsIds _ByOrganizationsIds]) ["organization_packs"]
@@ -1176,16 +1176,16 @@ getOrganizationPacks_ByOrganizationsIds' :: [Int64] -> ApiEff (Either ApiError O
 getOrganizationPacks_ByOrganizationsIds' _ByOrganizationsIds = handleError <$> getAt [ByOrganizationsIds _ByOrganizationsIds] ["organization_packs"]
 
 getOrganizationPack :: forall qp. QueryParam qp => [qp] -> Int64 -> ApiEff (Either ApiError OrganizationPackResponse)
-getOrganizationPack params organization_id = handleError <$> getAt params ["organization_pack", show organization_id]
+getOrganizationPack params organization_id = handleError <$> getAt params ["organization_pack", T.pack $ show organization_id]
 
 getOrganizationPack' :: Int64 -> ApiEff (Either ApiError OrganizationPackResponse)
-getOrganizationPack' organization_id = handleError <$> getAt ([] :: [(String, String)]) ["organization_pack", show organization_id]
+getOrganizationPack' organization_id = handleError <$> getAt ([] :: [(Text, Text)]) ["organization_pack", T.pack $ show organization_id]
 
 getTeamPacks :: forall qp. QueryParam qp => [qp] -> ApiEff (Either ApiError TeamPackResponses)
 getTeamPacks params = handleError <$> getAt params ["team_packs"]
 
 getTeamPacks' :: ApiEff (Either ApiError TeamPackResponses)
-getTeamPacks'  = handleError <$> getAt ([] :: [(String, String)]) ["team_packs"]
+getTeamPacks'  = handleError <$> getAt ([] :: [(Text, Text)]) ["team_packs"]
 
 getTeamPacks_ByOrganizationId :: forall qp. QueryParam qp => [qp] -> Int64 -> ApiEff (Either ApiError TeamPackResponses)
 getTeamPacks_ByOrganizationId params _ByOrganizationId = handleError <$> getAt (map qp params ++ map qp [ByOrganizationId _ByOrganizationId]) ["team_packs"]
@@ -1194,16 +1194,16 @@ getTeamPacks_ByOrganizationId' :: Int64 -> ApiEff (Either ApiError TeamPackRespo
 getTeamPacks_ByOrganizationId' _ByOrganizationId = handleError <$> getAt [ByOrganizationId _ByOrganizationId] ["team_packs"]
 
 getTeamPack :: forall qp. QueryParam qp => [qp] -> Int64 -> ApiEff (Either ApiError TeamPackResponse)
-getTeamPack params team_id = handleError <$> getAt params ["team_pack", show team_id]
+getTeamPack params team_id = handleError <$> getAt params ["team_pack", T.pack $ show team_id]
 
 getTeamPack' :: Int64 -> ApiEff (Either ApiError TeamPackResponse)
-getTeamPack' team_id = handleError <$> getAt ([] :: [(String, String)]) ["team_pack", show team_id]
+getTeamPack' team_id = handleError <$> getAt ([] :: [(Text, Text)]) ["team_pack", T.pack $ show team_id]
 
 getTeamMemberPacks :: forall qp. QueryParam qp => [qp] -> ApiEff (Either ApiError TeamMemberPackResponses)
 getTeamMemberPacks params = handleError <$> getAt params ["team_member_packs"]
 
 getTeamMemberPacks' :: ApiEff (Either ApiError TeamMemberPackResponses)
-getTeamMemberPacks'  = handleError <$> getAt ([] :: [(String, String)]) ["team_member_packs"]
+getTeamMemberPacks'  = handleError <$> getAt ([] :: [(Text, Text)]) ["team_member_packs"]
 
 getTeamMemberPacks_ByOrganizationId :: forall qp. QueryParam qp => [qp] -> Int64 -> ApiEff (Either ApiError TeamMemberPackResponses)
 getTeamMemberPacks_ByOrganizationId params _ByOrganizationId = handleError <$> getAt (map qp params ++ map qp [ByOrganizationId _ByOrganizationId]) ["team_member_packs"]
@@ -1218,16 +1218,16 @@ getTeamMemberPacks_ByTeamId' :: Int64 -> ApiEff (Either ApiError TeamMemberPackR
 getTeamMemberPacks_ByTeamId' _ByTeamId = handleError <$> getAt [ByTeamId _ByTeamId] ["team_member_packs"]
 
 getTeamMemberPack :: forall qp. QueryParam qp => [qp] -> Int64 -> ApiEff (Either ApiError TeamMemberPackResponse)
-getTeamMemberPack params team_member_id = handleError <$> getAt params ["team_member_pack", show team_member_id]
+getTeamMemberPack params team_member_id = handleError <$> getAt params ["team_member_pack", T.pack $ show team_member_id]
 
 getTeamMemberPack' :: Int64 -> ApiEff (Either ApiError TeamMemberPackResponse)
-getTeamMemberPack' team_member_id = handleError <$> getAt ([] :: [(String, String)]) ["team_member_pack", show team_member_id]
+getTeamMemberPack' team_member_id = handleError <$> getAt ([] :: [(Text, Text)]) ["team_member_pack", T.pack $ show team_member_id]
 
 getUserPacks :: forall qp. QueryParam qp => [qp] -> ApiEff (Either ApiError UserPackResponses)
 getUserPacks params = handleError <$> getAt params ["user_packs"]
 
 getUserPacks' :: ApiEff (Either ApiError UserPackResponses)
-getUserPacks'  = handleError <$> getAt ([] :: [(String, String)]) ["user_packs"]
+getUserPacks'  = handleError <$> getAt ([] :: [(Text, Text)]) ["user_packs"]
 
 getUserPacks_ByUsersIds :: forall qp. QueryParam qp => [qp] -> [Int64] -> ApiEff (Either ApiError UserPackResponses)
 getUserPacks_ByUsersIds params _ByUsersIds = handleError <$> getAt (map qp params ++ map qp [ByUsersIds _ByUsersIds]) ["user_packs"]
@@ -1236,16 +1236,16 @@ getUserPacks_ByUsersIds' :: [Int64] -> ApiEff (Either ApiError UserPackResponses
 getUserPacks_ByUsersIds' _ByUsersIds = handleError <$> getAt [ByUsersIds _ByUsersIds] ["user_packs"]
 
 getUserPack :: forall qp. QueryParam qp => [qp] -> Int64 -> ApiEff (Either ApiError UserPackResponse)
-getUserPack params user_id = handleError <$> getAt params ["user_pack", show user_id]
+getUserPack params user_id = handleError <$> getAt params ["user_pack", T.pack $ show user_id]
 
 getUserPack' :: Int64 -> ApiEff (Either ApiError UserPackResponse)
-getUserPack' user_id = handleError <$> getAt ([] :: [(String, String)]) ["user_pack", show user_id]
+getUserPack' user_id = handleError <$> getAt ([] :: [(Text, Text)]) ["user_pack", T.pack $ show user_id]
 
 getUserSanitizedPacks :: forall qp. QueryParam qp => [qp] -> ApiEff (Either ApiError UserSanitizedPackResponses)
 getUserSanitizedPacks params = handleError <$> getAt params ["user_sanitized_packs"]
 
 getUserSanitizedPacks' :: ApiEff (Either ApiError UserSanitizedPackResponses)
-getUserSanitizedPacks'  = handleError <$> getAt ([] :: [(String, String)]) ["user_sanitized_packs"]
+getUserSanitizedPacks'  = handleError <$> getAt ([] :: [(Text, Text)]) ["user_sanitized_packs"]
 
 getUserSanitizedPacks_ByUsersIds :: forall qp. QueryParam qp => [qp] -> [Int64] -> ApiEff (Either ApiError UserSanitizedPackResponses)
 getUserSanitizedPacks_ByUsersIds params _ByUsersIds = handleError <$> getAt (map qp params ++ map qp [ByUsersIds _ByUsersIds]) ["user_sanitized_packs"]
@@ -1254,16 +1254,16 @@ getUserSanitizedPacks_ByUsersIds' :: [Int64] -> ApiEff (Either ApiError UserSani
 getUserSanitizedPacks_ByUsersIds' _ByUsersIds = handleError <$> getAt [ByUsersIds _ByUsersIds] ["user_sanitized_packs"]
 
 getUserSanitizedPack :: forall qp. QueryParam qp => [qp] -> Int64 -> ApiEff (Either ApiError UserSanitizedPackResponse)
-getUserSanitizedPack params user_id = handleError <$> getAt params ["user_sanitized_pack", show user_id]
+getUserSanitizedPack params user_id = handleError <$> getAt params ["user_sanitized_pack", T.pack $ show user_id]
 
 getUserSanitizedPack' :: Int64 -> ApiEff (Either ApiError UserSanitizedPackResponse)
-getUserSanitizedPack' user_id = handleError <$> getAt ([] :: [(String, String)]) ["user_sanitized_pack", show user_id]
+getUserSanitizedPack' user_id = handleError <$> getAt ([] :: [(Text, Text)]) ["user_sanitized_pack", T.pack $ show user_id]
 
 getGlobalGroupPacks :: forall qp. QueryParam qp => [qp] -> ApiEff (Either ApiError GlobalGroupPackResponses)
 getGlobalGroupPacks params = handleError <$> getAt params ["global_group_packs"]
 
 getGlobalGroupPacks' :: ApiEff (Either ApiError GlobalGroupPackResponses)
-getGlobalGroupPacks'  = handleError <$> getAt ([] :: [(String, String)]) ["global_group_packs"]
+getGlobalGroupPacks'  = handleError <$> getAt ([] :: [(Text, Text)]) ["global_group_packs"]
 
 getGlobalGroupPacks_ByOrganizationId :: forall qp. QueryParam qp => [qp] -> Int64 -> ApiEff (Either ApiError GlobalGroupPackResponses)
 getGlobalGroupPacks_ByOrganizationId params _ByOrganizationId = handleError <$> getAt (map qp params ++ map qp [ByOrganizationId _ByOrganizationId]) ["global_group_packs"]
@@ -1272,16 +1272,16 @@ getGlobalGroupPacks_ByOrganizationId' :: Int64 -> ApiEff (Either ApiError Global
 getGlobalGroupPacks_ByOrganizationId' _ByOrganizationId = handleError <$> getAt [ByOrganizationId _ByOrganizationId] ["global_group_packs"]
 
 getGlobalGroupPack :: forall qp. QueryParam qp => [qp] -> Int64 -> ApiEff (Either ApiError GlobalGroupPackResponse)
-getGlobalGroupPack params global_group_id = handleError <$> getAt params ["global_group_pack", show global_group_id]
+getGlobalGroupPack params global_group_id = handleError <$> getAt params ["global_group_pack", T.pack $ show global_group_id]
 
 getGlobalGroupPack' :: Int64 -> ApiEff (Either ApiError GlobalGroupPackResponse)
-getGlobalGroupPack' global_group_id = handleError <$> getAt ([] :: [(String, String)]) ["global_group_pack", show global_group_id]
+getGlobalGroupPack' global_group_id = handleError <$> getAt ([] :: [(Text, Text)]) ["global_group_pack", T.pack $ show global_group_id]
 
 getGroupPacks :: forall qp. QueryParam qp => [qp] -> ApiEff (Either ApiError GroupPackResponses)
 getGroupPacks params = handleError <$> getAt params ["group_packs"]
 
 getGroupPacks' :: ApiEff (Either ApiError GroupPackResponses)
-getGroupPacks'  = handleError <$> getAt ([] :: [(String, String)]) ["group_packs"]
+getGroupPacks'  = handleError <$> getAt ([] :: [(Text, Text)]) ["group_packs"]
 
 getGroupPacks_ByOrganizationId :: forall qp. QueryParam qp => [qp] -> Int64 -> ApiEff (Either ApiError GroupPackResponses)
 getGroupPacks_ByOrganizationId params _ByOrganizationId = handleError <$> getAt (map qp params ++ map qp [ByOrganizationId _ByOrganizationId]) ["group_packs"]
@@ -1290,16 +1290,16 @@ getGroupPacks_ByOrganizationId' :: Int64 -> ApiEff (Either ApiError GroupPackRes
 getGroupPacks_ByOrganizationId' _ByOrganizationId = handleError <$> getAt [ByOrganizationId _ByOrganizationId] ["group_packs"]
 
 getGroupPack :: forall qp. QueryParam qp => [qp] -> Int64 -> ApiEff (Either ApiError GroupPackResponse)
-getGroupPack params group_id = handleError <$> getAt params ["group_pack", show group_id]
+getGroupPack params group_id = handleError <$> getAt params ["group_pack", T.pack $ show group_id]
 
 getGroupPack' :: Int64 -> ApiEff (Either ApiError GroupPackResponse)
-getGroupPack' group_id = handleError <$> getAt ([] :: [(String, String)]) ["group_pack", show group_id]
+getGroupPack' group_id = handleError <$> getAt ([] :: [(Text, Text)]) ["group_pack", T.pack $ show group_id]
 
 getGroupMemberPacks :: forall qp. QueryParam qp => [qp] -> ApiEff (Either ApiError GroupMemberPackResponses)
 getGroupMemberPacks params = handleError <$> getAt params ["group_member_packs"]
 
 getGroupMemberPacks' :: ApiEff (Either ApiError GroupMemberPackResponses)
-getGroupMemberPacks'  = handleError <$> getAt ([] :: [(String, String)]) ["group_member_packs"]
+getGroupMemberPacks'  = handleError <$> getAt ([] :: [(Text, Text)]) ["group_member_packs"]
 
 getGroupMemberPacks_ByOrganizationId :: forall qp. QueryParam qp => [qp] -> Int64 -> ApiEff (Either ApiError GroupMemberPackResponses)
 getGroupMemberPacks_ByOrganizationId params _ByOrganizationId = handleError <$> getAt (map qp params ++ map qp [ByOrganizationId _ByOrganizationId]) ["group_member_packs"]
@@ -1320,16 +1320,16 @@ getGroupMemberPacks_ByGroupId' :: Int64 -> ApiEff (Either ApiError GroupMemberPa
 getGroupMemberPacks_ByGroupId' _ByGroupId = handleError <$> getAt [ByGroupId _ByGroupId] ["group_member_packs"]
 
 getGroupMemberPack :: forall qp. QueryParam qp => [qp] -> Int64 -> ApiEff (Either ApiError GroupMemberPackResponse)
-getGroupMemberPack params group_member_id = handleError <$> getAt params ["group_member_pack", show group_member_id]
+getGroupMemberPack params group_member_id = handleError <$> getAt params ["group_member_pack", T.pack $ show group_member_id]
 
 getGroupMemberPack' :: Int64 -> ApiEff (Either ApiError GroupMemberPackResponse)
-getGroupMemberPack' group_member_id = handleError <$> getAt ([] :: [(String, String)]) ["group_member_pack", show group_member_id]
+getGroupMemberPack' group_member_id = handleError <$> getAt ([] :: [(Text, Text)]) ["group_member_pack", T.pack $ show group_member_id]
 
 getForumPacks :: forall qp. QueryParam qp => [qp] -> ApiEff (Either ApiError ForumPackResponses)
 getForumPacks params = handleError <$> getAt params ["forum_packs"]
 
 getForumPacks' :: ApiEff (Either ApiError ForumPackResponses)
-getForumPacks'  = handleError <$> getAt ([] :: [(String, String)]) ["forum_packs"]
+getForumPacks'  = handleError <$> getAt ([] :: [(Text, Text)]) ["forum_packs"]
 
 getForumPacks_ByForumId :: forall qp. QueryParam qp => [qp] -> Int64 -> ApiEff (Either ApiError ForumPackResponses)
 getForumPacks_ByForumId params _ByForumId = handleError <$> getAt (map qp params ++ map qp [ByForumId _ByForumId]) ["forum_packs"]
@@ -1349,23 +1349,23 @@ getForumPacks_ByOrganizationId params _ByOrganizationId = handleError <$> getAt 
 getForumPacks_ByOrganizationId' :: Int64 -> ApiEff (Either ApiError ForumPackResponses)
 getForumPacks_ByOrganizationId' _ByOrganizationId = handleError <$> getAt [ByOrganizationId _ByOrganizationId] ["forum_packs"]
 
-getForumPacks_ByOrganizationName :: forall qp. QueryParam qp => [qp] -> [Char] -> ApiEff (Either ApiError ForumPackResponses)
+getForumPacks_ByOrganizationName :: forall qp. QueryParam qp => [qp] -> Text -> ApiEff (Either ApiError ForumPackResponses)
 getForumPacks_ByOrganizationName params _ByOrganizationName = handleError <$> getAt (map qp params ++ map qp [ByOrganizationName _ByOrganizationName]) ["forum_packs"]
 
-getForumPacks_ByOrganizationName' :: [Char] -> ApiEff (Either ApiError ForumPackResponses)
+getForumPacks_ByOrganizationName' :: Text -> ApiEff (Either ApiError ForumPackResponses)
 getForumPacks_ByOrganizationName' _ByOrganizationName = handleError <$> getAt [ByOrganizationName _ByOrganizationName] ["forum_packs"]
 
 getForumPack :: forall qp. QueryParam qp => [qp] -> Int64 -> ApiEff (Either ApiError ForumPackResponse)
-getForumPack params forum_id = handleError <$> getAt params ["forum_pack", show forum_id]
+getForumPack params forum_id = handleError <$> getAt params ["forum_pack", T.pack $ show forum_id]
 
 getForumPack' :: Int64 -> ApiEff (Either ApiError ForumPackResponse)
-getForumPack' forum_id = handleError <$> getAt ([] :: [(String, String)]) ["forum_pack", show forum_id]
+getForumPack' forum_id = handleError <$> getAt ([] :: [(Text, Text)]) ["forum_pack", T.pack $ show forum_id]
 
 getBoardPacks :: forall qp. QueryParam qp => [qp] -> ApiEff (Either ApiError BoardPackResponses)
 getBoardPacks params = handleError <$> getAt params ["board_packs"]
 
 getBoardPacks' :: ApiEff (Either ApiError BoardPackResponses)
-getBoardPacks'  = handleError <$> getAt ([] :: [(String, String)]) ["board_packs"]
+getBoardPacks'  = handleError <$> getAt ([] :: [(Text, Text)]) ["board_packs"]
 
 getBoardPacks_ByForumId :: forall qp. QueryParam qp => [qp] -> Int64 -> ApiEff (Either ApiError BoardPackResponses)
 getBoardPacks_ByForumId params _ByForumId = handleError <$> getAt (map qp params ++ map qp [ByForumId _ByForumId]) ["board_packs"]
@@ -1386,16 +1386,16 @@ getBoardPacks_ByBoardId' :: Int64 -> ApiEff (Either ApiError BoardPackResponses)
 getBoardPacks_ByBoardId' _ByBoardId = handleError <$> getAt [ByBoardId _ByBoardId] ["board_packs"]
 
 getBoardPack :: forall qp. QueryParam qp => [qp] -> Int64 -> ApiEff (Either ApiError BoardPackResponse)
-getBoardPack params board_id = handleError <$> getAt params ["board_pack", show board_id]
+getBoardPack params board_id = handleError <$> getAt params ["board_pack", T.pack $ show board_id]
 
 getBoardPack' :: Int64 -> ApiEff (Either ApiError BoardPackResponse)
-getBoardPack' board_id = handleError <$> getAt ([] :: [(String, String)]) ["board_pack", show board_id]
+getBoardPack' board_id = handleError <$> getAt ([] :: [(Text, Text)]) ["board_pack", T.pack $ show board_id]
 
 getThreadPacks :: forall qp. QueryParam qp => [qp] -> ApiEff (Either ApiError ThreadPackResponses)
 getThreadPacks params = handleError <$> getAt params ["thread_packs"]
 
 getThreadPacks' :: ApiEff (Either ApiError ThreadPackResponses)
-getThreadPacks'  = handleError <$> getAt ([] :: [(String, String)]) ["thread_packs"]
+getThreadPacks'  = handleError <$> getAt ([] :: [(Text, Text)]) ["thread_packs"]
 
 getThreadPacks_ByThreadsIds :: forall qp. QueryParam qp => [qp] -> [Int64] -> ApiEff (Either ApiError ThreadPackResponses)
 getThreadPacks_ByThreadsIds params _ByThreadsIds = handleError <$> getAt (map qp params ++ map qp [ByThreadsIds _ByThreadsIds]) ["thread_packs"]
@@ -1416,16 +1416,16 @@ getThreadPacks_ByBoardId' :: Int64 -> ApiEff (Either ApiError ThreadPackResponse
 getThreadPacks_ByBoardId' _ByBoardId = handleError <$> getAt [ByBoardId _ByBoardId] ["thread_packs"]
 
 getThreadPack :: forall qp. QueryParam qp => [qp] -> Int64 -> ApiEff (Either ApiError ThreadPackResponse)
-getThreadPack params thread_id = handleError <$> getAt params ["thread_pack", show thread_id]
+getThreadPack params thread_id = handleError <$> getAt params ["thread_pack", T.pack $ show thread_id]
 
 getThreadPack' :: Int64 -> ApiEff (Either ApiError ThreadPackResponse)
-getThreadPack' thread_id = handleError <$> getAt ([] :: [(String, String)]) ["thread_pack", show thread_id]
+getThreadPack' thread_id = handleError <$> getAt ([] :: [(Text, Text)]) ["thread_pack", T.pack $ show thread_id]
 
 getThreadPostPacks :: forall qp. QueryParam qp => [qp] -> ApiEff (Either ApiError ThreadPostPackResponses)
 getThreadPostPacks params = handleError <$> getAt params ["thread_post_packs"]
 
 getThreadPostPacks' :: ApiEff (Either ApiError ThreadPostPackResponses)
-getThreadPostPacks'  = handleError <$> getAt ([] :: [(String, String)]) ["thread_post_packs"]
+getThreadPostPacks'  = handleError <$> getAt ([] :: [(Text, Text)]) ["thread_post_packs"]
 
 getThreadPostPacks_ByThreadPostsIds :: forall qp. QueryParam qp => [qp] -> [Int64] -> ApiEff (Either ApiError ThreadPostPackResponses)
 getThreadPostPacks_ByThreadPostsIds params _ByThreadPostsIds = handleError <$> getAt (map qp params ++ map qp [ByThreadPostsIds _ByThreadPostsIds]) ["thread_post_packs"]
@@ -1452,16 +1452,16 @@ getThreadPostPacks_ByBoardId' :: Int64 -> ApiEff (Either ApiError ThreadPostPack
 getThreadPostPacks_ByBoardId' _ByBoardId = handleError <$> getAt [ByBoardId _ByBoardId] ["thread_post_packs"]
 
 getThreadPostPack :: forall qp. QueryParam qp => [qp] -> Int64 -> ApiEff (Either ApiError ThreadPostPackResponse)
-getThreadPostPack params thread_post_id = handleError <$> getAt params ["thread_post_pack", show thread_post_id]
+getThreadPostPack params thread_post_id = handleError <$> getAt params ["thread_post_pack", T.pack $ show thread_post_id]
 
 getThreadPostPack' :: Int64 -> ApiEff (Either ApiError ThreadPostPackResponse)
-getThreadPostPack' thread_post_id = handleError <$> getAt ([] :: [(String, String)]) ["thread_post_pack", show thread_post_id]
+getThreadPostPack' thread_post_id = handleError <$> getAt ([] :: [(Text, Text)]) ["thread_post_pack", T.pack $ show thread_post_id]
 
 getResourcePacks :: forall qp. QueryParam qp => [qp] -> ApiEff (Either ApiError ResourcePackResponses)
 getResourcePacks params = handleError <$> getAt params ["resource_packs"]
 
 getResourcePacks' :: ApiEff (Either ApiError ResourcePackResponses)
-getResourcePacks'  = handleError <$> getAt ([] :: [(String, String)]) ["resource_packs"]
+getResourcePacks'  = handleError <$> getAt ([] :: [(Text, Text)]) ["resource_packs"]
 
 getResourcePacks_ByResourcesIds :: forall qp. QueryParam qp => [qp] -> [Int64] -> ApiEff (Either ApiError ResourcePackResponses)
 getResourcePacks_ByResourcesIds params _ByResourcesIds = handleError <$> getAt (map qp params ++ map qp [ByResourcesIds _ByResourcesIds]) ["resource_packs"]
@@ -1470,16 +1470,16 @@ getResourcePacks_ByResourcesIds' :: [Int64] -> ApiEff (Either ApiError ResourceP
 getResourcePacks_ByResourcesIds' _ByResourcesIds = handleError <$> getAt [ByResourcesIds _ByResourcesIds] ["resource_packs"]
 
 getResourcePack :: forall qp. QueryParam qp => [qp] -> Int64 -> ApiEff (Either ApiError ResourcePackResponse)
-getResourcePack params resource_id = handleError <$> getAt params ["resource_pack", show resource_id]
+getResourcePack params resource_id = handleError <$> getAt params ["resource_pack", T.pack $ show resource_id]
 
 getResourcePack' :: Int64 -> ApiEff (Either ApiError ResourcePackResponse)
-getResourcePack' resource_id = handleError <$> getAt ([] :: [(String, String)]) ["resource_pack", show resource_id]
+getResourcePack' resource_id = handleError <$> getAt ([] :: [(Text, Text)]) ["resource_pack", T.pack $ show resource_id]
 
 getLeuronPacks :: forall qp. QueryParam qp => [qp] -> ApiEff (Either ApiError LeuronPackResponses)
 getLeuronPacks params = handleError <$> getAt params ["leuron_packs"]
 
 getLeuronPacks' :: ApiEff (Either ApiError LeuronPackResponses)
-getLeuronPacks'  = handleError <$> getAt ([] :: [(String, String)]) ["leuron_packs"]
+getLeuronPacks'  = handleError <$> getAt ([] :: [(Text, Text)]) ["leuron_packs"]
 
 getLeuronPacks_ByLeuronsIds :: forall qp. QueryParam qp => [qp] -> [Int64] -> ApiEff (Either ApiError LeuronPackResponses)
 getLeuronPacks_ByLeuronsIds params _ByLeuronsIds = handleError <$> getAt (map qp params ++ map qp [ByLeuronsIds _ByLeuronsIds]) ["leuron_packs"]
@@ -1494,33 +1494,33 @@ getLeuronPacks_ByResourceId' :: Int64 -> ApiEff (Either ApiError LeuronPackRespo
 getLeuronPacks_ByResourceId' _ByResourceId = handleError <$> getAt [ByResourceId _ByResourceId] ["leuron_packs"]
 
 getLeuronPack :: forall qp. QueryParam qp => [qp] -> Int64 -> ApiEff (Either ApiError LeuronPackResponse)
-getLeuronPack params leuron_id = handleError <$> getAt params ["leuron_pack", show leuron_id]
+getLeuronPack params leuron_id = handleError <$> getAt params ["leuron_pack", T.pack $ show leuron_id]
 
 getLeuronPack' :: Int64 -> ApiEff (Either ApiError LeuronPackResponse)
-getLeuronPack' leuron_id = handleError <$> getAt ([] :: [(String, String)]) ["leuron_pack", show leuron_id]
+getLeuronPack' leuron_id = handleError <$> getAt ([] :: [(Text, Text)]) ["leuron_pack", T.pack $ show leuron_id]
 
 getPmInPacks :: forall qp. QueryParam qp => [qp] -> ApiEff (Either ApiError LeuronPackResponses)
 getPmInPacks params = handleError <$> getAt params ["pm_in_packs"]
 
 getPmInPacks' :: ApiEff (Either ApiError LeuronPackResponses)
-getPmInPacks'  = handleError <$> getAt ([] :: [(String, String)]) ["pm_in_packs"]
+getPmInPacks'  = handleError <$> getAt ([] :: [(Text, Text)]) ["pm_in_packs"]
 
 getPmInPack :: forall qp. QueryParam qp => [qp] -> Int64 -> ApiEff (Either ApiError PmInPackResponse)
-getPmInPack params pm_in_id = handleError <$> getAt params ["pm_in_pack", show pm_in_id]
+getPmInPack params pm_in_id = handleError <$> getAt params ["pm_in_pack", T.pack $ show pm_in_id]
 
 getPmInPack' :: Int64 -> ApiEff (Either ApiError PmInPackResponse)
-getPmInPack' pm_in_id = handleError <$> getAt ([] :: [(String, String)]) ["pm_in_pack", show pm_in_id]
+getPmInPack' pm_in_id = handleError <$> getAt ([] :: [(Text, Text)]) ["pm_in_pack", T.pack $ show pm_in_id]
 
 getPmOutPacks :: forall qp. QueryParam qp => [qp] -> ApiEff (Either ApiError LeuronPackResponses)
 getPmOutPacks params = handleError <$> getAt params ["pm_out_packs"]
 
 getPmOutPacks' :: ApiEff (Either ApiError LeuronPackResponses)
-getPmOutPacks'  = handleError <$> getAt ([] :: [(String, String)]) ["pm_out_packs"]
+getPmOutPacks'  = handleError <$> getAt ([] :: [(Text, Text)]) ["pm_out_packs"]
 
 getPmOutPack :: forall qp. QueryParam qp => [qp] -> Int64 -> ApiEff (Either ApiError PmOutPackResponse)
-getPmOutPack params pm_out_id = handleError <$> getAt params ["pm_out_pack", show pm_out_id]
+getPmOutPack params pm_out_id = handleError <$> getAt params ["pm_out_pack", T.pack $ show pm_out_id]
 
 getPmOutPack' :: Int64 -> ApiEff (Either ApiError PmOutPackResponse)
-getPmOutPack' pm_out_id = handleError <$> getAt ([] :: [(String, String)]) ["pm_out_pack", show pm_out_id]
+getPmOutPack' pm_out_id = handleError <$> getAt ([] :: [(Text, Text)]) ["pm_out_pack", T.pack $ show pm_out_id]
 
 -- footer
