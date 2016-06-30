@@ -33,8 +33,8 @@ library
                      , transformers
                      , wreq
   default-language:    Haskell2010
-  default-extensions:  DeriveGeneric, RecordWildCards, OverloadedStrings
-  ghc-options:       -j -Wall
+  default-extensions:  DeriveGeneric, RecordWildCards
+  ghc-options:         -j -Wall -Werror
 
 test-suite ln-api-test
   type:                exitcode-stdio-1.0
