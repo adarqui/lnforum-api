@@ -17,10 +17,10 @@ import Haskell.Api.Helpers (ApiEff, ApiError, QueryParam, qp, handleError, getAt
 import LN.T
 
 getUserSanitizedPack :: forall qp. QueryParam qp => [qp] -> Text -> ApiEff (Either (ApiError ApplicationError) UserSanitizedPackResponse)
-getUserSanitizedPack params user_nick = handleError <$> getAt params ["user_sanitized_pack", user_nick]
+getUserSanitizedPack params user_name = handleError <$> getAt params ["user_sanitized_pack", user_name]
 
 getUserSanitizedPack' :: Text -> ApiEff (Either (ApiError ApplicationError) UserSanitizedPackResponse)
-getUserSanitizedPack' user_nick = handleError <$> getAt ([] :: [(Text, Text)]) ["user_sanitized_pack", user_nick]
+getUserSanitizedPack' user_name = handleError <$> getAt ([] :: [(Text, Text)]) ["user_sanitized_pack", user_name]
 
 getOrganization :: forall qp. QueryParam qp => [qp] -> Text -> ApiEff (Either (ApiError ApplicationError) OrganizationResponse)
 getOrganization params organization_name = handleError <$> getAt params ["organization", organization_name]
