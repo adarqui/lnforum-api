@@ -18,8 +18,6 @@ library
   exposed-modules:     LN.Api
   exposed-modules:     LN.Api.String
   build-depends:       base
-                     , ln-types
-                     , haskell-api-helpers
                      , aeson
                      , bytestring
                      , connection
@@ -33,6 +31,8 @@ library
                      , text
                      , transformers
                      , wreq
+                     , haskell-ln-types
+                     , haskell-api-helpers
   default-language:    Haskell2010
   default-extensions:  DeriveGeneric, RecordWildCards
   ghc-options:         -j -Wall -Werror

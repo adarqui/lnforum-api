@@ -1,7 +1,7 @@
 flags: {}
 packages:
 - '.'
-- '../ln-types'
+- '../haskell-ln-types'
 - '../haskell-api-helpers'
 extra-deps: []
 resolver: lts-6.4
