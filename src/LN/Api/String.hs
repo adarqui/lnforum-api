@@ -5,7 +5,7 @@
 {-# LANGUAGE RankNTypes           #-}
 {-# LANGUAGE ScopedTypeVariables  #-}
 
-module LN.Api.Internal.String where
+module LN.Api.String where
 
 
 

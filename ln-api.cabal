@@ -16,7 +16,7 @@ cabal-version:       >=1.10
 library
   hs-source-dirs:      src
   exposed-modules:     LN.Api
-  exposed-modules:     LN.Api.Internal
+  exposed-modules:     LN.Api.String
   build-depends:       base
                      , ln-types
                      , haskell-api-helpers
