@@ -33,6 +33,7 @@ library
                      , wreq
                      , haskell-ln-types
                      , haskell-api-helpers
+                     , haskell-api-helpers-shared
   default-language:    Haskell2010
   default-extensions:  DeriveGeneric, RecordWildCards
   ghc-options:         -j -Wall -Werror
