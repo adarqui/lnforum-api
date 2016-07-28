@@ -36,7 +36,7 @@ library
                      , haskell-api-helpers-shared
   default-language:    Haskell2010
   default-extensions:  DeriveGeneric, RecordWildCards
-  ghc-options:         -j -Wall -Werror
+  ghc-options:         -j -Wall
 
 test-suite ln-api-test
   type:                exitcode-stdio-1.0
