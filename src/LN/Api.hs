@@ -1248,6 +1248,12 @@ getUserPacks_ByUsersIds params _ByUsersIds = handleError <$> getAt (map qp param
 getUserPacks_ByUsersIds' :: [Int64] -> ApiEff SpecificApiOptions (Either (ApiError ApplicationError) UserPackResponses)
 getUserPacks_ByUsersIds' _ByUsersIds = handleError <$> getAt [ByUsersIds _ByUsersIds] ["user_packs"]
 
+getUserPacks_ByEmail :: forall qp. QueryParam qp => [qp] -> Text -> ApiEff SpecificApiOptions (Either (ApiError ApplicationError) UserPackResponses)
+getUserPacks_ByEmail params _ByEmail = handleError <$> getAt (map qp params <> map qp [ByEmail _ByEmail]) ["user_packs"]
+
+getUserPacks_ByEmail' :: Text -> ApiEff SpecificApiOptions (Either (ApiError ApplicationError) UserPackResponses)
+getUserPacks_ByEmail' _ByEmail = handleError <$> getAt [ByEmail _ByEmail] ["user_packs"]
+
 getUserPack :: forall qp. QueryParam qp => [qp] -> Int64 -> ApiEff SpecificApiOptions (Either (ApiError ApplicationError) UserPackResponse)
 getUserPack params user_id = handleError <$> getAt params ["user_pack", T.pack $ show user_id]
 
