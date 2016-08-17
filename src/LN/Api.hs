@@ -691,6 +691,120 @@ getStarStat params star_id = handleError <$> getAt params ["star_stat", T.pack $
 getStarStat' :: Int64 -> ApiEff SpecificApiOptions (Either (ApiError ApplicationError) StarStatResponse)
 getStarStat' star_id = handleError <$> getAt ([] :: [(Text, Text)]) ["star_stat", T.pack $ show star_id]
 
+getViews :: forall qp. QueryParam qp => [qp] -> ApiEff SpecificApiOptions (Either (ApiError ApplicationError) ViewResponses)
+getViews params = handleError <$> getAt params ["views"]
+
+getViews' :: ApiEff SpecificApiOptions (Either (ApiError ApplicationError) ViewResponses)
+getViews'  = handleError <$> getAt ([] :: [(Text, Text)]) ["views"]
+
+getViews_ByOrganizationsIds :: forall qp. QueryParam qp => [qp] -> [Int64] -> ApiEff SpecificApiOptions (Either (ApiError ApplicationError) ViewResponses)
+getViews_ByOrganizationsIds params _ByOrganizationsIds = handleError <$> getAt (map qp params <> map qp [ByOrganizationsIds _ByOrganizationsIds]) ["views"]
+
+getViews_ByOrganizationsIds' :: [Int64] -> ApiEff SpecificApiOptions (Either (ApiError ApplicationError) ViewResponses)
+getViews_ByOrganizationsIds' _ByOrganizationsIds = handleError <$> getAt [ByOrganizationsIds _ByOrganizationsIds] ["views"]
+
+getViews_ByOrganizationId :: forall qp. QueryParam qp => [qp] -> Int64 -> ApiEff SpecificApiOptions (Either (ApiError ApplicationError) ViewResponses)
+getViews_ByOrganizationId params _ByOrganizationId = handleError <$> getAt (map qp params <> map qp [ByOrganizationId _ByOrganizationId]) ["views"]
+
+getViews_ByOrganizationId' :: Int64 -> ApiEff SpecificApiOptions (Either (ApiError ApplicationError) ViewResponses)
+getViews_ByOrganizationId' _ByOrganizationId = handleError <$> getAt [ByOrganizationId _ByOrganizationId] ["views"]
+
+getViews_ByForumsIds :: forall qp. QueryParam qp => [qp] -> [Int64] -> ApiEff SpecificApiOptions (Either (ApiError ApplicationError) ViewResponses)
+getViews_ByForumsIds params _ByForumsIds = handleError <$> getAt (map qp params <> map qp [ByForumsIds _ByForumsIds]) ["views"]
+
+getViews_ByForumsIds' :: [Int64] -> ApiEff SpecificApiOptions (Either (ApiError ApplicationError) ViewResponses)
+getViews_ByForumsIds' _ByForumsIds = handleError <$> getAt [ByForumsIds _ByForumsIds] ["views"]
+
+getViews_ByForumId :: forall qp. QueryParam qp => [qp] -> Int64 -> ApiEff SpecificApiOptions (Either (ApiError ApplicationError) ViewResponses)
+getViews_ByForumId params _ByForumId = handleError <$> getAt (map qp params <> map qp [ByForumId _ByForumId]) ["views"]
+
+getViews_ByForumId' :: Int64 -> ApiEff SpecificApiOptions (Either (ApiError ApplicationError) ViewResponses)
+getViews_ByForumId' _ByForumId = handleError <$> getAt [ByForumId _ByForumId] ["views"]
+
+getViews_ByBoardsIds :: forall qp. QueryParam qp => [qp] -> [Int64] -> ApiEff SpecificApiOptions (Either (ApiError ApplicationError) ViewResponses)
+getViews_ByBoardsIds params _ByBoardsIds = handleError <$> getAt (map qp params <> map qp [ByBoardsIds _ByBoardsIds]) ["views"]
+
+getViews_ByBoardsIds' :: [Int64] -> ApiEff SpecificApiOptions (Either (ApiError ApplicationError) ViewResponses)
+getViews_ByBoardsIds' _ByBoardsIds = handleError <$> getAt [ByBoardsIds _ByBoardsIds] ["views"]
+
+getViews_ByBoardId :: forall qp. QueryParam qp => [qp] -> Int64 -> ApiEff SpecificApiOptions (Either (ApiError ApplicationError) ViewResponses)
+getViews_ByBoardId params _ByBoardId = handleError <$> getAt (map qp params <> map qp [ByBoardId _ByBoardId]) ["views"]
+
+getViews_ByBoardId' :: Int64 -> ApiEff SpecificApiOptions (Either (ApiError ApplicationError) ViewResponses)
+getViews_ByBoardId' _ByBoardId = handleError <$> getAt [ByBoardId _ByBoardId] ["views"]
+
+getViews_ByThreadsIds :: forall qp. QueryParam qp => [qp] -> [Int64] -> ApiEff SpecificApiOptions (Either (ApiError ApplicationError) ViewResponses)
+getViews_ByThreadsIds params _ByThreadsIds = handleError <$> getAt (map qp params <> map qp [ByThreadsIds _ByThreadsIds]) ["views"]
+
+getViews_ByThreadsIds' :: [Int64] -> ApiEff SpecificApiOptions (Either (ApiError ApplicationError) ViewResponses)
+getViews_ByThreadsIds' _ByThreadsIds = handleError <$> getAt [ByThreadsIds _ByThreadsIds] ["views"]
+
+getViews_ByThreadId :: forall qp. QueryParam qp => [qp] -> Int64 -> ApiEff SpecificApiOptions (Either (ApiError ApplicationError) ViewResponses)
+getViews_ByThreadId params _ByThreadId = handleError <$> getAt (map qp params <> map qp [ByThreadId _ByThreadId]) ["views"]
+
+getViews_ByThreadId' :: Int64 -> ApiEff SpecificApiOptions (Either (ApiError ApplicationError) ViewResponses)
+getViews_ByThreadId' _ByThreadId = handleError <$> getAt [ByThreadId _ByThreadId] ["views"]
+
+getViews_ByThreadPostsIds :: forall qp. QueryParam qp => [qp] -> [Int64] -> ApiEff SpecificApiOptions (Either (ApiError ApplicationError) ViewResponses)
+getViews_ByThreadPostsIds params _ByThreadPostsIds = handleError <$> getAt (map qp params <> map qp [ByThreadPostsIds _ByThreadPostsIds]) ["views"]
+
+getViews_ByThreadPostsIds' :: [Int64] -> ApiEff SpecificApiOptions (Either (ApiError ApplicationError) ViewResponses)
+getViews_ByThreadPostsIds' _ByThreadPostsIds = handleError <$> getAt [ByThreadPostsIds _ByThreadPostsIds] ["views"]
+
+getViews_ByThreadPostId :: forall qp. QueryParam qp => [qp] -> Int64 -> ApiEff SpecificApiOptions (Either (ApiError ApplicationError) ViewResponses)
+getViews_ByThreadPostId params _ByThreadPostId = handleError <$> getAt (map qp params <> map qp [ByThreadPostId _ByThreadPostId]) ["views"]
+
+getViews_ByThreadPostId' :: Int64 -> ApiEff SpecificApiOptions (Either (ApiError ApplicationError) ViewResponses)
+getViews_ByThreadPostId' _ByThreadPostId = handleError <$> getAt [ByThreadPostId _ByThreadPostId] ["views"]
+
+postView_ByOrganizationId :: forall qp. QueryParam qp => [qp] -> Int64 -> ViewRequest -> ApiEff SpecificApiOptions (Either (ApiError ApplicationError) ViewResponse)
+postView_ByOrganizationId params _ByOrganizationId view_request = handleError <$> postAt (map qp params <> map qp [ByOrganizationId _ByOrganizationId]) ["view"] view_request
+
+postView_ByOrganizationId' :: Int64 -> ViewRequest -> ApiEff SpecificApiOptions (Either (ApiError ApplicationError) ViewResponse)
+postView_ByOrganizationId' _ByOrganizationId view_request = handleError <$> postAt [ByOrganizationId _ByOrganizationId] ["view"] view_request
+
+postView_ByForumId :: forall qp. QueryParam qp => [qp] -> Int64 -> ViewRequest -> ApiEff SpecificApiOptions (Either (ApiError ApplicationError) ViewResponse)
+postView_ByForumId params _ByForumId view_request = handleError <$> postAt (map qp params <> map qp [ByForumId _ByForumId]) ["view"] view_request
+
+postView_ByForumId' :: Int64 -> ViewRequest -> ApiEff SpecificApiOptions (Either (ApiError ApplicationError) ViewResponse)
+postView_ByForumId' _ByForumId view_request = handleError <$> postAt [ByForumId _ByForumId] ["view"] view_request
+
+postView_ByBoardId :: forall qp. QueryParam qp => [qp] -> Int64 -> ViewRequest -> ApiEff SpecificApiOptions (Either (ApiError ApplicationError) ViewResponse)
+postView_ByBoardId params _ByBoardId view_request = handleError <$> postAt (map qp params <> map qp [ByBoardId _ByBoardId]) ["view"] view_request
+
+postView_ByBoardId' :: Int64 -> ViewRequest -> ApiEff SpecificApiOptions (Either (ApiError ApplicationError) ViewResponse)
+postView_ByBoardId' _ByBoardId view_request = handleError <$> postAt [ByBoardId _ByBoardId] ["view"] view_request
+
+postView_ByThreadId :: forall qp. QueryParam qp => [qp] -> Int64 -> ViewRequest -> ApiEff SpecificApiOptions (Either (ApiError ApplicationError) ViewResponse)
+postView_ByThreadId params _ByThreadId view_request = handleError <$> postAt (map qp params <> map qp [ByThreadId _ByThreadId]) ["view"] view_request
+
+postView_ByThreadId' :: Int64 -> ViewRequest -> ApiEff SpecificApiOptions (Either (ApiError ApplicationError) ViewResponse)
+postView_ByThreadId' _ByThreadId view_request = handleError <$> postAt [ByThreadId _ByThreadId] ["view"] view_request
+
+postView_ByThreadPostId :: forall qp. QueryParam qp => [qp] -> Int64 -> ViewRequest -> ApiEff SpecificApiOptions (Either (ApiError ApplicationError) ViewResponse)
+postView_ByThreadPostId params _ByThreadPostId view_request = handleError <$> postAt (map qp params <> map qp [ByThreadPostId _ByThreadPostId]) ["view"] view_request
+
+postView_ByThreadPostId' :: Int64 -> ViewRequest -> ApiEff SpecificApiOptions (Either (ApiError ApplicationError) ViewResponse)
+postView_ByThreadPostId' _ByThreadPostId view_request = handleError <$> postAt [ByThreadPostId _ByThreadPostId] ["view"] view_request
+
+getView :: forall qp. QueryParam qp => [qp] -> Int64 -> ApiEff SpecificApiOptions (Either (ApiError ApplicationError) ViewResponse)
+getView params view_id = handleError <$> getAt params ["view", T.pack $ show view_id]
+
+getView' :: Int64 -> ApiEff SpecificApiOptions (Either (ApiError ApplicationError) ViewResponse)
+getView' view_id = handleError <$> getAt ([] :: [(Text, Text)]) ["view", T.pack $ show view_id]
+
+putView :: forall qp. QueryParam qp => [qp] -> Int64 -> ViewRequest -> ApiEff SpecificApiOptions (Either (ApiError ApplicationError) ViewResponse)
+putView params view_id view_request = handleError <$> putAt params ["view", T.pack $ show view_id] view_request
+
+putView' :: Int64 -> ViewRequest -> ApiEff SpecificApiOptions (Either (ApiError ApplicationError) ViewResponse)
+putView' view_id view_request = handleError <$> putAt ([] :: [(Text, Text)]) ["view", T.pack $ show view_id] view_request
+
+deleteView :: forall qp. QueryParam qp => [qp] -> Int64 -> ApiEff SpecificApiOptions (Either (ApiError ApplicationError) ())
+deleteView params view_id = handleError <$> deleteAt params ["view", T.pack $ show view_id]
+
+deleteView' :: Int64 -> ApiEff SpecificApiOptions (Either (ApiError ApplicationError) ())
+deleteView' view_id = handleError <$> deleteAt ([] :: [(Text, Text)]) ["view", T.pack $ show view_id]
+
 getMe :: forall qp. QueryParam qp => [qp] -> ApiEff SpecificApiOptions (Either (ApiError ApplicationError) UserResponse)
 getMe params = handleError <$> getAt params ["me"]
 
