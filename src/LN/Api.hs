@@ -787,23 +787,35 @@ postView_ByThreadPostId params _ByThreadPostId view_request = handleError <$> po
 postView_ByThreadPostId' :: Int64 -> ViewRequest -> ApiEff SpecificApiOptions (Either (ApiError ApplicationError) ViewResponse)
 postView_ByThreadPostId' _ByThreadPostId view_request = handleError <$> postAt [ByThreadPostId _ByThreadPostId] ["view"] view_request
 
-getView :: forall qp. QueryParam qp => [qp] -> Int64 -> ApiEff SpecificApiOptions (Either (ApiError ApplicationError) ViewResponse)
-getView params view_id = handleError <$> getAt params ["view", T.pack $ show view_id]
+putView_ByOrganizationId :: forall qp. QueryParam qp => [qp] -> Int64 -> ViewRequest -> ApiEff SpecificApiOptions (Either (ApiError ApplicationError) ViewResponse)
+putView_ByOrganizationId params _ByOrganizationId view_request = handleError <$> putAt (map qp params <> map qp [ByOrganizationId _ByOrganizationId]) ["view"] view_request
 
-getView' :: Int64 -> ApiEff SpecificApiOptions (Either (ApiError ApplicationError) ViewResponse)
-getView' view_id = handleError <$> getAt ([] :: [(Text, Text)]) ["view", T.pack $ show view_id]
+putView_ByOrganizationId' :: Int64 -> ViewRequest -> ApiEff SpecificApiOptions (Either (ApiError ApplicationError) ViewResponse)
+putView_ByOrganizationId' _ByOrganizationId view_request = handleError <$> putAt [ByOrganizationId _ByOrganizationId] ["view"] view_request
 
-putView :: forall qp. QueryParam qp => [qp] -> Int64 -> ViewRequest -> ApiEff SpecificApiOptions (Either (ApiError ApplicationError) ViewResponse)
-putView params view_id view_request = handleError <$> putAt params ["view", T.pack $ show view_id] view_request
+putView_ByForumId :: forall qp. QueryParam qp => [qp] -> Int64 -> ViewRequest -> ApiEff SpecificApiOptions (Either (ApiError ApplicationError) ViewResponse)
+putView_ByForumId params _ByForumId view_request = handleError <$> putAt (map qp params <> map qp [ByForumId _ByForumId]) ["view"] view_request
 
-putView' :: Int64 -> ViewRequest -> ApiEff SpecificApiOptions (Either (ApiError ApplicationError) ViewResponse)
-putView' view_id view_request = handleError <$> putAt ([] :: [(Text, Text)]) ["view", T.pack $ show view_id] view_request
+putView_ByForumId' :: Int64 -> ViewRequest -> ApiEff SpecificApiOptions (Either (ApiError ApplicationError) ViewResponse)
+putView_ByForumId' _ByForumId view_request = handleError <$> putAt [ByForumId _ByForumId] ["view"] view_request
 
-deleteView :: forall qp. QueryParam qp => [qp] -> Int64 -> ApiEff SpecificApiOptions (Either (ApiError ApplicationError) ())
-deleteView params view_id = handleError <$> deleteAt params ["view", T.pack $ show view_id]
+putView_ByBoardId :: forall qp. QueryParam qp => [qp] -> Int64 -> ViewRequest -> ApiEff SpecificApiOptions (Either (ApiError ApplicationError) ViewResponse)
+putView_ByBoardId params _ByBoardId view_request = handleError <$> putAt (map qp params <> map qp [ByBoardId _ByBoardId]) ["view"] view_request
 
-deleteView' :: Int64 -> ApiEff SpecificApiOptions (Either (ApiError ApplicationError) ())
-deleteView' view_id = handleError <$> deleteAt ([] :: [(Text, Text)]) ["view", T.pack $ show view_id]
+putView_ByBoardId' :: Int64 -> ViewRequest -> ApiEff SpecificApiOptions (Either (ApiError ApplicationError) ViewResponse)
+putView_ByBoardId' _ByBoardId view_request = handleError <$> putAt [ByBoardId _ByBoardId] ["view"] view_request
+
+putView_ByThreadId :: forall qp. QueryParam qp => [qp] -> Int64 -> ViewRequest -> ApiEff SpecificApiOptions (Either (ApiError ApplicationError) ViewResponse)
+putView_ByThreadId params _ByThreadId view_request = handleError <$> putAt (map qp params <> map qp [ByThreadId _ByThreadId]) ["view"] view_request
+
+putView_ByThreadId' :: Int64 -> ViewRequest -> ApiEff SpecificApiOptions (Either (ApiError ApplicationError) ViewResponse)
+putView_ByThreadId' _ByThreadId view_request = handleError <$> putAt [ByThreadId _ByThreadId] ["view"] view_request
+
+putView_ByThreadPostId :: forall qp. QueryParam qp => [qp] -> Int64 -> ViewRequest -> ApiEff SpecificApiOptions (Either (ApiError ApplicationError) ViewResponse)
+putView_ByThreadPostId params _ByThreadPostId view_request = handleError <$> putAt (map qp params <> map qp [ByThreadPostId _ByThreadPostId]) ["view"] view_request
+
+putView_ByThreadPostId' :: Int64 -> ViewRequest -> ApiEff SpecificApiOptions (Either (ApiError ApplicationError) ViewResponse)
+putView_ByThreadPostId' _ByThreadPostId view_request = handleError <$> putAt [ByThreadPostId _ByThreadPostId] ["view"] view_request
 
 getMe :: forall qp. QueryParam qp => [qp] -> ApiEff SpecificApiOptions (Either (ApiError ApplicationError) UserResponse)
 getMe params = handleError <$> getAt params ["me"]
