@@ -1,7 +1,7 @@
 flags: {}
 packages:
 - .
-- ../haskell-lnotes-types
+- ../haskell-lnforum-types
 - ../haskell-api-helpers
 - ../haskell-api-helpers-shared
 extra-deps: []
