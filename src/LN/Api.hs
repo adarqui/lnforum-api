@@ -55,12 +55,6 @@ getLikesCount params = handleError <$> getAt params ["likes_count"]
 getLikesCount' :: ApiEff SpecificApiOptions (Either (ApiError ApplicationError) CountResponses)
 getLikesCount'  = handleError <$> getAt ([] :: [(Text, Text)]) ["likes_count"]
 
-getStarsCount :: forall qp. QueryParam qp => [qp] -> ApiEff SpecificApiOptions (Either (ApiError ApplicationError) CountResponses)
-getStarsCount params = handleError <$> getAt params ["stars_count"]
-
-getStarsCount' :: ApiEff SpecificApiOptions (Either (ApiError ApplicationError) CountResponses)
-getStarsCount'  = handleError <$> getAt ([] :: [(Text, Text)]) ["stars_count"]
-
 getUsersCount :: forall qp. QueryParam qp => [qp] -> ApiEff SpecificApiOptions (Either (ApiError ApplicationError) CountResponses)
 getUsersCount params = handleError <$> getAt params ["users_count"]
 
