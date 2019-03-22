@@ -31,7 +31,7 @@ library
                      , text
                      , transformers
                      , wreq
-                     , haskell-lnforum-types
+                     , lnforum-types-gen
                      , haskell-api-helpers
                      , haskell-api-helpers-shared
   default-language:    Haskell2010

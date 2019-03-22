@@ -25,12 +25,6 @@ import Prelude
 
 import LN.T
 
-getForumsCount :: forall qp. QueryParam qp => [qp] -> ApiEff SpecificApiOptions (Either (ApiError ApplicationError) CountResponses)
-getForumsCount params = handleError <$> getAt params ["forums_count"]
-
-getForumsCount' :: ApiEff SpecificApiOptions (Either (ApiError ApplicationError) CountResponses)
-getForumsCount'  = handleError <$> getAt ([] :: [(Text, Text)]) ["forums_count"]
-
 getBoardsCount :: forall qp. QueryParam qp => [qp] -> ApiEff SpecificApiOptions (Either (ApiError ApplicationError) CountResponses)
 getBoardsCount params = handleError <$> getAt params ["boards_count"]
 
