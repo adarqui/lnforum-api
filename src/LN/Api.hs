@@ -97,6 +97,30 @@ getMePack params = handleError <$> getAt params ["me_pack"]
 getMePack' :: ApiEff SpecificApiOptions (Either (ApiError ApplicationError) UserPackResponse)
 getMePack'  = handleError <$> getAt ([] :: [(Text, Text)]) ["me_pack"]
 
+postForum :: forall qp. QueryParam qp => [qp] -> ForumRequest -> ApiEff SpecificApiOptions (Either (ApiError ApplicationError) ForumResponse)
+postForum params forum_request = handleError <$> postAt params ["forums"] forum_request
+
+postForum' :: ForumRequest -> ApiEff SpecificApiOptions (Either (ApiError ApplicationError) ForumResponse)
+postForum' forum_request = handleError <$> postAt ([] :: [(Text, Text)]) ["forums"] forum_request
+
+getForum :: forall qp. QueryParam qp => [qp] -> Int64 -> ApiEff SpecificApiOptions (Either (ApiError ApplicationError) ForumResponse)
+getForum params forum_id = handleError <$> getAt params ["forums", T.pack $ show forum_id]
+
+getForum' :: Int64 -> ApiEff SpecificApiOptions (Either (ApiError ApplicationError) ForumResponse)
+getForum' forum_id = handleError <$> getAt ([] :: [(Text, Text)]) ["forums", T.pack $ show forum_id]
+
+putForum :: forall qp. QueryParam qp => [qp] -> Int64 -> ForumRequest -> ApiEff SpecificApiOptions (Either (ApiError ApplicationError) ForumResponse)
+putForum params forum_id forum_request = handleError <$> putAt params ["forums", T.pack $ show forum_id] forum_request
+
+putForum' :: Int64 -> ForumRequest -> ApiEff SpecificApiOptions (Either (ApiError ApplicationError) ForumResponse)
+putForum' forum_id forum_request = handleError <$> putAt ([] :: [(Text, Text)]) ["forums", T.pack $ show forum_id] forum_request
+
+getForumStat :: forall qp. QueryParam qp => [qp] -> Int64 -> ApiEff SpecificApiOptions (Either (ApiError ApplicationError) ForumStatResponse)
+getForumStat params forum_id = handleError <$> getAt params ["forum_stat", T.pack $ show forum_id]
+
+getForumStat' :: Int64 -> ApiEff SpecificApiOptions (Either (ApiError ApplicationError) ForumStatResponse)
+getForumStat' forum_id = handleError <$> getAt ([] :: [(Text, Text)]) ["forum_stat", T.pack $ show forum_id]
+
 getBoards :: forall qp. QueryParam qp => [qp] -> ApiEff SpecificApiOptions (Either (ApiError ApplicationError) BoardResponses)
 getBoards params = handleError <$> getAt params ["boards"]
 
@@ -108,6 +132,12 @@ postBoard params board_request = handleError <$> postAt params ["boards"] board_
 
 postBoard' :: BoardRequest -> ApiEff SpecificApiOptions (Either (ApiError ApplicationError) BoardResponse)
 postBoard' board_request = handleError <$> postAt ([] :: [(Text, Text)]) ["boards"] board_request
+
+postBoard_ByForumId :: forall qp. QueryParam qp => [qp] -> Int64 -> BoardRequest -> ApiEff SpecificApiOptions (Either (ApiError ApplicationError) BoardResponse)
+postBoard_ByForumId params _ByForumId board_request = handleError <$> postAt (map qp params <> map qp [ByForumId _ByForumId]) ["boards"] board_request
+
+postBoard_ByForumId' :: Int64 -> BoardRequest -> ApiEff SpecificApiOptions (Either (ApiError ApplicationError) BoardResponse)
+postBoard_ByForumId' _ByForumId board_request = handleError <$> postAt [ByForumId _ByForumId] ["boards"] board_request
 
 getBoard :: forall qp. QueryParam qp => [qp] -> Int64 -> ApiEff SpecificApiOptions (Either (ApiError ApplicationError) BoardResponse)
 getBoard params board_id = handleError <$> getAt params ["boards", T.pack $ show board_id]
@@ -138,6 +168,156 @@ getBoardStat params board_id = handleError <$> getAt params ["board_stat", T.pac
 
 getBoardStat' :: Int64 -> ApiEff SpecificApiOptions (Either (ApiError ApplicationError) BoardStatResponse)
 getBoardStat' board_id = handleError <$> getAt ([] :: [(Text, Text)]) ["board_stat", T.pack $ show board_id]
+
+getThreads :: forall qp. QueryParam qp => [qp] -> ApiEff SpecificApiOptions (Either (ApiError ApplicationError) ThreadResponses)
+getThreads params = handleError <$> getAt params ["threads"]
+
+getThreads' :: ApiEff SpecificApiOptions (Either (ApiError ApplicationError) ThreadResponses)
+getThreads'  = handleError <$> getAt ([] :: [(Text, Text)]) ["threads"]
+
+postThread :: forall qp. QueryParam qp => [qp] -> ThreadRequest -> ApiEff SpecificApiOptions (Either (ApiError ApplicationError) ThreadResponse)
+postThread params thread_request = handleError <$> postAt params ["threads"] thread_request
+
+postThread' :: ThreadRequest -> ApiEff SpecificApiOptions (Either (ApiError ApplicationError) ThreadResponse)
+postThread' thread_request = handleError <$> postAt ([] :: [(Text, Text)]) ["threads"] thread_request
+
+postThread_ByBoardId :: forall qp. QueryParam qp => [qp] -> Int64 -> ThreadRequest -> ApiEff SpecificApiOptions (Either (ApiError ApplicationError) ThreadResponse)
+postThread_ByBoardId params _ByBoardId thread_request = handleError <$> postAt (map qp params <> map qp [ByBoardId _ByBoardId]) ["threads"] thread_request
+
+postThread_ByBoardId' :: Int64 -> ThreadRequest -> ApiEff SpecificApiOptions (Either (ApiError ApplicationError) ThreadResponse)
+postThread_ByBoardId' _ByBoardId thread_request = handleError <$> postAt [ByBoardId _ByBoardId] ["threads"] thread_request
+
+getThread :: forall qp. QueryParam qp => [qp] -> Int64 -> ApiEff SpecificApiOptions (Either (ApiError ApplicationError) ThreadResponse)
+getThread params thread_id = handleError <$> getAt params ["threads", T.pack $ show thread_id]
+
+getThread' :: Int64 -> ApiEff SpecificApiOptions (Either (ApiError ApplicationError) ThreadResponse)
+getThread' thread_id = handleError <$> getAt ([] :: [(Text, Text)]) ["threads", T.pack $ show thread_id]
+
+putThread :: forall qp. QueryParam qp => [qp] -> Int64 -> ThreadRequest -> ApiEff SpecificApiOptions (Either (ApiError ApplicationError) ThreadResponse)
+putThread params thread_id thread_request = handleError <$> putAt params ["threads", T.pack $ show thread_id] thread_request
+
+putThread' :: Int64 -> ThreadRequest -> ApiEff SpecificApiOptions (Either (ApiError ApplicationError) ThreadResponse)
+putThread' thread_id thread_request = handleError <$> putAt ([] :: [(Text, Text)]) ["threads", T.pack $ show thread_id] thread_request
+
+deleteThread :: forall qp. QueryParam qp => [qp] -> Int64 -> ApiEff SpecificApiOptions (Either (ApiError ApplicationError) ())
+deleteThread params thread_id = handleError <$> deleteAt params ["threads", T.pack $ show thread_id]
+
+deleteThread' :: Int64 -> ApiEff SpecificApiOptions (Either (ApiError ApplicationError) ())
+deleteThread' thread_id = handleError <$> deleteAt ([] :: [(Text, Text)]) ["threads", T.pack $ show thread_id]
+
+getThreadStats_ByThreadsIds :: forall qp. QueryParam qp => [qp] -> [Int64] -> ApiEff SpecificApiOptions (Either (ApiError ApplicationError) ThreadStatResponses)
+getThreadStats_ByThreadsIds params _ByThreadsIds = handleError <$> getAt (map qp params <> map qp [ByThreadsIds _ByThreadsIds]) ["thread_stats"]
+
+getThreadStats_ByThreadsIds' :: [Int64] -> ApiEff SpecificApiOptions (Either (ApiError ApplicationError) ThreadStatResponses)
+getThreadStats_ByThreadsIds' _ByThreadsIds = handleError <$> getAt [ByThreadsIds _ByThreadsIds] ["thread_stats"]
+
+getThreadStat :: forall qp. QueryParam qp => [qp] -> Int64 -> ApiEff SpecificApiOptions (Either (ApiError ApplicationError) ThreadStatResponse)
+getThreadStat params thread_id = handleError <$> getAt params ["thread_stat", T.pack $ show thread_id]
+
+getThreadStat' :: Int64 -> ApiEff SpecificApiOptions (Either (ApiError ApplicationError) ThreadStatResponse)
+getThreadStat' thread_id = handleError <$> getAt ([] :: [(Text, Text)]) ["thread_stat", T.pack $ show thread_id]
+
+getThreadsCount_ByBoardId :: forall qp. QueryParam qp => [qp] -> Int64 -> ApiEff SpecificApiOptions (Either (ApiError ApplicationError) CountResponses)
+getThreadsCount_ByBoardId params _ByBoardId = handleError <$> getAt (map qp params <> map qp [ByBoardId _ByBoardId]) ["threads_count"]
+
+getThreadsCount_ByBoardId' :: Int64 -> ApiEff SpecificApiOptions (Either (ApiError ApplicationError) CountResponses)
+getThreadsCount_ByBoardId' _ByBoardId = handleError <$> getAt [ByBoardId _ByBoardId] ["threads_count"]
+
+getThreadPosts :: forall qp. QueryParam qp => [qp] -> ApiEff SpecificApiOptions (Either (ApiError ApplicationError) ThreadPostResponses)
+getThreadPosts params = handleError <$> getAt params ["thread_posts"]
+
+getThreadPosts' :: ApiEff SpecificApiOptions (Either (ApiError ApplicationError) ThreadPostResponses)
+getThreadPosts'  = handleError <$> getAt ([] :: [(Text, Text)]) ["thread_posts"]
+
+postThreadPost :: forall qp. QueryParam qp => [qp] -> ThreadPostRequest -> ApiEff SpecificApiOptions (Either (ApiError ApplicationError) ThreadPostResponse)
+postThreadPost params thread_post_request = handleError <$> postAt params ["thread_posts"] thread_post_request
+
+postThreadPost' :: ThreadPostRequest -> ApiEff SpecificApiOptions (Either (ApiError ApplicationError) ThreadPostResponse)
+postThreadPost' thread_post_request = handleError <$> postAt ([] :: [(Text, Text)]) ["thread_posts"] thread_post_request
+
+postThreadPost_ByThreadId :: forall qp. QueryParam qp => [qp] -> Int64 -> ThreadPostRequest -> ApiEff SpecificApiOptions (Either (ApiError ApplicationError) ThreadPostResponse)
+postThreadPost_ByThreadId params _ByThreadId thread_post_request = handleError <$> postAt (map qp params <> map qp [ByThreadId _ByThreadId]) ["thread_posts"] thread_post_request
+
+postThreadPost_ByThreadId' :: Int64 -> ThreadPostRequest -> ApiEff SpecificApiOptions (Either (ApiError ApplicationError) ThreadPostResponse)
+postThreadPost_ByThreadId' _ByThreadId thread_post_request = handleError <$> postAt [ByThreadId _ByThreadId] ["thread_posts"] thread_post_request
+
+getThreadPost :: forall qp. QueryParam qp => [qp] -> Int64 -> ApiEff SpecificApiOptions (Either (ApiError ApplicationError) ThreadPostResponse)
+getThreadPost params thread_post_id = handleError <$> getAt params ["thread_posts", T.pack $ show thread_post_id]
+
+getThreadPost' :: Int64 -> ApiEff SpecificApiOptions (Either (ApiError ApplicationError) ThreadPostResponse)
+getThreadPost' thread_post_id = handleError <$> getAt ([] :: [(Text, Text)]) ["thread_posts", T.pack $ show thread_post_id]
+
+putThreadPost :: forall qp. QueryParam qp => [qp] -> Int64 -> ThreadPostRequest -> ApiEff SpecificApiOptions (Either (ApiError ApplicationError) ThreadPostResponse)
+putThreadPost params thread_post_id thread_post_request = handleError <$> putAt params ["thread_posts", T.pack $ show thread_post_id] thread_post_request
+
+putThreadPost' :: Int64 -> ThreadPostRequest -> ApiEff SpecificApiOptions (Either (ApiError ApplicationError) ThreadPostResponse)
+putThreadPost' thread_post_id thread_post_request = handleError <$> putAt ([] :: [(Text, Text)]) ["thread_posts", T.pack $ show thread_post_id] thread_post_request
+
+deleteThreadPost :: forall qp. QueryParam qp => [qp] -> Int64 -> ApiEff SpecificApiOptions (Either (ApiError ApplicationError) ())
+deleteThreadPost params thread_post_id = handleError <$> deleteAt params ["thread_posts", T.pack $ show thread_post_id]
+
+deleteThreadPost' :: Int64 -> ApiEff SpecificApiOptions (Either (ApiError ApplicationError) ())
+deleteThreadPost' thread_post_id = handleError <$> deleteAt ([] :: [(Text, Text)]) ["thread_posts", T.pack $ show thread_post_id]
+
+getThreadPostStats_ByThreadPostsIds :: forall qp. QueryParam qp => [qp] -> [Int64] -> ApiEff SpecificApiOptions (Either (ApiError ApplicationError) ThreadPostStatResponses)
+getThreadPostStats_ByThreadPostsIds params _ByThreadPostsIds = handleError <$> getAt (map qp params <> map qp [ByThreadPostsIds _ByThreadPostsIds]) ["thread_post_stats"]
+
+getThreadPostStats_ByThreadPostsIds' :: [Int64] -> ApiEff SpecificApiOptions (Either (ApiError ApplicationError) ThreadPostStatResponses)
+getThreadPostStats_ByThreadPostsIds' _ByThreadPostsIds = handleError <$> getAt [ByThreadPostsIds _ByThreadPostsIds] ["thread_post_stats"]
+
+getThreadPostStat :: forall qp. QueryParam qp => [qp] -> Int64 -> ApiEff SpecificApiOptions (Either (ApiError ApplicationError) ThreadPostStatResponse)
+getThreadPostStat params threadpost_id = handleError <$> getAt params ["thread_post_stat", T.pack $ show threadpost_id]
+
+getThreadPostStat' :: Int64 -> ApiEff SpecificApiOptions (Either (ApiError ApplicationError) ThreadPostStatResponse)
+getThreadPostStat' threadpost_id = handleError <$> getAt ([] :: [(Text, Text)]) ["thread_post_stat", T.pack $ show threadpost_id]
+
+getThreadPostsCount_ByBoardId :: forall qp. QueryParam qp => [qp] -> Int64 -> ApiEff SpecificApiOptions (Either (ApiError ApplicationError) CountResponses)
+getThreadPostsCount_ByBoardId params _ByBoardId = handleError <$> getAt (map qp params <> map qp [ByBoardId _ByBoardId]) ["thread_posts_count"]
+
+getThreadPostsCount_ByBoardId' :: Int64 -> ApiEff SpecificApiOptions (Either (ApiError ApplicationError) CountResponses)
+getThreadPostsCount_ByBoardId' _ByBoardId = handleError <$> getAt [ByBoardId _ByBoardId] ["thread_posts_count"]
+
+getThreadPostsCount_ByThreadId :: forall qp. QueryParam qp => [qp] -> Int64 -> ApiEff SpecificApiOptions (Either (ApiError ApplicationError) CountResponses)
+getThreadPostsCount_ByThreadId params _ByThreadId = handleError <$> getAt (map qp params <> map qp [ByThreadId _ByThreadId]) ["thread_posts_count"]
+
+getThreadPostsCount_ByThreadId' :: Int64 -> ApiEff SpecificApiOptions (Either (ApiError ApplicationError) CountResponses)
+getThreadPostsCount_ByThreadId' _ByThreadId = handleError <$> getAt [ByThreadId _ByThreadId] ["thread_posts_count"]
+
+getLikes :: forall qp. QueryParam qp => [qp] -> ApiEff SpecificApiOptions (Either (ApiError ApplicationError) LikeResponses)
+getLikes params = handleError <$> getAt params ["likes"]
+
+getLikes' :: ApiEff SpecificApiOptions (Either (ApiError ApplicationError) LikeResponses)
+getLikes'  = handleError <$> getAt ([] :: [(Text, Text)]) ["likes"]
+
+postLikes :: forall qp. QueryParam qp => [qp] -> LikeRequest -> ApiEff SpecificApiOptions (Either (ApiError ApplicationError) LikeResponse)
+postLikes params like_request = handleError <$> postAt params ["likes"] like_request
+
+postLikes' :: LikeRequest -> ApiEff SpecificApiOptions (Either (ApiError ApplicationError) LikeResponse)
+postLikes' like_request = handleError <$> postAt ([] :: [(Text, Text)]) ["likes"] like_request
+
+postLikes_ByThreadPostId :: forall qp. QueryParam qp => [qp] -> Int64 -> LikeRequest -> ApiEff SpecificApiOptions (Either (ApiError ApplicationError) LikeResponse)
+postLikes_ByThreadPostId params _ByThreadPostId like_request = handleError <$> postAt (map qp params <> map qp [ByThreadPostId _ByThreadPostId]) ["likes"] like_request
+
+postLikes_ByThreadPostId' :: Int64 -> LikeRequest -> ApiEff SpecificApiOptions (Either (ApiError ApplicationError) LikeResponse)
+postLikes_ByThreadPostId' _ByThreadPostId like_request = handleError <$> postAt [ByThreadPostId _ByThreadPostId] ["likes"] like_request
+
+getLike :: forall qp. QueryParam qp => [qp] -> Int64 -> ApiEff SpecificApiOptions (Either (ApiError ApplicationError) LikeResponse)
+getLike params like_id = handleError <$> getAt params ["likes", T.pack $ show like_id]
+
+getLike' :: Int64 -> ApiEff SpecificApiOptions (Either (ApiError ApplicationError) LikeResponse)
+getLike' like_id = handleError <$> getAt ([] :: [(Text, Text)]) ["likes", T.pack $ show like_id]
+
+putLike :: forall qp. QueryParam qp => [qp] -> Int64 -> LikeRequest -> ApiEff SpecificApiOptions (Either (ApiError ApplicationError) LikeResponse)
+putLike params like_id like_request = handleError <$> putAt params ["likes", T.pack $ show like_id] like_request
+
+putLike' :: Int64 -> LikeRequest -> ApiEff SpecificApiOptions (Either (ApiError ApplicationError) LikeResponse)
+putLike' like_id like_request = handleError <$> putAt ([] :: [(Text, Text)]) ["likes", T.pack $ show like_id] like_request
+
+deleteLike :: forall qp. QueryParam qp => [qp] -> Int64 -> ApiEff SpecificApiOptions (Either (ApiError ApplicationError) ())
+deleteLike params like_id = handleError <$> deleteAt params ["likes", T.pack $ show like_id]
+
+deleteLike' :: Int64 -> ApiEff SpecificApiOptions (Either (ApiError ApplicationError) ())
+deleteLike' like_id = handleError <$> deleteAt ([] :: [(Text, Text)]) ["likes", T.pack $ show like_id]
 
 getUsers :: forall qp. QueryParam qp => [qp] -> ApiEff SpecificApiOptions (Either (ApiError ApplicationError) UserResponses)
 getUsers params = handleError <$> getAt params ["users"]
@@ -301,6 +481,12 @@ getUserSanitizedPack params user_id = handleError <$> getAt params ["user_saniti
 getUserSanitizedPack' :: Int64 -> ApiEff SpecificApiOptions (Either (ApiError ApplicationError) UserSanitizedPackResponse)
 getUserSanitizedPack' user_id = handleError <$> getAt ([] :: [(Text, Text)]) ["user_sanitized_pack", T.pack $ show user_id]
 
+getForumPack :: forall qp. QueryParam qp => [qp] -> Int64 -> ApiEff SpecificApiOptions (Either (ApiError ApplicationError) ForumPackResponse)
+getForumPack params forum_id = handleError <$> getAt params ["forum_pack", T.pack $ show forum_id]
+
+getForumPack' :: Int64 -> ApiEff SpecificApiOptions (Either (ApiError ApplicationError) ForumPackResponse)
+getForumPack' forum_id = handleError <$> getAt ([] :: [(Text, Text)]) ["forum_pack", T.pack $ show forum_id]
+
 getBoardPacks :: forall qp. QueryParam qp => [qp] -> ApiEff SpecificApiOptions (Either (ApiError ApplicationError) BoardPackResponses)
 getBoardPacks params = handleError <$> getAt params ["board_packs"]
 
@@ -313,10 +499,70 @@ getBoardPacks_ByBoardsIds params _ByBoardsIds = handleError <$> getAt (map qp pa
 getBoardPacks_ByBoardsIds' :: [Int64] -> ApiEff SpecificApiOptions (Either (ApiError ApplicationError) BoardPackResponses)
 getBoardPacks_ByBoardsIds' _ByBoardsIds = handleError <$> getAt [ByBoardsIds _ByBoardsIds] ["board_packs"]
 
+getBoardPacks_ByForumId :: forall qp. QueryParam qp => [qp] -> Int64 -> ApiEff SpecificApiOptions (Either (ApiError ApplicationError) BoardPackResponses)
+getBoardPacks_ByForumId params _ByForumId = handleError <$> getAt (map qp params <> map qp [ByForumId _ByForumId]) ["board_packs"]
+
+getBoardPacks_ByForumId' :: Int64 -> ApiEff SpecificApiOptions (Either (ApiError ApplicationError) BoardPackResponses)
+getBoardPacks_ByForumId' _ByForumId = handleError <$> getAt [ByForumId _ByForumId] ["board_packs"]
+
 getBoardPack :: forall qp. QueryParam qp => [qp] -> Int64 -> ApiEff SpecificApiOptions (Either (ApiError ApplicationError) BoardPackResponse)
 getBoardPack params board_id = handleError <$> getAt params ["board_pack", T.pack $ show board_id]
 
 getBoardPack' :: Int64 -> ApiEff SpecificApiOptions (Either (ApiError ApplicationError) BoardPackResponse)
 getBoardPack' board_id = handleError <$> getAt ([] :: [(Text, Text)]) ["board_pack", T.pack $ show board_id]
+
+getThreadPacks :: forall qp. QueryParam qp => [qp] -> ApiEff SpecificApiOptions (Either (ApiError ApplicationError) ThreadPackResponses)
+getThreadPacks params = handleError <$> getAt params ["thread_packs"]
+
+getThreadPacks' :: ApiEff SpecificApiOptions (Either (ApiError ApplicationError) ThreadPackResponses)
+getThreadPacks'  = handleError <$> getAt ([] :: [(Text, Text)]) ["thread_packs"]
+
+getThreadPacks_ByThreadsIds :: forall qp. QueryParam qp => [qp] -> [Int64] -> ApiEff SpecificApiOptions (Either (ApiError ApplicationError) ThreadPackResponses)
+getThreadPacks_ByThreadsIds params _ByThreadsIds = handleError <$> getAt (map qp params <> map qp [ByThreadsIds _ByThreadsIds]) ["thread_packs"]
+
+getThreadPacks_ByThreadsIds' :: [Int64] -> ApiEff SpecificApiOptions (Either (ApiError ApplicationError) ThreadPackResponses)
+getThreadPacks_ByThreadsIds' _ByThreadsIds = handleError <$> getAt [ByThreadsIds _ByThreadsIds] ["thread_packs"]
+
+getThreadPacks_ByBoardId :: forall qp. QueryParam qp => [qp] -> Int64 -> ApiEff SpecificApiOptions (Either (ApiError ApplicationError) ThreadPackResponses)
+getThreadPacks_ByBoardId params _ByBoardId = handleError <$> getAt (map qp params <> map qp [ByBoardId _ByBoardId]) ["thread_packs"]
+
+getThreadPacks_ByBoardId' :: Int64 -> ApiEff SpecificApiOptions (Either (ApiError ApplicationError) ThreadPackResponses)
+getThreadPacks_ByBoardId' _ByBoardId = handleError <$> getAt [ByBoardId _ByBoardId] ["thread_packs"]
+
+getThreadPack :: forall qp. QueryParam qp => [qp] -> Int64 -> ApiEff SpecificApiOptions (Either (ApiError ApplicationError) ThreadPackResponse)
+getThreadPack params thread_id = handleError <$> getAt params ["thread_pack", T.pack $ show thread_id]
+
+getThreadPack' :: Int64 -> ApiEff SpecificApiOptions (Either (ApiError ApplicationError) ThreadPackResponse)
+getThreadPack' thread_id = handleError <$> getAt ([] :: [(Text, Text)]) ["thread_pack", T.pack $ show thread_id]
+
+getThreadPostPacks :: forall qp. QueryParam qp => [qp] -> ApiEff SpecificApiOptions (Either (ApiError ApplicationError) ThreadPostPackResponses)
+getThreadPostPacks params = handleError <$> getAt params ["thread_post_packs"]
+
+getThreadPostPacks' :: ApiEff SpecificApiOptions (Either (ApiError ApplicationError) ThreadPostPackResponses)
+getThreadPostPacks'  = handleError <$> getAt ([] :: [(Text, Text)]) ["thread_post_packs"]
+
+getThreadPostPacks_ByThreadPostsIds :: forall qp. QueryParam qp => [qp] -> [Int64] -> ApiEff SpecificApiOptions (Either (ApiError ApplicationError) ThreadPostPackResponses)
+getThreadPostPacks_ByThreadPostsIds params _ByThreadPostsIds = handleError <$> getAt (map qp params <> map qp [ByThreadPostsIds _ByThreadPostsIds]) ["thread_post_packs"]
+
+getThreadPostPacks_ByThreadPostsIds' :: [Int64] -> ApiEff SpecificApiOptions (Either (ApiError ApplicationError) ThreadPostPackResponses)
+getThreadPostPacks_ByThreadPostsIds' _ByThreadPostsIds = handleError <$> getAt [ByThreadPostsIds _ByThreadPostsIds] ["thread_post_packs"]
+
+getThreadPostPacks_ByThreadId :: forall qp. QueryParam qp => [qp] -> Int64 -> ApiEff SpecificApiOptions (Either (ApiError ApplicationError) ThreadPostPackResponses)
+getThreadPostPacks_ByThreadId params _ByThreadId = handleError <$> getAt (map qp params <> map qp [ByThreadId _ByThreadId]) ["thread_post_packs"]
+
+getThreadPostPacks_ByThreadId' :: Int64 -> ApiEff SpecificApiOptions (Either (ApiError ApplicationError) ThreadPostPackResponses)
+getThreadPostPacks_ByThreadId' _ByThreadId = handleError <$> getAt [ByThreadId _ByThreadId] ["thread_post_packs"]
+
+getThreadPostPack :: forall qp. QueryParam qp => [qp] -> Int64 -> ApiEff SpecificApiOptions (Either (ApiError ApplicationError) ThreadPostPackResponse)
+getThreadPostPack params thread_post_id = handleError <$> getAt params ["thread_post_pack", T.pack $ show thread_post_id]
+
+getThreadPostPack' :: Int64 -> ApiEff SpecificApiOptions (Either (ApiError ApplicationError) ThreadPostPackResponse)
+getThreadPostPack' thread_post_id = handleError <$> getAt ([] :: [(Text, Text)]) ["thread_post_pack", T.pack $ show thread_post_id]
+
+getRecentThreadPostPacks :: forall qp. QueryParam qp => [qp] -> ApiEff SpecificApiOptions (Either (ApiError ApplicationError) ThreadPostPackResponses)
+getRecentThreadPostPacks params = handleError <$> getAt params ["recent_thread_post_packs"]
+
+getRecentThreadPostPacks' :: ApiEff SpecificApiOptions (Either (ApiError ApplicationError) ThreadPostPackResponses)
+getRecentThreadPostPacks'  = handleError <$> getAt ([] :: [(Text, Text)]) ["recent_thread_post_packs"]
 
 -- footer

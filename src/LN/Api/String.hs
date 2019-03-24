@@ -29,4 +29,16 @@ getUserSanitizedPack params user_name = handleError <$> getAt params ["user_sani
 getUserSanitizedPack' :: Text -> ApiEff SpecificApiOptions (Either (ApiError ApplicationError) UserSanitizedPackResponse)
 getUserSanitizedPack' user_name = handleError <$> getAt ([] :: [(Text, Text)]) ["user_sanitized_pack", user_name]
 
+getBoardPack :: forall qp. QueryParam qp => [qp] -> Text -> ApiEff SpecificApiOptions (Either (ApiError ApplicationError) BoardPackResponse)
+getBoardPack params board_sid = handleError <$> getAt params ["board_pack", board_sid]
+
+getBoardPack' :: Text -> ApiEff SpecificApiOptions (Either (ApiError ApplicationError) BoardPackResponse)
+getBoardPack' board_sid = handleError <$> getAt ([] :: [(Text, Text)]) ["board_pack", board_sid]
+
+getThreadPack :: forall qp. QueryParam qp => [qp] -> Text -> ApiEff SpecificApiOptions (Either (ApiError ApplicationError) ThreadPackResponse)
+getThreadPack params thread_sid = handleError <$> getAt params ["thread_pack", thread_sid]
+
+getThreadPack' :: Text -> ApiEff SpecificApiOptions (Either (ApiError ApplicationError) ThreadPackResponse)
+getThreadPack' thread_sid = handleError <$> getAt ([] :: [(Text, Text)]) ["thread_pack", thread_sid]
+
 -- footer
