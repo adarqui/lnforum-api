@@ -139,6 +139,12 @@ postBoard_ByForumId params _ByForumId board_request = handleError <$> postAt (ma
 postBoard_ByForumId' :: Int64 -> BoardRequest -> ApiEff SpecificApiOptions (Either (ApiError ApplicationError) BoardResponse)
 postBoard_ByForumId' _ByForumId board_request = handleError <$> postAt [ByForumId _ByForumId] ["boards"] board_request
 
+postBoard_ByBoardId :: forall qp. QueryParam qp => [qp] -> Int64 -> BoardRequest -> ApiEff SpecificApiOptions (Either (ApiError ApplicationError) BoardResponse)
+postBoard_ByBoardId params _ByBoardId board_request = handleError <$> postAt (map qp params <> map qp [ByBoardId _ByBoardId]) ["boards"] board_request
+
+postBoard_ByBoardId' :: Int64 -> BoardRequest -> ApiEff SpecificApiOptions (Either (ApiError ApplicationError) BoardResponse)
+postBoard_ByBoardId' _ByBoardId board_request = handleError <$> postAt [ByBoardId _ByBoardId] ["boards"] board_request
+
 getBoard :: forall qp. QueryParam qp => [qp] -> Int64 -> ApiEff SpecificApiOptions (Either (ApiError ApplicationError) BoardResponse)
 getBoard params board_id = handleError <$> getAt params ["boards", T.pack $ show board_id]
 
