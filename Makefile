@@ -4,7 +4,6 @@ build:
 clean:
 	stack clean
 
-
 build-watch:
 	stack build --fast --file-watch
 
